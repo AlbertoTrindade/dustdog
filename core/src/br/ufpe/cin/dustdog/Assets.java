@@ -9,8 +9,8 @@ public class Assets {
 	public static Texture backgroundMainScreen;
 	public static TextureRegion backgroundRegionMainScreen;
 	
-	public final static int BACKGROUND_MAIN_SCREEN_WIDTH = 630;
-	public final static int BACKGROUND_MAIN_SCREEN_HEIGHT = 1012;
+	public final static int BACKGROUND_MAIN_SCREEN_WIDTH = 682;
+	public final static int BACKGROUND_MAIN_SCREEN_HEIGHT = 1024;
 	
 	public static Texture loadTexture(String fileName) {
 		return new Texture(Gdx.files.internal(fileName));
