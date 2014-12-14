@@ -12,7 +12,7 @@ public class MainScreen extends ScreenAdapter {
 	OrthographicCamera camera;
 	Vector3 touchPoint;
 	
-	public MainScreen (Dustdog game) {
+	public MainScreen(Dustdog game) {
 		this.game = game;
 		
 		camera = new OrthographicCamera(Assets.BACKGROUND_MAIN_SCREEN_WIDTH, Assets.BACKGROUND_MAIN_SCREEN_HEIGHT);

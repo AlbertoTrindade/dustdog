@@ -8,14 +8,14 @@ public class Dustdog extends Game {
 	public SpriteBatch batcher;
 	
 	@Override
-	public void create () {
+	public void create() {
 		batcher = new SpriteBatch();
 		Assets.load();
 		setScreen(new MainScreen(this));
 	}
 
 	@Override
-	public void render () {
+	public void render() {
 		super.render();
 	}
 }
