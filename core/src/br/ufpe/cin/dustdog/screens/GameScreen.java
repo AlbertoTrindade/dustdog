@@ -2,6 +2,7 @@ package br.ufpe.cin.dustdog.screens;
 
 import br.ufpe.cin.dustdog.Assets;
 import br.ufpe.cin.dustdog.Dustdog;
+import br.ufpe.cin.dustdog.GameState;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Gdx;
@@ -12,12 +13,7 @@ import com.badlogic.gdx.math.Vector3;
 
 public class GameScreen extends ScreenAdapter {
 	
-	static final int GAME_READY = 0;
-	static final int GAME_RUNNING = 1;
-	static final int GAME_PAUSED = 2;
-	static final int GAME_OVER = 3;
-	
-	int gameState;
+	GameState gameState;
 	
 	Dustdog game;
 	OrthographicCamera camera;
@@ -28,7 +24,7 @@ public class GameScreen extends ScreenAdapter {
 	public GameScreen(Dustdog game) {
 		this.game = game;
 		
-		gameState = GAME_READY;
+		gameState = GameState.READY;
 
 		camera = new OrthographicCamera(Assets.SCREEN_WIDTH, Assets.SCREEN_HEIGHT);
 		camera.position.set(Assets.SCREEN_WIDTH/2, Assets.SCREEN_HEIGHT/2, 0);
@@ -43,26 +39,26 @@ public class GameScreen extends ScreenAdapter {
 		}
 		
 		switch (gameState) {
-		case GAME_READY:
+		case READY:
 			updateReady();
 			break;
 			
-		case GAME_RUNNING:
+		case RUNNING:
 			updateRunning(deltaTime);
 			break;
 		
-		case GAME_PAUSED:
+		case PAUSED:
 			// TODO
 			break;
 		
-		case GAME_OVER:
+		case OVER:
 			// TODO
 			break;
 		}
 	}
 
 	private void updateReady() {
-		gameState = GAME_RUNNING;
+		gameState = GameState.RUNNING;
 		// maybe change this later to check if the screen was just touched to first ask the user if he is ready
 	}
 	
