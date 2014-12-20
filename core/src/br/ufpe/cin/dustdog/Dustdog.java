@@ -12,11 +12,12 @@ public class Dustdog extends Game {
 	
 	@Override
 	public void create() {
-		Gdx.input.setCatchBackKey(true);
-		
 		batcher = new SpriteBatch();
+		
+		Gdx.input.setCatchBackKey(true);
 		Settings.load();
 		Assets.load();
+		
 		setScreen(new MainScreen(this));
 	}
 

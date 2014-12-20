@@ -43,7 +43,7 @@ public class Assets {
 		backgroundRegionSettingsScreen = new TextureRegion(backgroundSettingsScreen, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 		
 		backgroundGameScreen = loadTexture("backgroundGameScreen.png");
-		backgroundRegionGameScreen = new TextureRegion(backgroundGameScreen, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+		backgroundRegionGameScreen = new TextureRegion(backgroundGameScreen, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT*2);
 		
 		screenItems = loadTexture("screenItems.png");
 		
