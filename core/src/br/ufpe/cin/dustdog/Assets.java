@@ -2,6 +2,7 @@ package br.ufpe.cin.dustdog;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Assets {
@@ -18,6 +19,7 @@ public class Assets {
 	public static Texture backgroundGameScreen;
 	public static TextureRegion backgroundRegionGameScreen;
 	
+	public static TextureAtlas screenItemsAtlas;
 	public static Texture screenItems;
 	
 	public static TextureRegion mainScreenLogo;
@@ -35,6 +37,10 @@ public class Assets {
 		return new Texture(Gdx.files.internal(fileName));
 	}
 	
+	public static TextureAtlas loadTextureAtlas(String fileName) {
+		return new TextureAtlas(Gdx.files.internal(fileName));
+	}
+	
 	public static void load() {
 		backgroundMainScreen = loadTexture("backgroundMainScreen.png");
 		backgroundRegionMainScreen = new TextureRegion(backgroundMainScreen, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -45,17 +51,17 @@ public class Assets {
 		backgroundGameScreen = loadTexture("backgroundGameScreen.png");
 		backgroundRegionGameScreen = new TextureRegion(backgroundGameScreen, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT*2);
 		
-		screenItems = loadTexture("screenItems.png");
+		screenItemsAtlas = loadTextureAtlas("screenItems.atlas");
 		
-		mainScreenLogo = new TextureRegion(screenItems, 539, 312, 351, 160);
-		mainScreenBestScore = new TextureRegion(screenItems, 539, 170, 255, 140);
-		mainScreenTapPlay = new TextureRegion(screenItems, 1, 8, 311, 59);
-		mainScreenSettingsButton = new TextureRegion(screenItems, 892, 380, 95, 98);
+		mainScreenLogo = screenItemsAtlas.findRegion("logo_dustdog");
+		mainScreenBestScore = screenItemsAtlas.findRegion("box_best_score");
+		mainScreenTapPlay = screenItemsAtlas.findRegion("btn_tap_to_play");
+		mainScreenSettingsButton = screenItemsAtlas.findRegion("btn_config");
 		
-		settingsScreenSettingsBox = new TextureRegion(screenItems, 1, 69, 536, 409);
-		settingsScreenMarkedBox = new TextureRegion(screenItems, 796, 172, 68, 64);
-		settingsScreenUnmarkedBox = new TextureRegion(screenItems, 892, 314, 68, 64);
-		settingsScreenCancelButton = new TextureRegion(screenItems, 314, 1, 169, 66);
-		settingsScreenOkButton = new TextureRegion(screenItems, 539, 28, 169, 66);
+		settingsScreenSettingsBox = screenItemsAtlas.findRegion("box_config");
+		settingsScreenMarkedBox = screenItemsAtlas.findRegion("chk_marked");
+		settingsScreenUnmarkedBox = screenItemsAtlas.findRegion("chk_unmarked");
+		settingsScreenCancelButton = screenItemsAtlas.findRegion("btn_cancel");
+		settingsScreenOkButton = screenItemsAtlas.findRegion("btn_ok");
 	}
 }

@@ -97,29 +97,29 @@ public class SettingsScreen extends ScreenAdapter {
 
 		game.batcher.disableBlending();
 		game.batcher.begin();
-		game.batcher.draw(Assets.backgroundRegionSettingsScreen, 0, 0, Assets.SCREEN_WIDTH, Assets.SCREEN_HEIGHT);
+		game.batcher.draw(Assets.backgroundRegionSettingsScreen, 0, 0);
 		game.batcher.end();
 
 		game.batcher.enableBlending();
 		game.batcher.begin();
-		game.batcher.draw(Assets.settingsScreenSettingsBox, 73, 350, 536, 409);
+		game.batcher.draw(Assets.settingsScreenSettingsBox, 73, 350);
 
 		if (Settings.soundEnabled) {
-			game.batcher.draw(Assets.settingsScreenMarkedBox, 225, 580, 68, 64);
+			game.batcher.draw(Assets.settingsScreenMarkedBox, 225, 580);
 		}
 		else {
-			game.batcher.draw(Assets.settingsScreenUnmarkedBox, 225, 580, 68, 64);
+			game.batcher.draw(Assets.settingsScreenUnmarkedBox, 225, 580);
 		}
 
 		if (Settings.musicEnabled) {
-			game.batcher.draw(Assets.settingsScreenMarkedBox, 225, 495, 68, 64);
+			game.batcher.draw(Assets.settingsScreenMarkedBox, 225, 495);
 		}
 		else {
-			game.batcher.draw(Assets.settingsScreenUnmarkedBox, 225, 495, 68, 64);
+			game.batcher.draw(Assets.settingsScreenUnmarkedBox, 225, 495);
 		}
 
-		game.batcher.draw(Assets.settingsScreenCancelButton, 165, 400, 169, 66);
-		game.batcher.draw(Assets.settingsScreenOkButton, 360, 400, 169, 66);
+		game.batcher.draw(Assets.settingsScreenCancelButton, 165, 400);
+		game.batcher.draw(Assets.settingsScreenOkButton, 360, 400);
 
 		game.batcher.end();
 	}

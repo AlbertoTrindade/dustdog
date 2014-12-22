@@ -64,16 +64,16 @@ public class MainScreen extends ScreenAdapter {
 		
 		game.batcher.disableBlending();
 		game.batcher.begin();
-		game.batcher.draw(Assets.backgroundRegionMainScreen, 0, 0, Assets.SCREEN_WIDTH, Assets.SCREEN_HEIGHT);
+		game.batcher.draw(Assets.backgroundRegionMainScreen, 0, 0);
 		game.batcher.end();
 		
 		game.batcher.enableBlending();
 		game.batcher.begin();
 		
-		game.batcher.draw(Assets.mainScreenLogo, 325, 695, 351, 160);
-		game.batcher.draw(Assets.mainScreenBestScore, 10, 225, 255, 140);
-		game.batcher.draw(Assets.mainScreenTapPlay, 10, 10, 311, 59);
-		game.batcher.draw(Assets.mainScreenSettingsButton, 575, 10, 95, 98);
+		game.batcher.draw(Assets.mainScreenLogo, 325, 695);
+		game.batcher.draw(Assets.mainScreenBestScore, 10, 225);
+		game.batcher.draw(Assets.mainScreenTapPlay, 10, 10);
+		game.batcher.draw(Assets.mainScreenSettingsButton, 575, 10);
 		
 		game.batcher.end();
 	}

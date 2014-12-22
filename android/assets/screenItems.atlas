@@ -1,0 +1,88 @@
+screenItems.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+box_config
+  rotate: false
+  xy: 1, 69
+  size: 536, 409
+  orig: 536, 409
+  offset: 0, 0
+  index: -1
+logo_dustdog
+  rotate: false
+  xy: 539, 312
+  size: 351, 166
+  orig: 351, 166
+  offset: 0, 0
+  index: -1
+box_best_score
+  rotate: false
+  xy: 539, 170
+  size: 255, 140
+  orig: 255, 140
+  offset: 0, 0
+  index: -1
+btn_tap_to_play
+  rotate: false
+  xy: 1, 8
+  size: 311, 59
+  orig: 311, 59
+  offset: 0, 0
+  index: -1
+box_points
+  rotate: false
+  xy: 539, 96
+  size: 205, 72
+  orig: 205, 72
+  offset: 0, 0
+  index: -1
+btn_cancel
+  rotate: false
+  xy: 314, 1
+  size: 169, 66
+  orig: 169, 66
+  offset: 0, 0
+  index: -1
+btn_ok
+  rotate: false
+  xy: 539, 28
+  size: 169, 66
+  orig: 169, 66
+  offset: 0, 0
+  index: -1
+btn_config
+  rotate: false
+  xy: 892, 380
+  size: 95, 98
+  orig: 95, 98
+  offset: 0, 0
+  index: -1
+box_bones
+  rotate: false
+  xy: 796, 238
+  size: 146, 72
+  orig: 146, 72
+  offset: 0, 0
+  index: -1
+chk_marked
+  rotate: false
+  xy: 796, 172
+  size: 68, 64
+  orig: 68, 64
+  offset: 0, 0
+  index: -1
+chk_unmarked
+  rotate: false
+  xy: 892, 314
+  size: 68, 64
+  orig: 68, 64
+  offset: 0, 0
+  index: -1
+btn_pause
+  rotate: false
+  xy: 866, 172
+  size: 63, 64
+  orig: 63, 64
+  offset: 0, 0
+  index: -1
