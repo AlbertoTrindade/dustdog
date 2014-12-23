@@ -6,16 +6,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class ParallaxBackground {
 	
 	ParallaxLayer layer;
-	Camera camera;
-	SpriteBatch batch;
 
-	public ParallaxBackground(ParallaxLayer layer, Camera camera, SpriteBatch batch) {
+	public ParallaxBackground(ParallaxLayer layer) {
 		this.layer = layer;
-		this.camera = camera;
-		this.batch = batch;
 	}
 
-	public void render() {
+	public void render(Camera camera, SpriteBatch batch) {
 		float regionHeight = camera.viewportHeight * layer.regionScreenRatio;
 		
 		if (layer.positionY >= regionHeight) {

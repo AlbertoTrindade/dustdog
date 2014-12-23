@@ -26,6 +26,9 @@ public class SettingsScreen extends ScreenAdapter {
 
 	boolean initialSoundEnabled;
 	boolean initialMusicEnabled;
+	
+	boolean cancelButtonActive;
+	boolean okButtonActive;
 
 	boolean backPressed;
 
@@ -44,6 +47,9 @@ public class SettingsScreen extends ScreenAdapter {
 
 		initialSoundEnabled = Settings.soundEnabled;
 		initialMusicEnabled = Settings.musicEnabled;
+		
+		cancelButtonActive = false;
+		okButtonActive = false;
 
 		backPressed = false;
 	}
@@ -63,14 +69,18 @@ public class SettingsScreen extends ScreenAdapter {
 			}
 
 			if (cancelButtonBounds.contains(touchPoint.x, touchPoint.y)) {
+				cancelButtonActive = true;
+				
 				Settings.soundEnabled = initialSoundEnabled;
 				Settings.musicEnabled = initialMusicEnabled;
-				
+
 				game.setScreen(new MainScreen(game));
 				return;
 			}
 
 			if (okButtonBounds.contains(touchPoint.x, touchPoint.y)) {
+				okButtonActive = true;
+				
 				Settings.save();
 				game.setScreen(new MainScreen(game));
 			}
@@ -102,24 +112,12 @@ public class SettingsScreen extends ScreenAdapter {
 
 		game.batcher.enableBlending();
 		game.batcher.begin();
+		
 		game.batcher.draw(Assets.settingsScreenSettingsBox, 73, 350);
-
-		if (Settings.soundEnabled) {
-			game.batcher.draw(Assets.settingsScreenMarkedBox, 225, 580);
-		}
-		else {
-			game.batcher.draw(Assets.settingsScreenUnmarkedBox, 225, 580);
-		}
-
-		if (Settings.musicEnabled) {
-			game.batcher.draw(Assets.settingsScreenMarkedBox, 225, 495);
-		}
-		else {
-			game.batcher.draw(Assets.settingsScreenUnmarkedBox, 225, 495);
-		}
-
-		game.batcher.draw(Assets.settingsScreenCancelButton, 165, 400);
-		game.batcher.draw(Assets.settingsScreenOkButton, 360, 400);
+		game.batcher.draw((Settings.soundEnabled ? Assets.settingsScreenMarkedBox : Assets.settingsScreenUnmarkedBox), 225, 580);
+		game.batcher.draw((Settings.musicEnabled ? Assets.settingsScreenMarkedBox : Assets.settingsScreenUnmarkedBox), 225, 495);
+		game.batcher.draw((cancelButtonActive ? Assets.settingsScreenCancelButtonActive : Assets.settingsScreenCancelButton), 165, 400);
+		game.batcher.draw((okButtonActive ? Assets.settingsScreenOkButtonActive : Assets.settingsScreenOkButton), 360, 400);
 
 		game.batcher.end();
 	}

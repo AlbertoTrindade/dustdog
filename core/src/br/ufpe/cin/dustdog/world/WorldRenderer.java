@@ -1,9 +1,5 @@
 package br.ufpe.cin.dustdog.world;
 
-import br.ufpe.cin.dustdog.Assets;
-import br.ufpe.cin.dustdog.parallax.ParallaxBackground;
-import br.ufpe.cin.dustdog.parallax.ParallaxLayer;
-
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -15,18 +11,12 @@ public class WorldRenderer {
 	World world;
 	OrthographicCamera camera;
 	SpriteBatch batch;
-	
-	ParallaxLayer backgroundLayer;
-	ParallaxBackground background;
 
 	public WorldRenderer(SpriteBatch batch, World world) {
 		this.world = world;
 		this.camera = new OrthographicCamera(FRUSTUM_WIDTH, FRUSTUM_HEIGHT);
 		this.camera.position.set(FRUSTUM_WIDTH/2, FRUSTUM_HEIGHT/2, 0);
 		this.batch = batch;
-		
-		this.backgroundLayer = new ParallaxLayer(Assets.backgroundRegionGameScreen, 0, 1, ((float) Assets.backgroundGameScreen.getHeight()/Assets.SCREEN_HEIGHT));
-		this.background = new ParallaxBackground(backgroundLayer, camera, batch);
 	}
 
 	public void render() {
@@ -41,8 +31,7 @@ public class WorldRenderer {
 		batch.disableBlending();
 		batch.begin();
 		
-		background.moveY(0.07f);
-		background.render();
+		world.background.render(camera, batch);
 		
 		batch.end();
 	}

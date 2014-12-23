@@ -25,13 +25,19 @@ public class Assets {
 	public static TextureRegion mainScreenLogo;
 	public static TextureRegion mainScreenBestScore;
 	public static TextureRegion mainScreenTapPlay;
+	public static TextureRegion mainScreenTapPlayActive;
 	public static TextureRegion mainScreenSettingsButton;
+	public static TextureRegion mainScreenSettingsButtonActive;
 	
 	public static TextureRegion settingsScreenSettingsBox;
 	public static TextureRegion settingsScreenMarkedBox;
 	public static TextureRegion settingsScreenUnmarkedBox;
 	public static TextureRegion settingsScreenCancelButton;
+	public static TextureRegion settingsScreenCancelButtonActive;
 	public static TextureRegion settingsScreenOkButton;
+	public static TextureRegion settingsScreenOkButtonActive;
+	
+	public static TextureRegion gameScreenReady;
 	
 	public static Texture loadTexture(String fileName) {
 		return new Texture(Gdx.files.internal(fileName));
@@ -56,12 +62,18 @@ public class Assets {
 		mainScreenLogo = screenItemsAtlas.findRegion("logo_dustdog");
 		mainScreenBestScore = screenItemsAtlas.findRegion("box_best_score");
 		mainScreenTapPlay = screenItemsAtlas.findRegion("btn_tap_to_play");
+		mainScreenTapPlayActive = screenItemsAtlas.findRegion("btn_tap_to_play_active");
 		mainScreenSettingsButton = screenItemsAtlas.findRegion("btn_config");
+		mainScreenSettingsButtonActive = screenItemsAtlas.findRegion("btn_config_active");
 		
 		settingsScreenSettingsBox = screenItemsAtlas.findRegion("box_config");
 		settingsScreenMarkedBox = screenItemsAtlas.findRegion("chk_marked");
 		settingsScreenUnmarkedBox = screenItemsAtlas.findRegion("chk_unmarked");
 		settingsScreenCancelButton = screenItemsAtlas.findRegion("btn_cancel");
+		settingsScreenCancelButtonActive = screenItemsAtlas.findRegion("btn_cancel_active");
 		settingsScreenOkButton = screenItemsAtlas.findRegion("btn_ok");
+		settingsScreenOkButtonActive = screenItemsAtlas.findRegion("btn_ok_active");
+		
+		gameScreenReady = screenItemsAtlas.findRegion("txt_ready");
 	}
 }

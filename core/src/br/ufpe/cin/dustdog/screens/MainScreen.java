@@ -19,6 +19,9 @@ public class MainScreen extends ScreenAdapter {
 	Rectangle settingsButtonBounds;
 	Rectangle bestScoreBounds;
 	
+	boolean tapPlayActive;
+	boolean settingsButtonActive;
+	
 	Vector3 touchPoint;
 	
 	public MainScreen(Dustdog game) {
@@ -30,6 +33,9 @@ public class MainScreen extends ScreenAdapter {
 		settingsButtonBounds = new Rectangle(575, 10, 95, 98);
 		bestScoreBounds = new Rectangle(10, 225, 255, 140);
 		
+		tapPlayActive = false;
+		settingsButtonActive = false;
+		
 		touchPoint = new Vector3();
 	}
 	
@@ -38,6 +44,7 @@ public class MainScreen extends ScreenAdapter {
 			camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 			
 			if (settingsButtonBounds.contains(touchPoint.x, touchPoint.y)) {
+				settingsButtonActive = true;
 				game.setScreen(new SettingsScreen(game));
 				return;
 			}
@@ -46,6 +53,7 @@ public class MainScreen extends ScreenAdapter {
 				return;
 			}
 			
+			tapPlayActive = true;
 			game.setScreen(new GameScreen(game));
 		}
 		
@@ -72,8 +80,8 @@ public class MainScreen extends ScreenAdapter {
 		
 		game.batcher.draw(Assets.mainScreenLogo, 325, 695);
 		game.batcher.draw(Assets.mainScreenBestScore, 10, 225);
-		game.batcher.draw(Assets.mainScreenTapPlay, 10, 10);
-		game.batcher.draw(Assets.mainScreenSettingsButton, 575, 10);
+		game.batcher.draw((tapPlayActive ? Assets.mainScreenTapPlayActive : Assets.mainScreenTapPlay), 10, 10);
+		game.batcher.draw((settingsButtonActive ? Assets.mainScreenSettingsButtonActive : Assets.mainScreenSettingsButton), 575, 10);
 		
 		game.batcher.end();
 	}

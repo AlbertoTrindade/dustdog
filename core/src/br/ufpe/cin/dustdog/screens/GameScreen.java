@@ -4,6 +4,7 @@ import br.ufpe.cin.dustdog.Assets;
 import br.ufpe.cin.dustdog.DirectionGestureDetector;
 import br.ufpe.cin.dustdog.Dustdog;
 import br.ufpe.cin.dustdog.GameState;
+import br.ufpe.cin.dustdog.SwipeDirection;
 import br.ufpe.cin.dustdog.world.World;
 import br.ufpe.cin.dustdog.world.World.WorldListener;
 import br.ufpe.cin.dustdog.world.WorldRenderer;
@@ -103,8 +104,9 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	private void updateReady() {
-		gameState = GameState.RUNNING;
-		// maybe change this later to check if the screen was just touched to first ask the user if he is ready
+		if (Gdx.input.justTouched()) {
+			gameState = GameState.RUNNING;
+		}
 	}
 
 	private void updateRunning(float deltaTime) {
@@ -119,44 +121,48 @@ public class GameScreen extends ScreenAdapter {
 			// change this later to pause the game instead of returning to main screen, then we won't use backPressed variable anymore
 		}
 
+		SwipeDirection swipe = SwipeDirection.NONE;
+		
 		if (applicationType == ApplicationType.Android || applicationType == ApplicationType.iOS) {
 			if (leftPressed){
-				// TODO: call world method to move left
+				swipe = SwipeDirection.LEFT;
 				leftPressed = false;
 			}
 
 			if (rightPressed){
-				// TODO: call world method to move right
+				swipe = SwipeDirection.RIGHT;
 				rightPressed = false;
 			}
 
 			if (upPressed){
-				// TODO: call world method to handle jump
+				swipe = SwipeDirection.UP;
 				upPressed = false;
 			}
 
 			if (downPressed){
-				// TODO: call world method to handle crouch
+				swipe = SwipeDirection.DOWN;
 				downPressed = false;
 			}
 		}
 		else { // Desktop
 			if (Gdx.input.isKeyJustPressed(Keys.DPAD_LEFT)) {
-				// TODO: call world method to move left
+				swipe = SwipeDirection.LEFT;
 			}
 
 			if (Gdx.input.isKeyJustPressed(Keys.DPAD_RIGHT)) {
-				// TODO: call world method to move right
+				swipe = SwipeDirection.RIGHT;
 			}
 
 			if (Gdx.input.isKeyJustPressed(Keys.DPAD_UP)) {
-				// TODO: call world method to jump
+				swipe = SwipeDirection.UP;
 			}
 
 			if (Gdx.input.isKeyJustPressed(Keys.DPAD_DOWN)) {
-				// TODO: call world method to crouch
+				swipe = SwipeDirection.DOWN;
 			}
 		}
+		
+		world.update(deltaTime, swipe);
 	}
 
 	public void draw() {
@@ -172,9 +178,33 @@ public class GameScreen extends ScreenAdapter {
 
 		game.batcher.begin();
 
-		// TODO: switch-case to draw screen elements according to the game state (paused -> pause menu; running -> pause button, score; etc)
+		switch (gameState) {
+		case READY:
+			presentReady();
+			break;
+
+		case RUNNING:
+			presentRunning();
+			break;
+
+		case PAUSED:
+			// TODO
+			break;
+
+		case GAME_OVER:
+			// TODO
+			break;
+		}
 
 		game.batcher.end();
+	}
+
+	private void presentReady() {
+		game.batcher.draw(Assets.gameScreenReady, 112, 442);
+	}
+	
+	private void presentRunning() {
+		// TODO: draw pause button, and later, the boxes for score and lives
 	}
 
 	@Override
