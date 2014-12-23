@@ -2,7 +2,7 @@ package br.ufpe.cin.dustdog;
 
 import com.badlogic.gdx.input.GestureDetector;
 
-public class DirectionGestureDetector extends GestureDetector{
+public class DirectionGestureDetector extends GestureDetector {
 	public interface DirectionListener {
 		void onLeft();
 
@@ -17,28 +17,32 @@ public class DirectionGestureDetector extends GestureDetector{
 		super(new DirectionGestureListener(directionListener));
 	}
 
-	private static class DirectionGestureListener extends GestureAdapter{
+	private static class DirectionGestureListener extends GestureAdapter {
 		DirectionListener directionListener;
 
-		public DirectionGestureListener(DirectionListener directionListener){
+		public DirectionGestureListener(DirectionListener directionListener) {
 			this.directionListener = directionListener;
 		}
 
 		@Override
 		public boolean fling(float velocityX, float velocityY, int button) {
-			if(Math.abs(velocityX)>Math.abs(velocityY)){
+			if(Math.abs(velocityX) > Math.abs(velocityY)){
 				if(velocityX > 100){
 					directionListener.onRight();
-				}else if(velocityX < -100){
+				}
+				else if(velocityX < -100){
 					directionListener.onLeft();
 				}
-			}else{
+			}
+			else{
 				if(velocityY > 100){
 					directionListener.onDown();
-				}else if(velocityY < -100){                               
+				}
+				else if(velocityY < -100){                               
 					directionListener.onUp();
 				}
 			}
+			
 			return super.fling(velocityX, velocityY, button);
 		}
 	}

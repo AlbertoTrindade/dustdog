@@ -24,6 +24,7 @@ public class Assets {
 	
 	public static TextureRegion mainScreenLogo;
 	public static TextureRegion mainScreenBestScore;
+	public static TextureRegion mainScreenBestScoreActive;
 	public static TextureRegion mainScreenTapPlay;
 	public static TextureRegion mainScreenTapPlayActive;
 	public static TextureRegion mainScreenSettingsButton;
@@ -38,6 +39,15 @@ public class Assets {
 	public static TextureRegion settingsScreenOkButtonActive;
 	
 	public static TextureRegion gameScreenReady;
+	public static TextureRegion gameScreenPauseButton;
+	public static TextureRegion gameScreenPauseButtonActive;
+	public static TextureRegion gameScreenPausedBox;
+	public static TextureRegion gameScreenResumeButton;
+	public static TextureRegion gameScreenResumeButtonActive;
+	public static TextureRegion gameScreenHomeButton;
+	public static TextureRegion gameScreenHomeButtonActive;
+	public static TextureRegion gameScreenSettingsButton;
+	public static TextureRegion gameScreenSettingsButtonActive;
 	
 	public static Texture loadTexture(String fileName) {
 		return new Texture(Gdx.files.internal(fileName));
@@ -61,6 +71,7 @@ public class Assets {
 		
 		mainScreenLogo = screenItemsAtlas.findRegion("logo_dustdog");
 		mainScreenBestScore = screenItemsAtlas.findRegion("box_best_score");
+		mainScreenBestScoreActive = screenItemsAtlas.findRegion("box_best_score_active");
 		mainScreenTapPlay = screenItemsAtlas.findRegion("btn_tap_to_play");
 		mainScreenTapPlayActive = screenItemsAtlas.findRegion("btn_tap_to_play_active");
 		mainScreenSettingsButton = screenItemsAtlas.findRegion("btn_config");
@@ -75,5 +86,14 @@ public class Assets {
 		settingsScreenOkButtonActive = screenItemsAtlas.findRegion("btn_ok_active");
 		
 		gameScreenReady = screenItemsAtlas.findRegion("txt_ready");
+		gameScreenPauseButton = screenItemsAtlas.findRegion("btn_pause");
+		gameScreenPauseButtonActive = screenItemsAtlas.findRegion("btn_pause_active");
+		gameScreenPausedBox = screenItemsAtlas.findRegion("box_paused");
+		gameScreenResumeButton = screenItemsAtlas.findRegion("btn_resume");
+		gameScreenResumeButtonActive = screenItemsAtlas.findRegion("btn_resume_active");
+		gameScreenHomeButton = screenItemsAtlas.findRegion("btn_home");
+		gameScreenHomeButtonActive = screenItemsAtlas.findRegion("btn_home_active");
+		gameScreenSettingsButton = screenItemsAtlas.findRegion("btn_settings");
+		gameScreenSettingsButtonActive = screenItemsAtlas.findRegion("btn_settings_active");
 	}
 }

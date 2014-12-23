@@ -25,4 +25,12 @@ public class Dustdog extends Game {
 	public void render() {
 		super.render();
 	}
+	
+	public void buttonDelay() {
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			
+		}
+	}
 }

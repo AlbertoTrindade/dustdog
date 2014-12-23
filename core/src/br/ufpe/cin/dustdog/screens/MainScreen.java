@@ -21,6 +21,7 @@ public class MainScreen extends ScreenAdapter {
 	
 	boolean tapPlayActive;
 	boolean settingsButtonActive;
+	boolean bestScoreActive;
 	
 	Vector3 touchPoint;
 	
@@ -35,6 +36,7 @@ public class MainScreen extends ScreenAdapter {
 		
 		tapPlayActive = false;
 		settingsButtonActive = false;
+		bestScoreActive = false;
 		
 		touchPoint = new Vector3();
 	}
@@ -45,20 +47,43 @@ public class MainScreen extends ScreenAdapter {
 			
 			if (settingsButtonBounds.contains(touchPoint.x, touchPoint.y)) {
 				settingsButtonActive = true;
-				game.setScreen(new SettingsScreen(game));
 				return;
 			}
 			
 			if (bestScoreBounds.contains(touchPoint.x, touchPoint.y)) {
+				bestScoreActive = true;
 				return;
 			}
 			
 			tapPlayActive = true;
-			game.setScreen(new GameScreen(game));
+			return;
 		}
 		
 		if (Gdx.input.isKeyPressed(Keys.BACK) || Gdx.input.isKeyPressed(Keys.ESCAPE)) {
 			Gdx.app.exit();
+		}
+		
+		if (settingsButtonActive) {
+			game.buttonDelay();
+			
+			settingsButtonActive = false;
+			game.setScreen(new SettingsScreen(game));
+			return;
+		}
+		
+		if (bestScoreActive) {
+			game.buttonDelay();
+			
+			bestScoreActive = false;
+			return;
+		}
+		
+		if (tapPlayActive) {
+			game.buttonDelay();
+			
+			tapPlayActive = false;
+			game.setScreen(new GameScreen(game));
+			return;
 		}
 	}
 	
@@ -79,7 +104,7 @@ public class MainScreen extends ScreenAdapter {
 		game.batcher.begin();
 		
 		game.batcher.draw(Assets.mainScreenLogo, 325, 695);
-		game.batcher.draw(Assets.mainScreenBestScore, 10, 225);
+		game.batcher.draw((bestScoreActive ? Assets.mainScreenBestScoreActive : Assets.mainScreenBestScore), 10, 225);
 		game.batcher.draw((tapPlayActive ? Assets.mainScreenTapPlayActive : Assets.mainScreenTapPlay), 10, 10);
 		game.batcher.draw((settingsButtonActive ? Assets.mainScreenSettingsButtonActive : Assets.mainScreenSettingsButton), 575, 10);
 		
@@ -90,10 +115,5 @@ public class MainScreen extends ScreenAdapter {
 	public void render(float delta) {
 		update();
 		draw();
-	}
-	
-	@Override
-	public void pause() {
-		// TODO
 	}
 }

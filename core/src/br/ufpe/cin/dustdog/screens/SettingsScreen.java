@@ -3,6 +3,7 @@ package br.ufpe.cin.dustdog.screens;
 import br.ufpe.cin.dustdog.Assets;
 import br.ufpe.cin.dustdog.Dustdog;
 import br.ufpe.cin.dustdog.Settings;
+import br.ufpe.cin.dustdog.world.World;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.math.Vector3;
 public class SettingsScreen extends ScreenAdapter {
 
 	Dustdog game;
+	World world;
 	OrthographicCamera camera;
 
 	Rectangle soundEnabledBoxBounds;
@@ -26,10 +28,9 @@ public class SettingsScreen extends ScreenAdapter {
 
 	boolean initialSoundEnabled;
 	boolean initialMusicEnabled;
-	
+
 	boolean cancelButtonActive;
 	boolean okButtonActive;
-
 	boolean backPressed;
 
 	public SettingsScreen(Dustdog game) {
@@ -47,13 +48,17 @@ public class SettingsScreen extends ScreenAdapter {
 
 		initialSoundEnabled = Settings.soundEnabled;
 		initialMusicEnabled = Settings.musicEnabled;
-		
+
 		cancelButtonActive = false;
 		okButtonActive = false;
-
 		backPressed = false;
 	}
 
+	public SettingsScreen(Dustdog game, World world) {
+		this(game);
+		this.world = world;
+	}
+	
 	public void update() {
 		if (Gdx.input.justTouched()) {
 			camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
@@ -70,19 +75,12 @@ public class SettingsScreen extends ScreenAdapter {
 
 			if (cancelButtonBounds.contains(touchPoint.x, touchPoint.y)) {
 				cancelButtonActive = true;
-				
-				Settings.soundEnabled = initialSoundEnabled;
-				Settings.musicEnabled = initialMusicEnabled;
-
-				game.setScreen(new MainScreen(game));
 				return;
 			}
 
 			if (okButtonBounds.contains(touchPoint.x, touchPoint.y)) {
 				okButtonActive = true;
-				
-				Settings.save();
-				game.setScreen(new MainScreen(game));
+				return;
 			}
 		}
 
@@ -92,8 +90,37 @@ public class SettingsScreen extends ScreenAdapter {
 		else if(backPressed) { // same effect as pressing cancel button
 			Settings.soundEnabled = initialSoundEnabled;
 			Settings.musicEnabled = initialMusicEnabled;
+			
+			goBack();
+		}
 
+		if (cancelButtonActive) {
+			game.buttonDelay();
+
+			cancelButtonActive = false;
+			Settings.soundEnabled = initialSoundEnabled;
+			Settings.musicEnabled = initialMusicEnabled;
+			
+			goBack();			
+			return;
+		}
+
+		if (okButtonActive) {
+			game.buttonDelay();
+
+			okButtonActive = false;
+			Settings.save();
+			
+			goBack();
+		}
+	}
+	
+	private void goBack() {
+		if (world == null) { // previous screen was home
 			game.setScreen(new MainScreen(game));
+		}
+		else { // previous screen was game
+			game.setScreen(new GameScreen(game, world));
 		}
 	}
 
@@ -112,7 +139,7 @@ public class SettingsScreen extends ScreenAdapter {
 
 		game.batcher.enableBlending();
 		game.batcher.begin();
-		
+
 		game.batcher.draw(Assets.settingsScreenSettingsBox, 73, 350);
 		game.batcher.draw((Settings.soundEnabled ? Assets.settingsScreenMarkedBox : Assets.settingsScreenUnmarkedBox), 225, 580);
 		game.batcher.draw((Settings.musicEnabled ? Assets.settingsScreenMarkedBox : Assets.settingsScreenUnmarkedBox), 225, 495);
@@ -126,10 +153,5 @@ public class SettingsScreen extends ScreenAdapter {
 	public void render(float delta) {
 		update();
 		draw();
-	}
-
-	@Override
-	public void pause() {
-		// TODO
 	}
 }

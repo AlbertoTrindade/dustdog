@@ -29,7 +29,7 @@ public class World {
 		this.state = WorldState.RUNNING;
 	}
 	
-	public void update (float deltaTime, SwipeDirection swipe) {
+	public void update(float deltaTime, SwipeDirection swipeDirection) {
 		updateBackground(deltaTime);
 		// TODO: create and call here update methods for other game elements
 	}

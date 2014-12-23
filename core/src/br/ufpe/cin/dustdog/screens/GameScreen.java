@@ -15,6 +15,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 public class GameScreen extends ScreenAdapter {
@@ -28,8 +29,24 @@ public class GameScreen extends ScreenAdapter {
 	WorldRenderer worldRenderer;
 	WorldListener worldListener;
 
+	Rectangle pauseButtonBounds;
+	Rectangle resumeButtonBounds;
+	Rectangle homeButtonBounds;
+	Rectangle settingsButtonBounds;
+
+	boolean pauseButtonActive;
+	boolean resumeButtonActive;
+	boolean homeButtonActive;
+	boolean settingsButtonActive;
+
 	Vector3 touchPoint;
-	boolean backPressed, upPressed, downPressed, leftPressed, rightPressed;
+
+	boolean backPressedRunning;
+	boolean backPressedPaused;
+	boolean upPressed;
+	boolean downPressed;
+	boolean leftPressed;
+	boolean rightPressed;
 
 	ApplicationType applicationType;
 
@@ -48,8 +65,24 @@ public class GameScreen extends ScreenAdapter {
 		world = new World(worldListener);
 		worldRenderer = new WorldRenderer(game.batcher, world);
 
+		pauseButtonBounds = new Rectangle(5, 952, 63, 64);
+		resumeButtonBounds = new Rectangle(202, 585, 283, 73);
+		homeButtonBounds = new Rectangle(202, 490, 277, 71);
+		settingsButtonBounds = new Rectangle(202, 390, 277, 71);
+
+		pauseButtonActive = false;
+		resumeButtonActive = false;
+		homeButtonActive = false;
+		settingsButtonActive = false;
+
 		touchPoint = new Vector3();
-		backPressed = false;
+		
+		backPressedRunning = false;
+		backPressedPaused = false;
+		upPressed = false;
+		downPressed = false;
+		leftPressed = false;
+		rightPressed = false;
 
 		applicationType = Gdx.app.getType();
 
@@ -78,6 +111,16 @@ public class GameScreen extends ScreenAdapter {
 			}));
 		}
 	}
+	
+	public GameScreen(Dustdog game, World world) {
+		// Constructor called when coming from settings screen instead the home one
+		
+		this(game);
+		this.world = world;
+		this.worldRenderer = new WorldRenderer(game.batcher, world);
+		
+		gameState = GameState.PAUSED;
+	}
 
 	public void update(float deltaTime) {
 		if (deltaTime > 0.1f) {
@@ -94,7 +137,7 @@ public class GameScreen extends ScreenAdapter {
 			break;
 
 		case PAUSED:
-			// TODO
+			updatePaused();
 			break;
 
 		case GAME_OVER:
@@ -107,62 +150,144 @@ public class GameScreen extends ScreenAdapter {
 		if (Gdx.input.justTouched()) {
 			gameState = GameState.RUNNING;
 		}
+		
+		if (Gdx.input.isKeyPressed(Keys.BACK) || Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+			backPressedRunning = true;
+		}
+		else if (backPressedRunning){
+			backPressedRunning = false;
+			
+			game.setScreen(new MainScreen(game));
+			return;
+		}
 	}
 
 	private void updateRunning(float deltaTime) {
 
-		// TODO: handle pause pressing
+		if (Gdx.input.justTouched()) {
+			camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+
+			if (pauseButtonBounds.contains(touchPoint.x, touchPoint.y)) {
+				pauseButtonActive = true;
+				return;
+			}
+		}
+		
+		if (pauseButtonActive) {
+			game.buttonDelay();
+			
+			pauseButtonActive = false;
+			gameState = GameState.PAUSED;
+			return;
+		}
 
 		if (Gdx.input.isKeyPressed(Keys.BACK) || Gdx.input.isKeyPressed(Keys.ESCAPE)) {
-			backPressed = true;
+			backPressedRunning = true;
 		}
-		else if (backPressed){
-			game.setScreen(new MainScreen(game));
-			// change this later to pause the game instead of returning to main screen, then we won't use backPressed variable anymore
+		else if (backPressedRunning){
+			backPressedRunning = false;
+			
+			gameState = GameState.PAUSED;
+			return;
 		}
 
-		SwipeDirection swipe = SwipeDirection.NONE;
-		
+		SwipeDirection swipeDirection = SwipeDirection.NONE;
+
 		if (applicationType == ApplicationType.Android || applicationType == ApplicationType.iOS) {
 			if (leftPressed){
-				swipe = SwipeDirection.LEFT;
+				swipeDirection = SwipeDirection.LEFT;
 				leftPressed = false;
 			}
 
 			if (rightPressed){
-				swipe = SwipeDirection.RIGHT;
+				swipeDirection = SwipeDirection.RIGHT;
 				rightPressed = false;
 			}
 
 			if (upPressed){
-				swipe = SwipeDirection.UP;
+				swipeDirection = SwipeDirection.UP;
 				upPressed = false;
 			}
 
 			if (downPressed){
-				swipe = SwipeDirection.DOWN;
+				swipeDirection = SwipeDirection.DOWN;
 				downPressed = false;
 			}
 		}
 		else { // Desktop
 			if (Gdx.input.isKeyJustPressed(Keys.DPAD_LEFT)) {
-				swipe = SwipeDirection.LEFT;
+				swipeDirection = SwipeDirection.LEFT;
 			}
 
 			if (Gdx.input.isKeyJustPressed(Keys.DPAD_RIGHT)) {
-				swipe = SwipeDirection.RIGHT;
+				swipeDirection = SwipeDirection.RIGHT;
 			}
 
 			if (Gdx.input.isKeyJustPressed(Keys.DPAD_UP)) {
-				swipe = SwipeDirection.UP;
+				swipeDirection = SwipeDirection.UP;
 			}
 
 			if (Gdx.input.isKeyJustPressed(Keys.DPAD_DOWN)) {
-				swipe = SwipeDirection.DOWN;
+				swipeDirection = SwipeDirection.DOWN;
+			}
+		}
+
+		world.update(deltaTime, swipeDirection);
+	}
+
+	private void updatePaused() {
+		if (Gdx.input.justTouched()) {
+			camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+
+			if (resumeButtonBounds.contains(touchPoint.x, touchPoint.y)) {
+				resumeButtonActive = true;
+				return;
+			}
+			
+			if (homeButtonBounds.contains(touchPoint.x, touchPoint.y)) {
+				homeButtonActive = true;
+				return;
+			}
+			
+			if (settingsButtonBounds.contains(touchPoint.x, touchPoint.y)) {
+				settingsButtonActive = true;
+				return;
 			}
 		}
 		
-		world.update(deltaTime, swipe);
+		if (Gdx.input.isKeyPressed(Keys.BACK) || Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+			backPressedPaused = true;
+		}
+		else if (backPressedPaused){
+			backPressedPaused = false;
+			
+			gameState = GameState.RUNNING;
+			return;
+		}
+		
+		if (resumeButtonActive) {
+			game.buttonDelay();
+			
+			resumeButtonActive = false;
+			gameState = GameState.RUNNING;
+			return;
+		}
+		
+		if (homeButtonActive) {
+			game.buttonDelay();
+			
+			homeButtonActive = false;
+			game.setScreen(new MainScreen(game));
+			return;
+		}
+		
+		if (settingsButtonActive) {
+			game.buttonDelay();
+			
+			settingsButtonActive = false;
+			game.setScreen(new SettingsScreen(game, world));
+			return;
+		}
 	}
 
 	public void draw() {
@@ -188,7 +313,7 @@ public class GameScreen extends ScreenAdapter {
 			break;
 
 		case PAUSED:
-			// TODO
+			presentPaused();
 			break;
 
 		case GAME_OVER:
@@ -202,9 +327,16 @@ public class GameScreen extends ScreenAdapter {
 	private void presentReady() {
 		game.batcher.draw(Assets.gameScreenReady, 112, 442);
 	}
-	
+
 	private void presentRunning() {
-		// TODO: draw pause button, and later, the boxes for score and lives
+		game.batcher.draw((pauseButtonActive ? Assets.gameScreenPauseButtonActive : Assets.gameScreenPauseButton), 5, 952);
+	}
+
+	private void presentPaused() {
+		game.batcher.draw(Assets.gameScreenPausedBox, 73, 350);
+		game.batcher.draw((resumeButtonActive ? Assets.gameScreenResumeButtonActive : Assets.gameScreenResumeButton), 202, 585);
+		game.batcher.draw((homeButtonActive ? Assets.gameScreenHomeButtonActive : Assets.gameScreenHomeButton), 202, 490);
+		game.batcher.draw((settingsButtonActive ? Assets.gameScreenSettingsButtonActive : Assets.gameScreenSettingsButton), 202, 390);
 	}
 
 	@Override
@@ -215,6 +347,8 @@ public class GameScreen extends ScreenAdapter {
 
 	@Override
 	public void pause() {
-		// TODO
+		if (gameState == GameState.RUNNING) {
+			gameState = GameState.PAUSED;
+		}
 	}
 }
