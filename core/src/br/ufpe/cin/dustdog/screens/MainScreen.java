@@ -75,6 +75,7 @@ public class MainScreen extends ScreenAdapter {
 			game.buttonDelay();
 			
 			bestScoreActive = false;
+			game.setScreen(new HighscoresScreen(game));
 			return;
 		}
 		

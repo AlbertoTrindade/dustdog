@@ -38,6 +38,10 @@ public class Assets {
 	public static TextureRegion settingsScreenOkButton;
 	public static TextureRegion settingsScreenOkButtonActive;
 	
+	public static TextureRegion highscoresScreenHighscoresBox;
+	public static TextureRegion highscoresScreenBackButton;
+	public static TextureRegion highscoresScreenBackButtonActive;
+	
 	public static TextureRegion gameScreenReady;
 	public static TextureRegion gameScreenPauseButton;
 	public static TextureRegion gameScreenPauseButtonActive;
@@ -84,6 +88,10 @@ public class Assets {
 		settingsScreenCancelButtonActive = screenItemsAtlas.findRegion("btn_cancel_active");
 		settingsScreenOkButton = screenItemsAtlas.findRegion("btn_ok");
 		settingsScreenOkButtonActive = screenItemsAtlas.findRegion("btn_ok_active");
+		
+		highscoresScreenHighscoresBox = screenItemsAtlas.findRegion("box_highscores");
+		highscoresScreenBackButton = screenItemsAtlas.findRegion("btn_back");
+		highscoresScreenBackButtonActive = screenItemsAtlas.findRegion("btn_back_active");
 		
 		gameScreenReady = screenItemsAtlas.findRegion("txt_ready");
 		gameScreenPauseButton = screenItemsAtlas.findRegion("btn_pause");
