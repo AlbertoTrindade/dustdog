@@ -1,9 +1,13 @@
 package br.ufpe.cin.dustdog;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 
 public class Assets {
 	
@@ -52,6 +56,11 @@ public class Assets {
 	public static TextureRegion gameScreenHomeButtonActive;
 	public static TextureRegion gameScreenSettingsButton;
 	public static TextureRegion gameScreenSettingsButtonActive;
+	
+	public static FreeTypeFontGenerator fontGenerator;
+	public static FreeTypeFontParameter fontParameter;
+	
+	public static BitmapFont font48;
 	
 	public static Texture loadTexture(String fileName) {
 		return new Texture(Gdx.files.internal(fileName));
@@ -103,5 +112,12 @@ public class Assets {
 		gameScreenHomeButtonActive = screenItemsAtlas.findRegion("btn_home_active");
 		gameScreenSettingsButton = screenItemsAtlas.findRegion("btn_settings");
 		gameScreenSettingsButtonActive = screenItemsAtlas.findRegion("btn_settings_active");
+		
+		fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/berlin-sans-fb.ttf"));
+		fontParameter = new FreeTypeFontParameter();
+		fontParameter.size = 48;
+		font48 = fontGenerator.generateFont(fontParameter);
+		font48.setColor(Color.BLACK);
+		fontGenerator.dispose();
 	}
 }

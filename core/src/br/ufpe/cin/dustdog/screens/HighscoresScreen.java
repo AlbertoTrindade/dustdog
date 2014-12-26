@@ -23,18 +23,27 @@ public class HighscoresScreen extends ScreenAdapter {
 	boolean backButtonActive;
 	boolean backPressed;
 	
+	String[] highscores;
+	
 	public HighscoresScreen(Dustdog game) {
 		this.game = game;
 
 		camera = new OrthographicCamera(Assets.SCREEN_WIDTH, Assets.SCREEN_HEIGHT);
 		camera.position.set(Assets.SCREEN_WIDTH/2, Assets.SCREEN_HEIGHT/2, 0);
 
-		backButtonBounds = new Rectangle(256, 142, 170, 66);
+		backButtonBounds = new Rectangle(256, 385, 170, 66);
 
 		touchPoint = new Vector3();
 
 		backButtonActive = false;
 		backPressed = false;
+		
+		highscores = new String[5];
+		
+		for (int i = 0; i < highscores.length; i++) {
+			// TODO: assign each highscore from Settings variable
+			highscores[i] = i + 1 + ".";
+		}
 	}
 	
 	public void update() {
@@ -79,7 +88,15 @@ public class HighscoresScreen extends ScreenAdapter {
 		game.batcher.begin();
 
 		game.batcher.draw(Assets.highscoresScreenHighscoresBox, 73, 350);
-		game.batcher.draw((backButtonActive ? Assets.highscoresScreenBackButtonActive : Assets.highscoresScreenBackButton), 256, 142);
+		
+		float highscoreY = 730;
+		
+		for (int i = 0; i < highscores.length; i++) {
+			Assets.font48.draw(game.batcher, highscores[i], 208, highscoreY);
+			highscoreY -= Assets.font48.getLineHeight();
+		}
+		
+		game.batcher.draw((backButtonActive ? Assets.highscoresScreenBackButtonActive : Assets.highscoresScreenBackButton), 256, 385);
 
 		game.batcher.end();
 	}
