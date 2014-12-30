@@ -3,6 +3,7 @@ package br.ufpe.cin.dustdog;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -24,7 +25,10 @@ public class Assets {
 	public static TextureRegion backgroundRegionGameScreen;
 	
 	public static TextureAtlas screenItemsAtlas;
-	public static Texture screenItems;
+	//public static Texture screenItems;
+	
+	public static TextureAtlas gameItemsAtlas;
+	//public static Texture gameItems;
 	
 	public static TextureRegion mainScreenLogo;
 	public static TextureRegion mainScreenBestScore;
@@ -57,6 +61,14 @@ public class Assets {
 	public static TextureRegion gameScreenSettingsButton;
 	public static TextureRegion gameScreenSettingsButtonActive;
 	
+	public static TextureRegion gameObjectSpotRed;
+	public static TextureRegion gameObjectSpotGreen;
+	public static TextureRegion gameObjectSpotBlue;
+	
+	public static Animation gameObjectSpotRedAnimation;
+	public static Animation gameObjectSpotGreenAnimation;
+	public static Animation gameObjectSpotBlueAnimation;
+	
 	public static FreeTypeFontGenerator fontGenerator;
 	public static FreeTypeFontParameter fontParameter;
 	
@@ -81,6 +93,8 @@ public class Assets {
 		backgroundRegionGameScreen = new TextureRegion(backgroundGameScreen, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT*2);
 		
 		screenItemsAtlas = loadTextureAtlas("screenItems.atlas");
+		
+		gameItemsAtlas = loadTextureAtlas("gameItems.atlas");
 		
 		mainScreenLogo = screenItemsAtlas.findRegion("logo_dustdog");
 		mainScreenBestScore = screenItemsAtlas.findRegion("box_best_score");
@@ -112,6 +126,16 @@ public class Assets {
 		gameScreenHomeButtonActive = screenItemsAtlas.findRegion("btn_home_active");
 		gameScreenSettingsButton = screenItemsAtlas.findRegion("btn_settings");
 		gameScreenSettingsButtonActive = screenItemsAtlas.findRegion("btn_settings_active");
+		
+		
+		//TODO: Change names of variables and sprites
+		gameObjectSpotRed = gameItemsAtlas.findRegion("spotRed");
+		gameObjectSpotGreen = gameItemsAtlas.findRegion("spotGreen");
+		gameObjectSpotBlue = gameItemsAtlas.findRegion("spotBlue");
+		
+		gameObjectSpotRedAnimation = new Animation(1f, gameObjectSpotRed, gameObjectSpotRed);
+		gameObjectSpotBlueAnimation = new Animation(1f, gameObjectSpotBlue, gameObjectSpotBlue);
+		gameObjectSpotGreenAnimation = new Animation(1f, gameObjectSpotGreen, gameObjectSpotGreen);
 		
 		fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/berlin-sans-fb.ttf"));
 		fontParameter = new FreeTypeFontParameter();

@@ -1,7 +1,10 @@
 package br.ufpe.cin.dustdog.world;
 
+import br.ufpe.cin.dustdog.Assets;
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class WorldRenderer {
 
@@ -42,6 +45,41 @@ public class WorldRenderer {
 		
 		// TODO: create and call here the methods: renderSpot(), renderObstacles(), renderGarbages(), and renderSpecialItems()
 		
+		renderSpot();
+		
 		batch.end();
+	}
+	
+	public void renderSpot() {
+		TextureRegion keyFrame = null;
+		float positionX = 0;
+		float positionY = 0;
+		
+		switch (world.spot.spotState) {
+		case SPOT_FORWARD:
+			keyFrame = Assets.gameObjectSpotRedAnimation.getKeyFrame(world.spot.stateTime, true);
+			break;
+			
+		case SPOT_RIGTH:
+			keyFrame = Assets.gameObjectSpotBlueAnimation.getKeyFrame(world.spot.stateTime, true);
+			break;
+			
+		case SPOT_LEFT:
+			keyFrame = Assets.gameObjectSpotGreenAnimation.getKeyFrame(world.spot.stateTime, true);
+			break;
+			
+		case SPOT_JUMP:
+			keyFrame = Assets.gameObjectSpotRedAnimation.getKeyFrame(world.spot.stateTime, true);
+			break;
+			
+		case SPOT_DOWN:
+			keyFrame = Assets.gameObjectSpotRedAnimation.getKeyFrame(world.spot.stateTime, true);
+			break;
+		}
+		
+		positionX = world.spot.position.x;
+		positionY = world.spot.position.y;
+		
+		batch.draw(keyFrame, positionX, positionY, world.spot.velocity.x, 1);
 	}
 }

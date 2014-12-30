@@ -1,4 +1,4 @@
-package br.ufpe.cin.dustdog;
+package br.ufpe.cin.dustdog.objects.spot;
 
 import com.badlogic.gdx.input.GestureDetector;
 

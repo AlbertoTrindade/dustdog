@@ -1,4 +1,4 @@
-package br.ufpe.cin.dustdog;
+package br.ufpe.cin.dustdog.objects.spot;
 
 public enum SwipeDirection {
 	UP,

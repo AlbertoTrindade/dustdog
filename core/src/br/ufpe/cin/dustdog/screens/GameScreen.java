@@ -1,10 +1,10 @@
 package br.ufpe.cin.dustdog.screens;
 
 import br.ufpe.cin.dustdog.Assets;
-import br.ufpe.cin.dustdog.DirectionGestureDetector;
 import br.ufpe.cin.dustdog.Dustdog;
 import br.ufpe.cin.dustdog.GameState;
-import br.ufpe.cin.dustdog.SwipeDirection;
+import br.ufpe.cin.dustdog.objects.spot.DirectionGestureDetector;
+import br.ufpe.cin.dustdog.objects.spot.SwipeDirection;
 import br.ufpe.cin.dustdog.world.World;
 import br.ufpe.cin.dustdog.world.World.WorldListener;
 import br.ufpe.cin.dustdog.world.WorldRenderer;
