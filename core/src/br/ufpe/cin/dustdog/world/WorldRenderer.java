@@ -56,23 +56,23 @@ public class WorldRenderer {
 		float positionY = 0;
 		
 		switch (world.spot.spotState) {
-		case SPOT_FORWARD:
+		case GOING_FORWARD:
 			keyFrame = Assets.gameObjectSpotRedAnimation.getKeyFrame(world.spot.stateTime, true);
 			break;
 			
-		case SPOT_RIGTH:
-			keyFrame = Assets.gameObjectSpotBlueAnimation.getKeyFrame(world.spot.stateTime, true);
-			break;
-			
-		case SPOT_LEFT:
-			keyFrame = Assets.gameObjectSpotGreenAnimation.getKeyFrame(world.spot.stateTime, true);
-			break;
-			
-		case SPOT_JUMP:
+		case GOING_RIGHT:
 			keyFrame = Assets.gameObjectSpotRedAnimation.getKeyFrame(world.spot.stateTime, true);
 			break;
 			
-		case SPOT_DOWN:
+		case GOING_LEFT:
+			keyFrame = Assets.gameObjectSpotRedAnimation.getKeyFrame(world.spot.stateTime, true);
+			break;
+			
+		case JUMPING:
+			keyFrame = Assets.gameObjectSpotRedAnimation.getKeyFrame(world.spot.stateTime, true);
+			break;
+			
+		case CROUCHING:
 			keyFrame = Assets.gameObjectSpotRedAnimation.getKeyFrame(world.spot.stateTime, true);
 			break;
 		}
@@ -80,6 +80,6 @@ public class WorldRenderer {
 		positionX = world.spot.position.x;
 		positionY = world.spot.position.y;
 		
-		batch.draw(keyFrame, positionX, positionY, world.spot.velocity.x, 1);
+		batch.draw(keyFrame, positionX, positionY, 1, 1);
 	}
 }

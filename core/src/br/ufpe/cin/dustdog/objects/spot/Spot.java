@@ -1,75 +1,138 @@
 package br.ufpe.cin.dustdog.objects.spot;
 
 import br.ufpe.cin.dustdog.objects.DynamicGameObject;
-import br.ufpe.cin.dustdog.world.World;
+import br.ufpe.cin.dustdog.objects.LaneState;
 
 public class Spot extends DynamicGameObject {
-	
+
 	public SpotState spotState;
+	public LaneState laneState;
 
 	public float stateTime;
 	
-	public static final float POSITION_Y = 0.5f;
-	public static final float SPOT_VELOCITY = 1f;
+	public static final float SPOT_POSITION_Y = 0.5f;
+	public static final float SPOT_VELOCITY = 10f;
+	
+	public static final float SPOT_WIDTH = 1.78f;
+	public static final float SPOT_HEIGHT = 1.78f;
+
+	public static final float LEFT_LANE_POSITION_X = 1.85f;
+	public static final float CENTRAL_LANE_POSITION_X = 4.35f;
+	public static final float RIGHT_LANE_POSITION_X = 6.8f;
 
 	public Spot(float x, float y, float width, float height) {
 		super(x, y, width, height);
-		spotState = SpotState.SPOT_FORWARD;
+		goForward();
+		
+		laneState = LaneState.CENTRAL;
 		stateTime = 0;
 	}
 
 	public void update(float deltaTime, SwipeDirection swipeDirection) {
-		
+		position.x += velocity.x * deltaTime;
+
 		switch (swipeDirection) {
-		
 		case LEFT:
-		
-			position.x = World.WORLD_WIDTH - 4f;
-			velocity.x = SPOT_VELOCITY;
-			//stateTime = 0;
-			spotState = SpotState.SPOT_LEFT;
+			velocity.x = -SPOT_VELOCITY;
+			spotState = SpotState.GOING_LEFT;
 
 			break;
 
 		case RIGHT:
-			
-			position.x = World.WORLD_WIDTH + 4f;
 			velocity.x = SPOT_VELOCITY;
-			//stateTime = 0;
-			spotState = SpotState.SPOT_RIGTH;
+			spotState = SpotState.GOING_RIGHT;
 
 			break;
 
 		case UP:
-			
-			position.y = POSITION_Y + 1.5f;
-			velocity.x = SPOT_VELOCITY;
-			//stateTime = 0;
-			spotState = SpotState.SPOT_JUMP;
+			spotState = SpotState.JUMPING;
 
 			break;
 
 		case DOWN:
-			
-			position.y = POSITION_Y - 0.2f;
-			velocity.x = SPOT_VELOCITY;
-			//stateTime = 0;
-			spotState = SpotState.SPOT_DOWN;
+			spotState = SpotState.CROUCHING;
 
 			break;
-			
+
 		case NONE:
-			
-			position.y = POSITION_Y;
-			position.x = World.WORLD_WIDTH - 5.6f;
-			velocity.x = SPOT_VELOCITY;
-			//stateTime = 0;
-			spotState = SpotState.SPOT_FORWARD;
-			
 			break;
 
 		}
+
+		switch (spotState) {
+		case GOING_RIGHT:
+
+			switch (laneState) {
+			case CENTRAL:
+				if (position.x >= RIGHT_LANE_POSITION_X) {
+					position.x = RIGHT_LANE_POSITION_X;
+					laneState = LaneState.RIGHT;
+					goForward();
+				}
+
+				break;
+			case LEFT:
+				if (position.x >= CENTRAL_LANE_POSITION_X) {
+					position.x = CENTRAL_LANE_POSITION_X;
+					laneState = LaneState.CENTRAL;
+					goForward();
+				}
+
+				break;
+
+			case RIGHT:
+				position.x = RIGHT_LANE_POSITION_X;
+				goForward();
+
+				break;
+			}
+
+			break;
+
+		case GOING_LEFT:
+			switch (laneState) {
+			case CENTRAL:
+				if (position.x <= LEFT_LANE_POSITION_X) {
+					position.x = LEFT_LANE_POSITION_X;
+					laneState = LaneState.LEFT;
+					goForward();
+				}
+
+				break;
+				
+			case LEFT:
+				position.x = LEFT_LANE_POSITION_X;
+				goForward();
+
+				break;
+
+			case RIGHT:
+				if (position.x <= CENTRAL_LANE_POSITION_X) {
+					position.x = CENTRAL_LANE_POSITION_X;
+					laneState = LaneState.CENTRAL;
+					goForward();
+				}
+
+				break;
+			}
+
+			break;
+
+		case GOING_FORWARD:
+			break;
+
+		case JUMPING:
+			break;	
+
+		case CROUCHING:
+			break;
+		}
+
 		stateTime += deltaTime;
 	}
-
+	
+	private void goForward() {
+		velocity.x = 0;
+		spotState = SpotState.GOING_FORWARD;
+	}
 }

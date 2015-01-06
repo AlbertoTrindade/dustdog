@@ -27,7 +27,7 @@ public class World {
 		this.worldListener = worldListener;
 		
 		this.background = new ParallaxBackground(new ParallaxLayer(Assets.backgroundRegionGameScreen, 0, 1, ((float) Assets.backgroundGameScreen.getHeight()/Assets.SCREEN_HEIGHT)));
-		this.spot = new Spot(WORLD_WIDTH/2, 0.5f, 4, 4);
+		this.spot = new Spot(Spot.CENTRAL_LANE_POSITION_X, Spot.SPOT_POSITION_Y, Spot.SPOT_WIDTH, Spot.SPOT_HEIGHT);
 		
 		this.score = 0;
 		this.state = WorldState.RUNNING;
@@ -45,6 +45,6 @@ public class World {
 	}
 	
 	public void updateSpot(float deltaTime, SwipeDirection swipeDirection) {
-		spot.update(deltaTime, swipeDirection); //need velocity of world
+		spot.update(deltaTime, swipeDirection);
 	}
 }

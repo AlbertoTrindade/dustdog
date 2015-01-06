@@ -25,10 +25,7 @@ public class Assets {
 	public static TextureRegion backgroundRegionGameScreen;
 	
 	public static TextureAtlas screenItemsAtlas;
-	//public static Texture screenItems;
-	
 	public static TextureAtlas gameItemsAtlas;
-	//public static Texture gameItems;
 	
 	public static TextureRegion mainScreenLogo;
 	public static TextureRegion mainScreenBestScore;
@@ -93,7 +90,6 @@ public class Assets {
 		backgroundRegionGameScreen = new TextureRegion(backgroundGameScreen, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT*2);
 		
 		screenItemsAtlas = loadTextureAtlas("screenItems.atlas");
-		
 		gameItemsAtlas = loadTextureAtlas("gameItems.atlas");
 		
 		mainScreenLogo = screenItemsAtlas.findRegion("logo_dustdog");
