@@ -42,7 +42,7 @@ public class MainScreen extends ScreenAdapter {
 	}
 	
 	public void update() {
-		if (Gdx.input.justTouched()) {
+		if (Gdx.input.isTouched()) {
 			camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 			
 			if (settingsButtonBounds.contains(touchPoint.x, touchPoint.y)) {
@@ -64,24 +64,18 @@ public class MainScreen extends ScreenAdapter {
 		}
 		
 		if (settingsButtonActive) {
-			game.buttonDelay();
-			
 			settingsButtonActive = false;
 			game.setScreen(new SettingsScreen(game));
 			return;
 		}
 		
 		if (bestScoreActive) {
-			game.buttonDelay();
-			
 			bestScoreActive = false;
 			game.setScreen(new HighscoresScreen(game));
 			return;
 		}
 		
 		if (tapPlayActive) {
-			game.buttonDelay();
-			
 			tapPlayActive = false;
 			game.setScreen(new GameScreen(game));
 			return;

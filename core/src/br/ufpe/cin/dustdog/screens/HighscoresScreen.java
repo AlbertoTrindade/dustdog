@@ -47,7 +47,7 @@ public class HighscoresScreen extends ScreenAdapter {
 	}
 	
 	public void update() {
-		if (Gdx.input.justTouched()) {
+		if (Gdx.input.isTouched()) {
 			camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 
 			if (backButtonBounds.contains(touchPoint.x, touchPoint.y)) {
@@ -64,8 +64,6 @@ public class HighscoresScreen extends ScreenAdapter {
 		}
 
 		if (backButtonActive) {
-			game.buttonDelay();
-
 			backButtonActive = false;
 			game.setScreen(new MainScreen(game));
 		}

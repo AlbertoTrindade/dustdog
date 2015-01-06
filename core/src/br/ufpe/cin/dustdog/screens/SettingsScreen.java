@@ -72,6 +72,10 @@ public class SettingsScreen extends ScreenAdapter {
 				Settings.musicEnabled = !Settings.musicEnabled;
 				return;
 			}
+		}
+		
+		if (Gdx.input.isTouched()) {
+			camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 
 			if (cancelButtonBounds.contains(touchPoint.x, touchPoint.y)) {
 				cancelButtonActive = true;
@@ -95,8 +99,6 @@ public class SettingsScreen extends ScreenAdapter {
 		}
 
 		if (cancelButtonActive) {
-			game.buttonDelay();
-
 			cancelButtonActive = false;
 			Settings.soundEnabled = initialSoundEnabled;
 			Settings.musicEnabled = initialMusicEnabled;
@@ -106,8 +108,6 @@ public class SettingsScreen extends ScreenAdapter {
 		}
 
 		if (okButtonActive) {
-			game.buttonDelay();
-
 			okButtonActive = false;
 			Settings.save();
 			

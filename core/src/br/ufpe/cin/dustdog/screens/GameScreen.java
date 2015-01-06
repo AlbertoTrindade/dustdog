@@ -147,7 +147,7 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	private void updateReady() {
-		if (Gdx.input.justTouched()) {
+		if (Gdx.input.isTouched()) {
 			gameState = GameState.RUNNING;
 		}
 		
@@ -163,8 +163,7 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	private void updateRunning(float deltaTime) {
-
-		if (Gdx.input.justTouched()) {
+		if (Gdx.input.isTouched()) {
 			camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 
 			if (pauseButtonBounds.contains(touchPoint.x, touchPoint.y)) {
@@ -174,8 +173,6 @@ public class GameScreen extends ScreenAdapter {
 		}
 		
 		if (pauseButtonActive) {
-			game.buttonDelay();
-			
 			pauseButtonActive = false;
 			gameState = GameState.PAUSED;
 			return;
@@ -236,7 +233,7 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	private void updatePaused() {
-		if (Gdx.input.justTouched()) {
+		if (Gdx.input.isTouched()) {
 			camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 
 			if (resumeButtonBounds.contains(touchPoint.x, touchPoint.y)) {
@@ -266,24 +263,18 @@ public class GameScreen extends ScreenAdapter {
 		}
 		
 		if (resumeButtonActive) {
-			game.buttonDelay();
-			
 			resumeButtonActive = false;
 			gameState = GameState.RUNNING;
 			return;
 		}
 		
 		if (homeButtonActive) {
-			game.buttonDelay();
-			
 			homeButtonActive = false;
 			game.setScreen(new MainScreen(game));
 			return;
 		}
 		
 		if (settingsButtonActive) {
-			game.buttonDelay();
-			
 			settingsButtonActive = false;
 			game.setScreen(new SettingsScreen(game, world));
 			return;
