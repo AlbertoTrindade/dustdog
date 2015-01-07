@@ -58,13 +58,14 @@ public class Assets {
 	public static TextureRegion gameScreenSettingsButton;
 	public static TextureRegion gameScreenSettingsButtonActive;
 	
-	public static TextureRegion gameObjectSpotRed;
-	public static TextureRegion gameObjectSpotGreen;
-	public static TextureRegion gameObjectSpotBlue;
+	public static TextureRegion spotForward;
+	public static TextureRegion spotRight1;
+	public static TextureRegion spotRight2;
+	public static TextureRegion spotLeft1;
+	public static TextureRegion spotLeft2;
 	
-	public static Animation gameObjectSpotRedAnimation;
-	public static Animation gameObjectSpotGreenAnimation;
-	public static Animation gameObjectSpotBlueAnimation;
+	public static Animation spotGoingRightAnimation;
+	public static Animation spotGoingLeftAnimation;
 	
 	public static FreeTypeFontGenerator fontGenerator;
 	public static FreeTypeFontParameter fontParameter;
@@ -123,15 +124,18 @@ public class Assets {
 		gameScreenSettingsButton = screenItemsAtlas.findRegion("btn_settings");
 		gameScreenSettingsButtonActive = screenItemsAtlas.findRegion("btn_settings_active");
 		
+		spotForward = gameItemsAtlas.findRegion("car_forward");
+		spotRight1 = gameItemsAtlas.findRegion("car_right_1");
+		spotRight2 = gameItemsAtlas.findRegion("car_right_2");
 		
-		//TODO: Change names of variables and sprites
-		gameObjectSpotRed = gameItemsAtlas.findRegion("spotRed");
-		gameObjectSpotGreen = gameItemsAtlas.findRegion("spotGreen");
-		gameObjectSpotBlue = gameItemsAtlas.findRegion("spotBlue");
+		spotLeft1 = new TextureRegion(spotRight1);
+		spotLeft1.flip(true, false);
 		
-		gameObjectSpotRedAnimation = new Animation(1f, gameObjectSpotRed, gameObjectSpotRed);
-		gameObjectSpotBlueAnimation = new Animation(1f, gameObjectSpotBlue, gameObjectSpotBlue);
-		gameObjectSpotGreenAnimation = new Animation(1f, gameObjectSpotGreen, gameObjectSpotGreen);
+		spotLeft2 = new TextureRegion(spotRight2);
+		spotLeft2.flip(true, false);
+		
+		spotGoingRightAnimation = new Animation(0.1f, spotForward, spotRight1, spotRight2, spotRight1, spotForward);
+		spotGoingLeftAnimation = new Animation(0.1f, spotForward, spotLeft1, spotLeft2, spotLeft1, spotForward);
 		
 		fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/berlin-sans-fb.ttf"));
 		fontParameter = new FreeTypeFontParameter();

@@ -2,25 +2,24 @@ gameItems.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-spotBlue
+car_forward
   rotate: false
   xy: 1, 1
-  size: 120, 120
-  orig: 120, 120
+  size: 124, 84
+  orig: 124, 84
   offset: 0, 0
   index: -1
-spotGreen
+car_right_1
   rotate: false
-  xy: 123, 1
-  size: 120, 120
-  orig: 120, 120
+  xy: 127, 1
+  size: 124, 84
+  orig: 124, 84
   offset: 0, 0
-  index: -1
-spotRed
+  index: 1
+car_right_2
   rotate: false
-  xy: 245, 1
-  size: 120, 120
-  orig: 120, 120
+  xy: 253, 1
+  size: 124, 84
+  orig: 124, 84
   offset: 0, 0
-  index: -1
-  
+  index: 2

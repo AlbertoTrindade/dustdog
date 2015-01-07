@@ -1,6 +1,7 @@
 package br.ufpe.cin.dustdog.world;
 
 import br.ufpe.cin.dustdog.Assets;
+import br.ufpe.cin.dustdog.objects.spot.Spot;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -25,61 +26,61 @@ public class WorldRenderer {
 	public void render() {
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
-		
+
 		renderBackground();
 		renderObjects();
 	}
-	
+
 	public void renderBackground() {
 		batch.disableBlending();
 		batch.begin();
-		
+
 		world.background.render(camera, batch);
-		
+
 		batch.end();
 	}
-	
+
 	public void renderObjects() {
 		batch.enableBlending();
 		batch.begin();
-		
+
 		// TODO: create and call here the methods: renderSpot(), renderObstacles(), renderGarbages(), and renderSpecialItems()
-		
+
 		renderSpot();
-		
+
 		batch.end();
 	}
-	
+
 	public void renderSpot() {
 		TextureRegion keyFrame = null;
 		float positionX = 0;
 		float positionY = 0;
-		
+
 		switch (world.spot.spotState) {
 		case GOING_FORWARD:
-			keyFrame = Assets.gameObjectSpotRedAnimation.getKeyFrame(world.spot.stateTime, true);
+			keyFrame = Assets.spotGoingRightAnimation.getKeyFrame(0, true);
 			break;
-			
+
 		case GOING_RIGHT:
-			keyFrame = Assets.gameObjectSpotRedAnimation.getKeyFrame(world.spot.stateTime, true);
+			keyFrame = Assets.spotGoingRightAnimation.getKeyFrame(world.spot.stateTime, true);
 			break;
-			
+
 		case GOING_LEFT:
-			keyFrame = Assets.gameObjectSpotRedAnimation.getKeyFrame(world.spot.stateTime, true);
+			keyFrame = Assets.spotGoingLeftAnimation.getKeyFrame(world.spot.stateTime, true);
 			break;
-			
+
 		case JUMPING:
-			keyFrame = Assets.gameObjectSpotRedAnimation.getKeyFrame(world.spot.stateTime, true);
+			keyFrame = Assets.spotGoingRightAnimation.getKeyFrame(0, true);
 			break;
-			
+
 		case CROUCHING:
-			keyFrame = Assets.gameObjectSpotRedAnimation.getKeyFrame(world.spot.stateTime, true);
+			keyFrame = Assets.spotGoingRightAnimation.getKeyFrame(0, true);
 			break;
 		}
-		
+
 		positionX = world.spot.position.x;
 		positionY = world.spot.position.y;
-		
-		batch.draw(keyFrame, positionX, positionY, 1, 1);
+
+		batch.draw(keyFrame, positionX, positionY, Spot.SPOT_WIDTH, Spot.SPOT_HEIGHT);
 	}
 }

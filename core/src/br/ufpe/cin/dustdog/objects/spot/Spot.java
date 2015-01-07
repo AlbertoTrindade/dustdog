@@ -11,14 +11,14 @@ public class Spot extends DynamicGameObject {
 	public float stateTime;
 	
 	public static final float SPOT_POSITION_Y = 0.5f;
-	public static final float SPOT_VELOCITY = 10f;
+	public static final float SPOT_VELOCITY = 5f;
 	
-	public static final float SPOT_WIDTH = 1.78f;
-	public static final float SPOT_HEIGHT = 1.78f;
+	public static final float SPOT_WIDTH = 2.37f;
+	public static final float SPOT_HEIGHT = 1.6f;
 
-	public static final float LEFT_LANE_POSITION_X = 1.85f;
-	public static final float CENTRAL_LANE_POSITION_X = 4.35f;
-	public static final float RIGHT_LANE_POSITION_X = 6.8f;
+	public static final float LEFT_LANE_POSITION_X = 1.2f;
+	public static final float CENTRAL_LANE_POSITION_X = 3.65f;
+	public static final float RIGHT_LANE_POSITION_X = 6.1f;
 
 	public Spot(float x, float y, float width, float height) {
 		super(x, y, width, height);
@@ -35,13 +35,15 @@ public class Spot extends DynamicGameObject {
 		case LEFT:
 			velocity.x = -SPOT_VELOCITY;
 			spotState = SpotState.GOING_LEFT;
-
+			stateTime = 0;
+			
 			break;
 
 		case RIGHT:
 			velocity.x = SPOT_VELOCITY;
 			spotState = SpotState.GOING_RIGHT;
-
+			stateTime = 0;
+			
 			break;
 
 		case UP:
@@ -90,6 +92,7 @@ public class Spot extends DynamicGameObject {
 			break;
 
 		case GOING_LEFT:
+			
 			switch (laneState) {
 			case CENTRAL:
 				if (position.x <= LEFT_LANE_POSITION_X) {
