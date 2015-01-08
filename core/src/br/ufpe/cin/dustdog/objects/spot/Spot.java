@@ -129,9 +129,11 @@ public class Spot extends DynamicGameObject {
 			break;
 
 		case JUMPING:
+			goForward(); // TODO: call this within an if-condition to check whether movement is over
 			break;	
 
 		case CROUCHING:
+			goForward(); // TODO: call this within an if-condition to check whether movement is over
 			break;
 		}
 
