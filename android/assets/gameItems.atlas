@@ -1,3 +1,4 @@
+
 gameItems.png
 format: RGBA8888
 filter: Nearest,Nearest
@@ -23,3 +24,10 @@ car_right_2
   orig: 124, 84
   offset: 0, 0
   index: 2
+stone
+  rotate: false
+  xy: 379, 38
+  size: 48, 47
+  orig: 48, 47
+  offset: 0, 0
+  index: -1

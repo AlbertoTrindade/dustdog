@@ -67,6 +67,8 @@ public class Assets {
 	public static Animation spotGoingRightAnimation;
 	public static Animation spotGoingLeftAnimation;
 	
+	public static TextureRegion obstacleStone;
+	
 	public static FreeTypeFontGenerator fontGenerator;
 	public static FreeTypeFontParameter fontParameter;
 	
@@ -134,8 +136,10 @@ public class Assets {
 		spotLeft2 = new TextureRegion(spotRight2);
 		spotLeft2.flip(true, false);
 		
-		spotGoingRightAnimation = new Animation(0.1f, spotForward, spotRight1, spotRight2, spotRight1, spotForward);
-		spotGoingLeftAnimation = new Animation(0.1f, spotForward, spotLeft1, spotLeft2, spotLeft1, spotForward);
+		spotGoingRightAnimation = new Animation(0.05f, spotForward, spotRight1, spotRight2, spotRight1, spotForward);
+		spotGoingLeftAnimation = new Animation(0.05f, spotForward, spotLeft1, spotLeft2, spotLeft1, spotForward);
+		
+		obstacleStone = gameItemsAtlas.findRegion("stone");
 		
 		fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/berlin-sans-fb.ttf"));
 		fontParameter = new FreeTypeFontParameter();

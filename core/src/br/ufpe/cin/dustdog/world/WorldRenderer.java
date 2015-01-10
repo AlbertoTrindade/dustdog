@@ -1,6 +1,8 @@
 package br.ufpe.cin.dustdog.world;
 
 import br.ufpe.cin.dustdog.Assets;
+import br.ufpe.cin.dustdog.objects.obstacles.Obstacle;
+import br.ufpe.cin.dustdog.objects.obstacles.Stone;
 import br.ufpe.cin.dustdog.objects.spot.Spot;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -47,6 +49,7 @@ public class WorldRenderer {
 		// TODO: create and call here the methods: renderSpot(), renderObstacles(), renderGarbages(), and renderSpecialItems()
 
 		renderSpot();
+		renderObstacles();
 
 		batch.end();
 	}
@@ -59,14 +62,17 @@ public class WorldRenderer {
 		switch (world.spot.spotState) {
 		case GOING_FORWARD:
 			keyFrame = Assets.spotGoingRightAnimation.getKeyFrame(0, true);
+			world.spot.bounds = world.spot.frameBounds[0];
 			break;
 
 		case GOING_RIGHT:
-			keyFrame = Assets.spotGoingRightAnimation.getKeyFrame(world.spot.stateTime, true);
+			keyFrame = Assets.spotGoingRightAnimation.getKeyFrame(world.spot.stateTime, true);			
+			world.spot.bounds = world.spot.frameBounds[Assets.spotGoingRightAnimation.getKeyFrameIndex(world.spot.stateTime)];
 			break;
 
 		case GOING_LEFT:
 			keyFrame = Assets.spotGoingLeftAnimation.getKeyFrame(world.spot.stateTime, true);
+			world.spot.bounds = world.spot.frameBounds[Assets.spotGoingLeftAnimation.getKeyFrameIndex(world.spot.stateTime)];
 			break;
 
 		case JUMPING:
@@ -81,6 +87,18 @@ public class WorldRenderer {
 		positionX = world.spot.position.x;
 		positionY = world.spot.position.y;
 
-		batch.draw(keyFrame, positionX, positionY, Spot.SPOT_WIDTH, Spot.SPOT_HEIGHT);
+		if (world.spot.visible) batch.draw(keyFrame, positionX, positionY, Spot.SPOT_WIDTH, Spot.SPOT_HEIGHT);
+	}
+	
+	public void renderObstacles() {
+		for (Obstacle obstacle : world.obstacles) {
+			TextureRegion keyFrame = null;
+			
+			if (obstacle instanceof Stone) {
+				keyFrame = Assets.obstacleStone;
+			}
+			
+			batch.draw(keyFrame, obstacle.position.x, obstacle.position.y, obstacle.bounds.width, obstacle.bounds.height);
+		}
 	}
 }
