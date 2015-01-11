@@ -11,7 +11,7 @@ public class LevelGenerator {
 	}
 	
 	public LevelGeneratorObject getNextLeftLaneObject() {
-		if (random.nextFloat() > 0.997f) {
+		if (random.nextFloat() > 0.995f) {
 			return LevelGeneratorObject.OBSTACLE_STONE;
 		}
 		else {
@@ -20,7 +20,7 @@ public class LevelGenerator {
 	}
 	
 	public LevelGeneratorObject getNextCentralLaneObject() {
-		if (random.nextFloat() > 0.997f) {
+		if (random.nextFloat() > 0.995f) {
 			return LevelGeneratorObject.OBSTACLE_STONE;
 		}
 		else {
@@ -29,7 +29,7 @@ public class LevelGenerator {
 	}
 	
 	public LevelGeneratorObject getNextRightLaneObject() {
-		if (random.nextFloat() > 0.997f) {
+		if (random.nextFloat() > 0.995f) {
 			return LevelGeneratorObject.OBSTACLE_STONE;
 		}
 		else {

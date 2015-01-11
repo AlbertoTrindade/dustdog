@@ -57,6 +57,8 @@ public class Assets {
 	public static TextureRegion gameScreenHomeButtonActive;
 	public static TextureRegion gameScreenSettingsButton;
 	public static TextureRegion gameScreenSettingsButtonActive;
+	public static TextureRegion gameScreenBonesBox;
+	public static TextureRegion gameScreenGameOver;
 	
 	public static TextureRegion spotForward;
 	public static TextureRegion spotRight1;
@@ -125,6 +127,8 @@ public class Assets {
 		gameScreenHomeButtonActive = screenItemsAtlas.findRegion("btn_home_active");
 		gameScreenSettingsButton = screenItemsAtlas.findRegion("btn_settings");
 		gameScreenSettingsButtonActive = screenItemsAtlas.findRegion("btn_settings_active");
+		gameScreenBonesBox = screenItemsAtlas.findRegion("box_bones");
+		gameScreenGameOver = screenItemsAtlas.findRegion("txt_game_over");
 		
 		spotForward = gameItemsAtlas.findRegion("car_forward");
 		spotRight1 = gameItemsAtlas.findRegion("car_right_1");

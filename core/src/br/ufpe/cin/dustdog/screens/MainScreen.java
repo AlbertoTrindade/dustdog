@@ -54,7 +54,9 @@ public class MainScreen extends ScreenAdapter {
 				bestScoreActive = true;
 				return;
 			}
-			
+		}
+		
+		if (Gdx.input.justTouched()) {
 			tapPlayActive = true;
 			return;
 		}

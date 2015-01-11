@@ -23,7 +23,7 @@ public class World {
 	}
 
 	public static final float WORLD_WIDTH = 10;
-	public static final int WORLD_VELOCITY = 5;
+	public static final int WORLD_VELOCITY = 8;
 	public static final float SPOT_COLLISION_TIME = 3;
 
 	public final WorldListener worldListener;
@@ -283,6 +283,12 @@ public class World {
 			spotCollision = true;
 			spotCollisionTimeSpent = 0;
 			spotCollisionStateTimeSpent = 0;
+			
+			spot.numberBones--;
+			
+			if (spot.numberBones == 0) {
+				state = WorldState.GAME_OVER;
+			}
 		}
 	}
 }

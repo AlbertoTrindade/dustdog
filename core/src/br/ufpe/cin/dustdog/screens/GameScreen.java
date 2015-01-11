@@ -8,6 +8,7 @@ import br.ufpe.cin.dustdog.objects.spot.SwipeDirection;
 import br.ufpe.cin.dustdog.world.World;
 import br.ufpe.cin.dustdog.world.World.WorldListener;
 import br.ufpe.cin.dustdog.world.WorldRenderer;
+import br.ufpe.cin.dustdog.world.WorldState;
 
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Input.Keys;
@@ -141,13 +142,13 @@ public class GameScreen extends ScreenAdapter {
 			break;
 
 		case GAME_OVER:
-			// TODO
+			updateGameOver();
 			break;
 		}
 	}
 
 	private void updateReady() {
-		if (Gdx.input.isTouched()) {
+		if (Gdx.input.justTouched()) {
 			gameState = GameState.RUNNING;
 		}
 		
@@ -230,6 +231,10 @@ public class GameScreen extends ScreenAdapter {
 		}
 
 		world.update(deltaTime, swipeDirection);
+		
+		if (world.state == WorldState.GAME_OVER) {
+			gameState = GameState.GAME_OVER;
+		}
 	}
 
 	private void updatePaused() {
@@ -280,6 +285,23 @@ public class GameScreen extends ScreenAdapter {
 			return;
 		}
 	}
+	
+	private void updateGameOver() {
+		if (Gdx.input.justTouched()) {
+			game.setScreen(new MainScreen(game));
+			return;
+		}
+		
+		if (Gdx.input.isKeyPressed(Keys.BACK) || Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+			backPressedRunning = true;
+		}
+		else if (backPressedRunning){
+			backPressedRunning = false;
+			
+			game.setScreen(new MainScreen(game));
+			return;
+		}
+	}
 
 	public void draw() {
 		GL20 gl = Gdx.gl;
@@ -308,7 +330,7 @@ public class GameScreen extends ScreenAdapter {
 			break;
 
 		case GAME_OVER:
-			// TODO
+			presentGameOver();
 			break;
 		}
 
@@ -321,6 +343,8 @@ public class GameScreen extends ScreenAdapter {
 
 	private void presentRunning() {
 		game.batcher.draw((pauseButtonActive ? Assets.gameScreenPauseButtonActive : Assets.gameScreenPauseButton), 5, 952);
+		game.batcher.draw(Assets.gameScreenBonesBox, 530, 945);
+		Assets.font48.draw(game.batcher, Integer.toString(world.spot.numberBones), 575, 1000);
 	}
 
 	private void presentPaused() {
@@ -330,6 +354,10 @@ public class GameScreen extends ScreenAdapter {
 		game.batcher.draw((settingsButtonActive ? Assets.gameScreenSettingsButtonActive : Assets.gameScreenSettingsButton), 202, 390);
 	}
 
+	private void presentGameOver() {
+		game.batcher.draw(Assets.gameScreenGameOver, 28, 442);
+	}
+	
 	@Override
 	public void render(float delta) {
 		update(delta);
