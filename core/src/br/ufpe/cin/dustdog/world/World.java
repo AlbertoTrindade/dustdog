@@ -19,12 +19,12 @@ import br.ufpe.cin.dustdog.parallax.ParallaxLayer;
 public class World {
 
 	public interface WorldListener {
-		// TODO: add method signature for each action in World that generates sound (hit a obstacle, for example)
+		// TODO: add method signature for each action in World that generates sound (hit an obstacle, for example)
 	}
 
-	public static final float WORLD_WIDTH = 10;
-	public static final int WORLD_VELOCITY = 8;
-	public static final float SPOT_COLLISION_TIME = 3;
+	public static final float WORLD_WIDTH = 10f;
+	public static final float WORLD_VELOCITY = 8f;
+	public static final float SPOT_COLLISION_DURATION = 3f;
 
 	public final WorldListener worldListener;
 
@@ -78,7 +78,7 @@ public class World {
 		updateSpot(deltaTime, swipeDirection);
 		updateObstacles(deltaTime);
 
-		createObjects();
+		spawnObjects();
 		checkCollisions();
 	}
 
@@ -93,12 +93,12 @@ public class World {
 			spotCollisionTimeSpent += deltaTime;
 			spotCollisionStateTimeSpent += deltaTime;
 
-			if (spotCollisionStateTimeSpent >= SPOT_COLLISION_TIME/20) {
+			if (spotCollisionStateTimeSpent >= SPOT_COLLISION_DURATION/20) {
 				spot.visible = !spot.visible;
 				spotCollisionStateTimeSpent = 0;
 			}
 
-			if (spotCollisionTimeSpent >= SPOT_COLLISION_TIME) {
+			if (spotCollisionTimeSpent >= SPOT_COLLISION_DURATION) {
 				spot.visible = true;
 				spotCollision = false;
 			}
@@ -144,7 +144,7 @@ public class World {
 		}
 	}
 
-	public void createObjects() {
+	public void spawnObjects() {
 
 		if (leftLaneIsFree) {
 			LevelGeneratorObject nextObject = levelGenerator.getNextLeftLaneObject();
@@ -175,7 +175,7 @@ public class World {
 		}
 
 		if (centralLaneIsFree) {
-			LevelGeneratorObject nextObject = levelGenerator.getNextLeftLaneObject();
+			LevelGeneratorObject nextObject = levelGenerator.getNextCentralLaneObject();
 			Obstacle nextObstacle = null;
 
 			centralLaneIsFree = false;
@@ -203,7 +203,7 @@ public class World {
 		}
 
 		if (rightLaneIsFree) {
-			LevelGeneratorObject nextObject = levelGenerator.getNextLeftLaneObject();
+			LevelGeneratorObject nextObject = levelGenerator.getNextRightLaneObject();
 			Obstacle nextObstacle = null;
 
 			rightLaneIsFree = false;

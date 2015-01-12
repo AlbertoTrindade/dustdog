@@ -48,16 +48,14 @@ public class WorldRenderer {
 
 		// TODO: create and call here the methods: renderSpot(), renderObstacles(), renderGarbages(), and renderSpecialItems()
 
-		renderSpot();
 		renderObstacles();
+		renderSpot();
 
 		batch.end();
 	}
 
 	public void renderSpot() {
 		TextureRegion keyFrame = null;
-		float positionX = 0;
-		float positionY = 0;
 
 		switch (world.spot.spotState) {
 		case GOING_FORWARD:
@@ -84,10 +82,7 @@ public class WorldRenderer {
 			break;
 		}
 
-		positionX = world.spot.position.x;
-		positionY = world.spot.position.y;
-
-		if (world.spot.visible) batch.draw(keyFrame, positionX, positionY, Spot.SPOT_WIDTH, Spot.SPOT_HEIGHT);
+		if (world.spot.visible) batch.draw(keyFrame, world.spot.position.x, world.spot.position.y, Spot.SPOT_WIDTH, Spot.SPOT_HEIGHT);
 	}
 	
 	public void renderObstacles() {
