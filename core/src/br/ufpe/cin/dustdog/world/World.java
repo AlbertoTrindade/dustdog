@@ -136,6 +136,7 @@ public class World {
 			// Check if obstacle is out of the world		
 			if (obstacle.position.y < -obstacle.bounds.height) {
 				obstacles.remove(obstacle);
+				i--;
 
 				if (obstacle instanceof Stone) {
 					stones.free((Stone) obstacle);
