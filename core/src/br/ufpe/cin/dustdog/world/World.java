@@ -11,6 +11,7 @@ import br.ufpe.cin.dustdog.objects.LevelGenerator;
 import br.ufpe.cin.dustdog.objects.LevelGeneratorObject;
 import br.ufpe.cin.dustdog.objects.obstacles.Obstacle;
 import br.ufpe.cin.dustdog.objects.obstacles.Stone;
+import br.ufpe.cin.dustdog.objects.obstacles.Tree;
 import br.ufpe.cin.dustdog.objects.spot.Spot;
 import br.ufpe.cin.dustdog.objects.spot.SwipeDirection;
 import br.ufpe.cin.dustdog.parallax.ParallaxBackground;
@@ -39,6 +40,7 @@ public class World {
 	public final List<Obstacle> obstacles;
 
 	public final Pool<Stone> stones;
+	public final Pool<Tree> trees;
 
 	public boolean leftLaneIsFree;
 	public boolean centralLaneIsFree;
@@ -65,6 +67,13 @@ public class World {
 			@Override
 			protected Stone newObject() {
 				return new Stone(0, 0, Stone.STONE_WIDTH, Stone.STONE_HEIGHT);
+			}
+		};
+		
+		trees = new Pool<Tree>() {
+			@Override
+			protected Tree newObject() {
+				return new Tree(0, 0, Tree.TREE_WIDTH, Tree.TREE_HEIGHT);
 			}
 		};
 
@@ -115,9 +124,19 @@ public class World {
 		for (int i = 0; i < obstacles.size(); i++) {
 			obstacle = obstacles.get(i);			
 			obstacle.update(deltaTime);
+			
+			float obstacleHeight = 0f;
+			
+			if (obstacle instanceof Stone) {
+				obstacleHeight = Stone.STONE_HEIGHT;
+			}
+			
+			if (obstacle instanceof Tree) {
+				obstacleHeight = Tree.TREE_HEIGHT;
+			}
 
 			// Check if some obstacle is not being completely showing up			
-			if (obstacle.position.y >= WorldRenderer.FRUSTUM_HEIGHT - obstacle.bounds.height) {
+			if (obstacle.position.y >= WorldRenderer.FRUSTUM_HEIGHT - obstacleHeight) {
 				switch (obstacle.laneState) {
 				case CENTRAL:
 					centralLaneIsFree = false;
@@ -133,15 +152,19 @@ public class World {
 				}
 			}
 
-			// Check if obstacle is out of the world		
-			if (obstacle.position.y < -obstacle.bounds.height) {
+			// Check if obstacle is out of the world
+			if (obstacle.position.y < - obstacleHeight) {
 				obstacles.remove(obstacle);
 				i--;
 				score+= 10; // TODO: remove this later
 
 				if (obstacle instanceof Stone) {
 					stones.free((Stone) obstacle);
-				}				
+				}	
+				
+				if (obstacle instanceof Tree) {
+					trees.free((Tree) obstacle);
+				}
 			}
 		}
 	}
@@ -164,6 +187,16 @@ public class World {
 				nextObstacle.bounds.y = nextObstacle.position.y;
 				nextObstacle.laneState = LaneState.LEFT;
 
+				break;
+				
+			case OBSTACLE_TREE:
+				nextObstacle = trees.obtain();
+				nextObstacle.position.x = Tree.LEFT_LANE_POSITION_X;
+				nextObstacle.position.y = WorldRenderer.FRUSTUM_HEIGHT;
+				nextObstacle.bounds.x = nextObstacle.position.x + Tree.TREE_COLLISION_POSITION_X;
+				nextObstacle.bounds.y = nextObstacle.position.y;
+				nextObstacle.laneState = LaneState.LEFT;
+				
 				break;
 
 			case NONE:
@@ -193,6 +226,16 @@ public class World {
 				nextObstacle.laneState = LaneState.CENTRAL;
 
 				break;
+				
+			case OBSTACLE_TREE:
+				nextObstacle = trees.obtain();
+				nextObstacle.position.x = Tree.CENTRAL_LANE_POSITION_X;
+				nextObstacle.position.y = WorldRenderer.FRUSTUM_HEIGHT;
+				nextObstacle.bounds.x = nextObstacle.position.x + Tree.TREE_COLLISION_POSITION_X;
+				nextObstacle.bounds.y = nextObstacle.position.y;
+				nextObstacle.laneState = LaneState.CENTRAL;
+				
+				break;
 
 			case NONE:
 				centralLaneIsFree = true;
@@ -217,6 +260,16 @@ public class World {
 				nextObstacle.position.x = Stone.RIGHT_LANE_POSITION_X;
 				nextObstacle.position.y = WorldRenderer.FRUSTUM_HEIGHT;
 				nextObstacle.bounds.x = nextObstacle.position.x;
+				nextObstacle.bounds.y = nextObstacle.position.y;
+				nextObstacle.laneState = LaneState.RIGHT;
+			
+				break;
+				
+			case OBSTACLE_TREE:
+				nextObstacle = trees.obtain();
+				nextObstacle.position.x = Tree.RIGHT_LANE_POSITION_X;
+				nextObstacle.position.y = WorldRenderer.FRUSTUM_HEIGHT;
+				nextObstacle.bounds.x = nextObstacle.position.x + Tree.TREE_COLLISION_POSITION_X;
 				nextObstacle.bounds.y = nextObstacle.position.y;
 				nextObstacle.laneState = LaneState.RIGHT;
 

@@ -3,6 +3,7 @@ package br.ufpe.cin.dustdog.world;
 import br.ufpe.cin.dustdog.Assets;
 import br.ufpe.cin.dustdog.objects.obstacles.Obstacle;
 import br.ufpe.cin.dustdog.objects.obstacles.Stone;
+import br.ufpe.cin.dustdog.objects.obstacles.Tree;
 import br.ufpe.cin.dustdog.objects.spot.Spot;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -84,13 +85,14 @@ public class WorldRenderer {
 	
 	public void renderObstacles() {
 		for (Obstacle obstacle : world.obstacles) {
-			TextureRegion keyFrame = null;
 			
 			if (obstacle instanceof Stone) {
-				keyFrame = Assets.obstacleStone;
+				batch.draw(Assets.obstacleStone, obstacle.position.x, obstacle.position.y, Stone.STONE_WIDTH, Stone.STONE_HEIGHT);
 			}
 			
-			batch.draw(keyFrame, obstacle.position.x, obstacle.position.y, obstacle.bounds.width, obstacle.bounds.height);
+			if (obstacle instanceof Tree) {
+				batch.draw(Assets.obstacleTree, obstacle.position.x, obstacle.position.y, Tree.TREE_WIDTH, Tree.TREE_HEIGHT);
+			}
 		}
 	}
 }

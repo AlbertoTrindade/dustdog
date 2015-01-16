@@ -76,6 +76,7 @@ public class Assets {
 	public static Animation spotGoingLeftAnimation;
 	
 	public static TextureRegion obstacleStone;
+	public static TextureRegion obstacleTree;
 	
 	public static FreeTypeFontGenerator fontGenerator;
 	public static FreeTypeFontParameter fontParameter;
@@ -158,6 +159,7 @@ public class Assets {
 		spotGoingLeftAnimation = new Animation(0.05f, spotForward1, spotLeft1, spotLeft2, spotLeft3, spotLeft2, spotLeft1, spotForward1);
 		
 		obstacleStone = gameItemsAtlas.findRegion("stone");
+		obstacleTree = gameItemsAtlas.findRegion("tree");
 		
 		fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/berlin-sans-fb.ttf"));
 		fontParameter = new FreeTypeFontParameter();
