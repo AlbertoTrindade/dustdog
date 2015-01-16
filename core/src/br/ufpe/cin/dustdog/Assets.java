@@ -57,15 +57,21 @@ public class Assets {
 	public static TextureRegion gameScreenHomeButtonActive;
 	public static TextureRegion gameScreenSettingsButton;
 	public static TextureRegion gameScreenSettingsButtonActive;
+	public static TextureRegion gameScreenScoreBox;
 	public static TextureRegion gameScreenBonesBox;
 	public static TextureRegion gameScreenGameOver;
 	
-	public static TextureRegion spotForward;
+	public static TextureRegion spotForward1;
+	public static TextureRegion spotForward2;
+	public static TextureRegion spotForward3;
 	public static TextureRegion spotRight1;
 	public static TextureRegion spotRight2;
+	public static TextureRegion spotRight3;
 	public static TextureRegion spotLeft1;
 	public static TextureRegion spotLeft2;
+	public static TextureRegion spotLeft3;
 	
+	public static Animation spotGoingForwardAnimation;
 	public static Animation spotGoingRightAnimation;
 	public static Animation spotGoingLeftAnimation;
 	
@@ -127,12 +133,16 @@ public class Assets {
 		gameScreenHomeButtonActive = screenItemsAtlas.findRegion("btn_home_active");
 		gameScreenSettingsButton = screenItemsAtlas.findRegion("btn_settings");
 		gameScreenSettingsButtonActive = screenItemsAtlas.findRegion("btn_settings_active");
+		gameScreenScoreBox = screenItemsAtlas.findRegion("box_points");
 		gameScreenBonesBox = screenItemsAtlas.findRegion("box_bones");
 		gameScreenGameOver = screenItemsAtlas.findRegion("txt_game_over");
 		
-		spotForward = gameItemsAtlas.findRegion("car_forward");
-		spotRight1 = gameItemsAtlas.findRegion("car_right_1");
-		spotRight2 = gameItemsAtlas.findRegion("car_right_2");
+		spotForward1 = gameItemsAtlas.findRegion("spot_forward_1");
+		spotForward2 = gameItemsAtlas.findRegion("spot_forward_2");
+		spotForward3 = gameItemsAtlas.findRegion("spot_forward_3");
+		spotRight1 = gameItemsAtlas.findRegion("spot_right_1");
+		spotRight2 = gameItemsAtlas.findRegion("spot_right_2");
+		spotRight3 = gameItemsAtlas.findRegion("spot_right_3");
 		
 		spotLeft1 = new TextureRegion(spotRight1);
 		spotLeft1.flip(true, false);
@@ -140,8 +150,12 @@ public class Assets {
 		spotLeft2 = new TextureRegion(spotRight2);
 		spotLeft2.flip(true, false);
 		
-		spotGoingRightAnimation = new Animation(0.05f, spotForward, spotRight1, spotRight2, spotRight1, spotForward);
-		spotGoingLeftAnimation = new Animation(0.05f, spotForward, spotLeft1, spotLeft2, spotLeft1, spotForward);
+		spotLeft3 = new TextureRegion(spotRight3);
+		spotLeft3.flip(true, false);
+		
+		spotGoingForwardAnimation = new Animation(0.1f, spotForward1, spotForward2, spotForward3);
+		spotGoingRightAnimation = new Animation(0.05f, spotForward1, spotRight1, spotRight2, spotRight3, spotRight2, spotRight1, spotForward1);
+		spotGoingLeftAnimation = new Animation(0.05f, spotForward1, spotLeft1, spotLeft2, spotLeft3, spotLeft2, spotLeft1, spotForward1);
 		
 		obstacleStone = gameItemsAtlas.findRegion("stone");
 		

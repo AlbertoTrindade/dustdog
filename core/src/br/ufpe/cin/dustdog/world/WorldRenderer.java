@@ -46,7 +46,7 @@ public class WorldRenderer {
 		batch.enableBlending();
 		batch.begin();
 
-		// TODO: create and call here the methods: renderSpot(), renderObstacles(), renderGarbages(), and renderSpecialItems()
+		// TODO: create and call here the methods: renderGarbages() and renderSpecialItems()
 
 		renderObstacles();
 		renderSpot();
@@ -59,18 +59,15 @@ public class WorldRenderer {
 
 		switch (world.spot.spotState) {
 		case GOING_FORWARD:
-			keyFrame = Assets.spotGoingRightAnimation.getKeyFrame(0, true);
-			world.spot.bounds = world.spot.frameBounds[0];
+			keyFrame = Assets.spotGoingForwardAnimation.getKeyFrame(world.spot.stateTime, true);
 			break;
 
 		case GOING_RIGHT:
 			keyFrame = Assets.spotGoingRightAnimation.getKeyFrame(world.spot.stateTime, true);			
-			world.spot.bounds = world.spot.frameBounds[Assets.spotGoingRightAnimation.getKeyFrameIndex(world.spot.stateTime)];
 			break;
 
 		case GOING_LEFT:
 			keyFrame = Assets.spotGoingLeftAnimation.getKeyFrame(world.spot.stateTime, true);
-			world.spot.bounds = world.spot.frameBounds[Assets.spotGoingLeftAnimation.getKeyFrameIndex(world.spot.stateTime)];
 			break;
 
 		case JUMPING:

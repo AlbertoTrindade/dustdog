@@ -3,31 +3,59 @@ gameItems.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-car_forward
+tree
   rotate: false
-  xy: 1, 1
-  size: 124, 84
-  orig: 124, 84
+  xy: 1, 68
+  size: 142, 164
+  orig: 142, 164
   offset: 0, 0
   index: -1
-car_right_1
+spot_right_1
   rotate: false
-  xy: 127, 1
-  size: 124, 84
-  orig: 124, 84
+  xy: 145, 61
+  size: 124, 171
+  orig: 124, 171
   offset: 0, 0
   index: 1
-car_right_2
+spot_right_2
   rotate: false
-  xy: 253, 1
-  size: 124, 84
-  orig: 124, 84
+  xy: 271, 65
+  size: 120, 167
+  orig: 120, 167
   offset: 0, 0
   index: 2
+spot_right_3
+  rotate: false
+  xy: 393, 76
+  size: 130, 156
+  orig: 130, 156
+  offset: 0, 0
+  index: 3
+spot_forward_1
+  rotate: false
+  xy: 525, 61
+  size: 113, 171
+  orig: 113, 171
+  offset: 0, 0
+  index: 1
+spot_forward_2
+  rotate: false
+  xy: 640, 61
+  size: 113, 171
+  orig: 113, 171
+  offset: 0, 0
+  index: 2
+spot_forward_3
+  rotate: false
+  xy: 755, 61
+  size: 113, 171
+  orig: 113, 171
+  offset: 0, 0
+  index: 3
 stone
   rotate: false
-  xy: 379, 38
-  size: 48, 47
-  orig: 48, 47
+  xy: 1, 1
+  size: 83, 65
+  orig: 83, 65
   offset: 0, 0
   index: -1

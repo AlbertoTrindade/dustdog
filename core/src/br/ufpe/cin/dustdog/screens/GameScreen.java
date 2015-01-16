@@ -343,8 +343,14 @@ public class GameScreen extends ScreenAdapter {
 
 	private void presentRunning() {
 		game.batcher.draw((pauseButtonActive ? Assets.gameScreenPauseButtonActive : Assets.gameScreenPauseButton), 5, 952);
-		game.batcher.draw(Assets.gameScreenBonesBox, 530, 945);
-		Assets.font48.draw(game.batcher, Integer.toString(world.spot.numberBones), 575, 1000);
+		game.batcher.draw(Assets.gameScreenScoreBox, 471, 945);
+		
+		String score = Integer.toString(world.score);
+		float scoreX = (Assets.gameScreenScoreBox.getRegionWidth() - Assets.font48.getBounds(score).width) / 2;
+		Assets.font48.draw(game.batcher, Integer.toString(world.score), 471 + scoreX, 1000);
+		
+		game.batcher.draw(Assets.gameScreenBonesBox, 530, 855);
+		Assets.font48.draw(game.batcher, Integer.toString(world.spot.numberBones), 575, 910);
 	}
 
 	private void presentPaused() {
