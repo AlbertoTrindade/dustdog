@@ -23,9 +23,9 @@ public class LevelGenerator {
 			{LevelGeneratorObject.NONE, LevelGeneratorObject.OBSTACLE_TREE, LevelGeneratorObject.NONE},
 			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
 			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.OBSTACLE_STONE, LevelGeneratorObject.OBSTACLE_TREE},
+			{LevelGeneratorObject.NONE, LevelGeneratorObject.OBSTACLE_STONE, LevelGeneratorObject.NONE},
 			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.OBSTACLE_STONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
+			{LevelGeneratorObject.OBSTACLE_STONE, LevelGeneratorObject.NONE, LevelGeneratorObject.OBSTACLE_TREE},
 			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
 			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.OBSTACLE_STONE},
 			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
@@ -62,7 +62,7 @@ public class LevelGenerator {
 	public int[] mapIndex;
 	public int[] noneCount;
 
-	public final int NONE_MAX = 30;
+	public final int NONE_MAX = 20;
 
 	public LevelGenerator() {
 		random = new Random();

@@ -34,7 +34,7 @@ public class WorldRenderer {
 		renderObjects();
 	}
 
-	public void renderBackground() {
+	private void renderBackground() {
 		batch.disableBlending();
 		batch.begin();
 
@@ -43,7 +43,7 @@ public class WorldRenderer {
 		batch.end();
 	}
 
-	public void renderObjects() {
+	private void renderObjects() {
 		batch.enableBlending();
 		batch.begin();
 
@@ -55,7 +55,7 @@ public class WorldRenderer {
 		batch.end();
 	}
 
-	public void renderSpot() {
+	private void renderSpot() {
 		TextureRegion keyFrame = null;
 
 		switch (world.spot.spotState) {
@@ -83,7 +83,7 @@ public class WorldRenderer {
 		if (world.spot.visible) batch.draw(keyFrame, world.spot.position.x, world.spot.position.y, Spot.SPOT_WIDTH, Spot.SPOT_HEIGHT);
 	}
 	
-	public void renderObstacles() {
+	private void renderObstacles() {
 		for (Obstacle obstacle : world.obstacles) {
 			
 			if (obstacle instanceof Stone) {

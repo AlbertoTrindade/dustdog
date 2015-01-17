@@ -91,11 +91,11 @@ public class World {
 		checkCollisions();
 	}
 
-	public void updateBackground(float deltaTime) {
+	private void updateBackground(float deltaTime) {
 		background.moveY(WORLD_VELOCITY * deltaTime);
 	}
 
-	public void updateSpot(float deltaTime, SwipeDirection swipeDirection) {
+	private void updateSpot(float deltaTime, SwipeDirection swipeDirection) {
 		spot.update(deltaTime, swipeDirection);
 
 		if (spotCollision) {
@@ -114,7 +114,7 @@ public class World {
 		}
 	}
 
-	public void updateObstacles(float deltaTime) {
+	private void updateObstacles(float deltaTime) {
 		centralLaneIsFree = true;
 		leftLaneIsFree = true;
 		rightLaneIsFree = true;
@@ -169,7 +169,7 @@ public class World {
 		}
 	}
 
-	public void spawnObjects() {
+	private void spawnObjects() {
 
 		if (leftLaneIsFree) {
 			LevelGeneratorObject nextObject = levelGenerator.getNextLeftLaneObject();
@@ -286,12 +286,12 @@ public class World {
 		}
 	}
 
-	public void checkCollisions() {
+	private void checkCollisions() {
 		if (!spotCollision) checkObstacleCollisions();
 		//TODO checkGarbageCollisions, checkSpecialItemCollisions
 	}
 
-	public void checkObstacleCollisions() {
+	private void checkObstacleCollisions() {
 
 		boolean collision = false;
 
