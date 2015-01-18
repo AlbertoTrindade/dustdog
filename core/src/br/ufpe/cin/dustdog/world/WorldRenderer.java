@@ -1,5 +1,8 @@
 package br.ufpe.cin.dustdog.world;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.ufpe.cin.dustdog.Assets;
 import br.ufpe.cin.dustdog.objects.obstacles.Obstacle;
 import br.ufpe.cin.dustdog.objects.obstacles.Stone;
@@ -18,12 +21,16 @@ public class WorldRenderer {
 	World world;
 	OrthographicCamera camera;
 	SpriteBatch batch;
+	
+	List<Tree> remainingTrees;
 
 	public WorldRenderer(SpriteBatch batch, World world) {
 		this.world = world;
 		this.camera = new OrthographicCamera(FRUSTUM_WIDTH, FRUSTUM_HEIGHT);
 		this.camera.position.set(FRUSTUM_WIDTH/2, FRUSTUM_HEIGHT/2, 0);
 		this.batch = batch;
+		
+		remainingTrees = new ArrayList<Tree>();
 	}
 
 	public void render() {
@@ -51,6 +58,7 @@ public class WorldRenderer {
 
 		renderObstacles();
 		renderSpot();
+		renderRemainingTrees();
 
 		batch.end();
 	}
@@ -91,8 +99,21 @@ public class WorldRenderer {
 			}
 			
 			if (obstacle instanceof Tree) {
-				batch.draw(Assets.obstacleTree, obstacle.position.x, obstacle.position.y, Tree.TREE_WIDTH, Tree.TREE_HEIGHT);
+				if (world.spot.position.y <= obstacle.position.y + Tree.TREE_COLLISION_HEIGHT) {
+					batch.draw(Assets.obstacleTree, obstacle.position.x, obstacle.position.y, Tree.TREE_WIDTH, Tree.TREE_HEIGHT);
+				}
+				else { // tree is behind spot, so it will be rendered after spot
+					remainingTrees.add((Tree) obstacle);
+				}
 			}
 		}
+	}
+	
+	private void renderRemainingTrees() {
+		for (Tree tree : remainingTrees) {
+			batch.draw(Assets.obstacleTree, tree.position.x, tree.position.y, Tree.TREE_WIDTH, Tree.TREE_HEIGHT);
+		}
+		
+		remainingTrees.clear();
 	}
 }

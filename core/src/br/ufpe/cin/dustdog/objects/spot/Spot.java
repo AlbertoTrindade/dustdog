@@ -11,8 +11,9 @@ public class Spot extends DynamicGameObject {
 	public static final float SPOT_WIDTH = 1.66f;
 	public static final float SPOT_HEIGHT = 2.5f;
 
-	public static final float SPOT_COLLISION_WIDTH = 1.66f;
+	public static final float SPOT_COLLISION_WIDTH = 0.82f;
 	public static final float SPOT_COLLISION_HEIGHT = 1.6f;
+	public static final float SPOT_COLLISION_POSITION_X = 0.4f;
 	
 	public static final float LEFT_LANE_POSITION_X = 1.8f;
 	public static final float CENTRAL_LANE_POSITION_X = 4f;
@@ -41,7 +42,7 @@ public class Spot extends DynamicGameObject {
 
 	public void update(float deltaTime, SwipeDirection swipeDirection) {
 		position.x += velocity.x * deltaTime;
-		bounds.x = position.x;
+		bounds.x = position.x + SPOT_COLLISION_POSITION_X;
 
 		// Only apply spot movement (given the swipe) if it is going forward, otherwise let it finish that movement (ignoring the swipe)
 		if (spotState == SpotState.GOING_FORWARD) { 
