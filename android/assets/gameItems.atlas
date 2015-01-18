@@ -5,57 +5,141 @@ filter: Nearest,Nearest
 repeat: none
 tree
   rotate: false
-  xy: 1, 68
+  xy: 1, 91
   size: 142, 164
   orig: 142, 164
   offset: 0, 0
   index: -1
-spot_right_1
+spot_right_a
   rotate: false
-  xy: 145, 61
+  xy: 145, 84
   size: 124, 171
   orig: 124, 171
   offset: 0, 0
-  index: 1
-spot_right_2
+  index: -1
+spot_right_b
   rotate: false
-  xy: 271, 65
+  xy: 271, 88
   size: 120, 167
   orig: 120, 167
   offset: 0, 0
-  index: 2
-spot_right_3
+  index: -1
+spot_right_c
   rotate: false
-  xy: 393, 76
+  xy: 393, 99
   size: 130, 156
   orig: 130, 156
   offset: 0, 0
-  index: 3
-spot_forward_1
+  index: -1
+spot_forward_a
   rotate: false
-  xy: 525, 61
+  xy: 525, 84
   size: 113, 171
   orig: 113, 171
   offset: 0, 0
-  index: 1
-spot_forward_2
+  index: -1
+spot_forward_b
   rotate: false
-  xy: 640, 61
+  xy: 640, 84
   size: 113, 171
   orig: 113, 171
   offset: 0, 0
-  index: 2
-spot_forward_3
+  index: -1
+spot_forward_c
   rotate: false
-  xy: 755, 61
+  xy: 755, 84
   size: 113, 171
   orig: 113, 171
   offset: 0, 0
-  index: 3
+  index: -1
 stone
   rotate: false
-  xy: 1, 1
+  xy: 1, 24
   size: 83, 65
   orig: 83, 65
+  offset: 0, 0
+  index: -1
+fishbone
+  rotate: false
+  xy: 1, 1
+  size: 46, 21
+  orig: 46, 21
+  offset: 0, 0
+  index: -1
+coconut_straw
+  rotate: false
+  xy: 870, 204
+  size: 44, 51
+  orig: 44, 51
+  offset: 0, 0
+  index: -1
+coconut_no_straw
+  rotate: false
+  xy: 86, 45
+  size: 43, 44
+  orig: 43, 44
+  offset: 0, 0
+  index: -1
+bottle_brown
+  rotate: false
+  xy: 870, 139
+  size: 20, 63
+  orig: 20, 63
+  offset: 0, 0
+  index: -1
+can_purple
+  rotate: false
+  xy: 916, 210
+  size: 24, 45
+  orig: 24, 45
+  offset: 0, 0
+  index: -1
+can_red
+  rotate: false
+  xy: 942, 210
+  size: 24, 45
+  orig: 24, 45
+  offset: 0, 0
+  index: -1
+can_green
+  rotate: false
+  xy: 968, 211
+  size: 23, 44
+  orig: 23, 44
+  offset: 0, 0
+  index: -1
+bottle_green
+  rotate: false
+  xy: 870, 94
+  size: 19, 43
+  orig: 19, 43
+  offset: 0, 0
+  index: -1
+bottle_purple
+  rotate: false
+  xy: 892, 159
+  size: 19, 43
+  orig: 19, 43
+  offset: 0, 0
+  index: -1
+paperball_a
+  rotate: false
+  xy: 86, 15
+  size: 36, 28
+  orig: 36, 28
+  offset: 0, 0
+  index: -1
+paperball_b
+  rotate: false
+  xy: 993, 230
+  size: 29, 25
+  orig: 29, 25
+  offset: 0, 0
+  index: -1
+paperball_c
+  rotate: false
+  xy: 131, 53
+  size: 32, 29
+  orig: 32, 29
   offset: 0, 0
   index: -1

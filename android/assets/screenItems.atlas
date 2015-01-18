@@ -118,8 +118,8 @@ btn_settings_active
 box_points
   rotate: false
   xy: 796, 396
-  size: 205, 72
-  orig: 205, 72
+  size: 181, 72
+  orig: 181, 72
   offset: 0, 0
   index: -1
 btn_back
@@ -143,13 +143,6 @@ btn_cancel
   orig: 169, 66
   offset: 0, 0
   index: -1
-box_bones
-  rotate: false
-  xy: 818, 254
-  size: 146, 72
-  orig: 146, 72
-  offset: 0, 0
-  index: -1
 btn_cancel_active
   rotate: false
   xy: 1687, 821
@@ -159,28 +152,35 @@ btn_cancel_active
   index: -1
 btn_ok
   rotate: false
-  xy: 1687, 753
+  xy: 818, 260
   size: 169, 66
   orig: 169, 66
   offset: 0, 0
   index: -1
 btn_ok_active
   rotate: false
-  xy: 818, 186
+  xy: 818, 192
   size: 169, 66
   orig: 169, 66
   offset: 0, 0
   index: -1
+box_bones
+  rotate: false
+  xy: 818, 118
+  size: 135, 72
+  orig: 135, 72
+  offset: 0, 0
+  index: -1
 btn_config
   rotate: false
-  xy: 1858, 789
+  xy: 1362, 649
   size: 95, 98
   orig: 95, 98
   offset: 0, 0
   index: -1
 btn_config_active
   rotate: false
-  xy: 818, 86
+  xy: 1459, 675
   size: 95, 98
   orig: 95, 98
   offset: 0, 0
@@ -201,14 +201,14 @@ chk_unmarked
   index: -1
 btn_pause
   rotate: false
-  xy: 1362, 683
+  xy: 1858, 823
   size: 63, 64
   orig: 63, 64
   offset: 0, 0
   index: -1
 btn_pause_active
   rotate: false
-  xy: 915, 120
+  xy: 1556, 709
   size: 63, 64
   orig: 63, 64
   offset: 0, 0

@@ -6,63 +6,70 @@ public class LevelGenerator {
 
 	public final Random random;
 
-	public final LevelGeneratorObject[][] map = new LevelGeneratorObject[][] 
-			{{LevelGeneratorObject.NONE, LevelGeneratorObject.OBSTACLE_STONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.OBSTACLE_STONE, LevelGeneratorObject.NONE, LevelGeneratorObject.OBSTACLE_STONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.OBSTACLE_STONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.OBSTACLE_STONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.OBSTACLE_TREE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.OBSTACLE_STONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.OBSTACLE_TREE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.OBSTACLE_STONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.OBSTACLE_STONE, LevelGeneratorObject.NONE, LevelGeneratorObject.OBSTACLE_TREE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.OBSTACLE_STONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.OBSTACLE_STONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.OBSTACLE_STONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.OBSTACLE_STONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.OBSTACLE_STONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.OBSTACLE_STONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.OBSTACLE_STONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.OBSTACLE_TREE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.OBSTACLE_STONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.OBSTACLE_STONE},
-			{LevelGeneratorObject.OBSTACLE_STONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.OBSTACLE_TREE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.OBSTACLE_STONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.OBSTACLE_TREE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.OBSTACLE_STONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE},
-			{LevelGeneratorObject.NONE, LevelGeneratorObject.NONE, LevelGeneratorObject.NONE}};
+	public final int NONE = 0;
+	public final int OBSTACLE_STONE = 1;
+	public final int OBSTACLE_TREE = 2;
+	public final int GARBAGE = 3;
+
+	public final int[][] map = new int[][] 
+			{{NONE, OBSTACLE_STONE, NONE},
+			{NONE, NONE, NONE},
+			{OBSTACLE_STONE, NONE, OBSTACLE_STONE},
+			{NONE, NONE, NONE},
+			{NONE, NONE, NONE},
+			{OBSTACLE_STONE, NONE, NONE},
+			{NONE, NONE, NONE},
+			{NONE, OBSTACLE_STONE, NONE},
+			{NONE, NONE, NONE},
+			{OBSTACLE_TREE, NONE, NONE},
+			{NONE, NONE, OBSTACLE_STONE},
+			{NONE, NONE, NONE},
+			{NONE, NONE, NONE},
+			{NONE, OBSTACLE_TREE, NONE},
+			{NONE, NONE, NONE},
+			{NONE, NONE, NONE},
+			{NONE, OBSTACLE_STONE, NONE},
+			{NONE, NONE, NONE},
+			{OBSTACLE_STONE, NONE, OBSTACLE_TREE},
+			{NONE, NONE, NONE},
+			{NONE, NONE, OBSTACLE_STONE},
+			{NONE, NONE, NONE},
+			{OBSTACLE_STONE, NONE, NONE},
+			{NONE, NONE, NONE},
+			{NONE, OBSTACLE_STONE, NONE},
+			{NONE, NONE, NONE},
+			{OBSTACLE_STONE, NONE, NONE},
+			{NONE, NONE, NONE},
+			{NONE, NONE, OBSTACLE_STONE},
+			{NONE, NONE, NONE},
+			{NONE, NONE, NONE},
+			{OBSTACLE_STONE, NONE, NONE},
+			{NONE, NONE, NONE},
+			{NONE, NONE, NONE},
+			{NONE, OBSTACLE_STONE, NONE},
+			{NONE, NONE, NONE},
+			{NONE, NONE, OBSTACLE_TREE},
+			{NONE, NONE, NONE},
+			{NONE, OBSTACLE_STONE, NONE},
+			{NONE, NONE, NONE},
+			{NONE, NONE, NONE},
+			{NONE, NONE, OBSTACLE_STONE},
+			{OBSTACLE_STONE, NONE, NONE},
+			{NONE, NONE, NONE},
+			{OBSTACLE_TREE, NONE, NONE},
+			{NONE, NONE, NONE},
+			{OBSTACLE_STONE, NONE, NONE},
+			{NONE, NONE, NONE},
+			{NONE, OBSTACLE_TREE, NONE},
+			{NONE, NONE, NONE},
+			{OBSTACLE_STONE, NONE, NONE},
+			{NONE, NONE, NONE},
+			{NONE, NONE, NONE}};
 
 	public int[] mapIndex;
 	public int[] noneCount;
 
-	public final int NONE_MAX = 20;
+	public final int NONE_MAX = 30;
 
 	public LevelGenerator() {
 		random = new Random();
@@ -82,10 +89,10 @@ public class LevelGenerator {
 	public LevelGeneratorObject getNextRightLaneObject() {
 		return getNextObjectFromMap(2);
 	}
-	
+
 	private LevelGeneratorObject getNextObjectFromMap(int laneIndex) {
-		LevelGeneratorObject nextObject = map[mapIndex[laneIndex]][laneIndex];
-		
+		LevelGeneratorObject nextObject = getObject(map[mapIndex[laneIndex]][laneIndex]);
+
 		if (nextObject != LevelGeneratorObject.NONE || noneCount[laneIndex] == NONE_MAX){
 			incrementMapIndex(laneIndex);
 		}
@@ -96,14 +103,14 @@ public class LevelGenerator {
 			}
 			else {
 				noneCount[laneIndex] = 0;
-				nextObject = map[mapIndex[laneIndex]][laneIndex];
+				nextObject = getObject(map[mapIndex[laneIndex]][laneIndex]);
 				incrementMapIndex(laneIndex);
 			}
 		}
-		
+
 		return nextObject;
 	}
-	
+
 	private void incrementMapIndex(int laneIndex) {
 		mapIndex[laneIndex]++;
 
@@ -113,5 +120,66 @@ public class LevelGenerator {
 				noneCount[i] = 0;
 			}
 		}
+	}
+
+	private LevelGeneratorObject getObject(int objectCode) {
+		LevelGeneratorObject object = LevelGeneratorObject.NONE;
+
+		switch (objectCode) {
+		case OBSTACLE_STONE:
+			object = LevelGeneratorObject.OBSTACLE_STONE;
+
+			break;
+
+		case OBSTACLE_TREE:
+			object = LevelGeneratorObject.OBSTACLE_TREE;
+
+			break;
+
+		case GARBAGE:
+
+			float randomNumber = random.nextFloat();
+
+			if (randomNumber < 0.07f) {
+				object = LevelGeneratorObject.GARBAGE_PAPER_BALL_A;
+			}
+			else if (randomNumber < 0.14f) {
+				object = LevelGeneratorObject.GARBAGE_PAPER_BALL_B;
+			}
+			else if (randomNumber < 0.2f) {
+				object = LevelGeneratorObject.GARBAGE_PAPER_BALL_C;
+			}
+			else if (randomNumber < 0.3f) {
+				object = LevelGeneratorObject.GARBAGE_COCONUT_STRAW;
+			}
+			else if (randomNumber < 0.4f) {
+				object = LevelGeneratorObject.GARBAGE_COCONUT_NO_STRAW;
+			}
+			else if (randomNumber < 0.6f) {
+				object = LevelGeneratorObject.GARBAGE_FISHBONE;
+			}
+			else if (randomNumber < 0.67f) {
+				object = LevelGeneratorObject.GARBAGE_CAN_GREEN;
+			}
+			else if (randomNumber < 0.74f) {
+				object = LevelGeneratorObject.GARBAGE_CAN_RED;
+			}
+			else if (randomNumber < 0.8f) {
+				object = LevelGeneratorObject.GARBAGE_CAN_PURPLE;
+			}
+			else if (randomNumber < 0.87f) {
+				object = LevelGeneratorObject.GARBAGE_BOTTLE_BROWN;
+			}
+			else if (randomNumber < 0.94f) {
+				object = LevelGeneratorObject.GARBAGE_BOTTLE_GREEN;
+			}
+			else if (randomNumber < 1f) {
+				object = LevelGeneratorObject.GARBAGE_BOTTLE_PURPLE;
+			}
+
+			break;
+		}
+
+		return object;
 	}
 }

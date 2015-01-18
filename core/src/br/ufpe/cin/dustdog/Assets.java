@@ -61,15 +61,15 @@ public class Assets {
 	public static TextureRegion gameScreenBonesBox;
 	public static TextureRegion gameScreenGameOver;
 	
-	public static TextureRegion spotForward1;
-	public static TextureRegion spotForward2;
-	public static TextureRegion spotForward3;
-	public static TextureRegion spotRight1;
-	public static TextureRegion spotRight2;
-	public static TextureRegion spotRight3;
-	public static TextureRegion spotLeft1;
-	public static TextureRegion spotLeft2;
-	public static TextureRegion spotLeft3;
+	public static TextureRegion spotForwardA;
+	public static TextureRegion spotForwardB;
+	public static TextureRegion spotForwardC;
+	public static TextureRegion spotRightA;
+	public static TextureRegion spotRightB;
+	public static TextureRegion spotRightC;
+	public static TextureRegion spotLeftA;
+	public static TextureRegion spotLeftB;
+	public static TextureRegion spotLeftC;
 	
 	public static Animation spotGoingForwardAnimation;
 	public static Animation spotGoingRightAnimation;
@@ -138,25 +138,25 @@ public class Assets {
 		gameScreenBonesBox = screenItemsAtlas.findRegion("box_bones");
 		gameScreenGameOver = screenItemsAtlas.findRegion("txt_game_over");
 		
-		spotForward1 = gameItemsAtlas.findRegion("spot_forward_1");
-		spotForward2 = gameItemsAtlas.findRegion("spot_forward_2");
-		spotForward3 = gameItemsAtlas.findRegion("spot_forward_3");
-		spotRight1 = gameItemsAtlas.findRegion("spot_right_1");
-		spotRight2 = gameItemsAtlas.findRegion("spot_right_2");
-		spotRight3 = gameItemsAtlas.findRegion("spot_right_3");
+		spotForwardA = gameItemsAtlas.findRegion("spot_forward_a");
+		spotForwardB = gameItemsAtlas.findRegion("spot_forward_b");
+		spotForwardC = gameItemsAtlas.findRegion("spot_forward_c");
+		spotRightA = gameItemsAtlas.findRegion("spot_right_a");
+		spotRightB = gameItemsAtlas.findRegion("spot_right_b");
+		spotRightC = gameItemsAtlas.findRegion("spot_right_c");
 		
-		spotLeft1 = new TextureRegion(spotRight1);
-		spotLeft1.flip(true, false);
+		spotLeftA = new TextureRegion(spotRightA);
+		spotLeftA.flip(true, false);
 		
-		spotLeft2 = new TextureRegion(spotRight2);
-		spotLeft2.flip(true, false);
+		spotLeftB = new TextureRegion(spotRightB);
+		spotLeftB.flip(true, false);
 		
-		spotLeft3 = new TextureRegion(spotRight3);
-		spotLeft3.flip(true, false);
+		spotLeftC = new TextureRegion(spotRightC);
+		spotLeftC.flip(true, false);
 		
-		spotGoingForwardAnimation = new Animation(0.1f, spotForward1, spotForward2, spotForward3);
-		spotGoingRightAnimation = new Animation(0.05f, spotForward1, spotRight1, spotRight2, spotRight3, spotRight2, spotRight1, spotForward1);
-		spotGoingLeftAnimation = new Animation(0.05f, spotForward1, spotLeft1, spotLeft2, spotLeft3, spotLeft2, spotLeft1, spotForward1);
+		spotGoingForwardAnimation = new Animation(0.1f, spotForwardA, spotForwardB, spotForwardC);
+		spotGoingRightAnimation = new Animation(0.05f, spotForwardA, spotRightA, spotRightB, spotRightC, spotRightB, spotRightA, spotForwardA);
+		spotGoingLeftAnimation = new Animation(0.05f, spotForwardA, spotLeftA, spotLeftB, spotLeftC, spotLeftB, spotLeftA, spotForwardA);
 		
 		obstacleStone = gameItemsAtlas.findRegion("stone");
 		obstacleTree = gameItemsAtlas.findRegion("tree");
