@@ -60,6 +60,10 @@ public class Assets {
 	public static TextureRegion gameScreenScoreBox;
 	public static TextureRegion gameScreenBonesBox;
 	public static TextureRegion gameScreenGameOver;
+	public static TextureRegion gameScreenGameOverScoreBox;
+	public static TextureRegion gameScreenGameOverScoreBoxActive;
+	public static TextureRegion gameScreenHighscoreBox;
+	public static TextureRegion gameScreenHighscoreBoxActive;
 	
 	public static TextureRegion spotForwardA;
 	public static TextureRegion spotForwardB;
@@ -77,6 +81,21 @@ public class Assets {
 	
 	public static TextureRegion obstacleStone;
 	public static TextureRegion obstacleTree;
+	
+	public static TextureRegion garbagePaperBallA;
+	public static TextureRegion garbagePaperBallB;
+	public static TextureRegion garbagePaperBallC;
+	public static TextureRegion garbageCoconutStraw;
+	public static TextureRegion garbageCoconutNoStraw;
+	public static TextureRegion garbageBottleBrown;
+	public static TextureRegion garbageBottleGreen;
+	public static TextureRegion garbageBottlePurple;
+	public static TextureRegion garbageCanGreen;
+	public static TextureRegion garbageCanRed;
+	public static TextureRegion garbageCanPurple;
+	public static TextureRegion garbageFishbone;
+	
+	public static TextureRegion specialItemCookieBox;
 	
 	public static FreeTypeFontGenerator fontGenerator;
 	public static FreeTypeFontParameter fontParameter;
@@ -137,6 +156,10 @@ public class Assets {
 		gameScreenScoreBox = screenItemsAtlas.findRegion("box_points");
 		gameScreenBonesBox = screenItemsAtlas.findRegion("box_bones");
 		gameScreenGameOver = screenItemsAtlas.findRegion("txt_game_over");
+		gameScreenGameOverScoreBox = screenItemsAtlas.findRegion("box_final_score");
+		gameScreenGameOverScoreBoxActive = screenItemsAtlas.findRegion("box_final_score_active");
+		gameScreenHighscoreBox = screenItemsAtlas.findRegion("box_new_highscore");
+		gameScreenHighscoreBoxActive = screenItemsAtlas.findRegion("box_new_highscore_active");
 		
 		spotForwardA = gameItemsAtlas.findRegion("spot_forward_a");
 		spotForwardB = gameItemsAtlas.findRegion("spot_forward_b");
@@ -160,6 +183,20 @@ public class Assets {
 		
 		obstacleStone = gameItemsAtlas.findRegion("stone");
 		obstacleTree = gameItemsAtlas.findRegion("tree");
+		
+		garbagePaperBallA = gameItemsAtlas.findRegion("paperball_a");
+		garbagePaperBallB = gameItemsAtlas.findRegion("paperball_b");
+		garbagePaperBallC = gameItemsAtlas.findRegion("paperball_c");
+		garbageCoconutStraw = gameItemsAtlas.findRegion("coconut_straw");
+		garbageCoconutNoStraw = gameItemsAtlas.findRegion("coconut_no_straw");
+		garbageBottleBrown = gameItemsAtlas.findRegion("bottle_brown");
+		garbageBottleGreen = gameItemsAtlas.findRegion("bottle_green");
+		garbageBottlePurple = gameItemsAtlas.findRegion("bottle_purple");
+		garbageCanGreen = gameItemsAtlas.findRegion("can_green");
+		garbageCanRed = gameItemsAtlas.findRegion("can_red");
+		garbageCanPurple = gameItemsAtlas.findRegion("can_purple");
+		garbageFishbone = gameItemsAtlas.findRegion("fishbone");
+		specialItemCookieBox =  gameItemsAtlas.findRegion("cookie_box");
 		
 		fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/berlin-sans-fb.ttf"));
 		fontParameter = new FreeTypeFontParameter();

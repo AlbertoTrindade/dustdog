@@ -52,6 +52,13 @@ spot_forward_c
   orig: 113, 171
   offset: 0, 0
   index: -1
+cookie_box
+  rotate: false
+  xy: 870, 166
+  size: 76, 89
+  orig: 76, 89
+  offset: 0, 0
+  index: -1
 stone
   rotate: false
   xy: 1, 24
@@ -68,78 +75,78 @@ fishbone
   index: -1
 coconut_straw
   rotate: false
-  xy: 870, 204
+  xy: 870, 113
   size: 44, 51
   orig: 44, 51
   offset: 0, 0
   index: -1
 coconut_no_straw
   rotate: false
-  xy: 86, 45
+  xy: 948, 211
   size: 43, 44
   orig: 43, 44
   offset: 0, 0
   index: -1
 bottle_brown
   rotate: false
-  xy: 870, 139
+  xy: 86, 26
   size: 20, 63
   orig: 20, 63
   offset: 0, 0
   index: -1
 can_purple
   rotate: false
-  xy: 916, 210
+  xy: 916, 119
   size: 24, 45
   orig: 24, 45
   offset: 0, 0
   index: -1
 can_red
   rotate: false
-  xy: 942, 210
+  xy: 108, 44
   size: 24, 45
   orig: 24, 45
   offset: 0, 0
   index: -1
 can_green
   rotate: false
-  xy: 968, 211
+  xy: 993, 211
   size: 23, 44
   orig: 23, 44
   offset: 0, 0
   index: -1
+paperball_a
+  rotate: false
+  xy: 948, 181
+  size: 36, 28
+  orig: 36, 28
+  offset: 0, 0
+  index: -1
+paperball_c
+  rotate: false
+  xy: 870, 82
+  size: 32, 29
+  orig: 32, 29
+  offset: 0, 0
+  index: -1
+paperball_b
+  rotate: false
+  xy: 986, 184
+  size: 29, 25
+  orig: 29, 25
+  offset: 0, 0
+  index: -1
 bottle_green
   rotate: false
-  xy: 870, 94
+  xy: 942, 121
   size: 19, 43
   orig: 19, 43
   offset: 0, 0
   index: -1
 bottle_purple
   rotate: false
-  xy: 892, 159
+  xy: 963, 136
   size: 19, 43
   orig: 19, 43
-  offset: 0, 0
-  index: -1
-paperball_a
-  rotate: false
-  xy: 86, 15
-  size: 36, 28
-  orig: 36, 28
-  offset: 0, 0
-  index: -1
-paperball_b
-  rotate: false
-  xy: 993, 230
-  size: 29, 25
-  orig: 29, 25
-  offset: 0, 0
-  index: -1
-paperball_c
-  rotate: false
-  xy: 131, 53
-  size: 32, 29
-  orig: 32, 29
   offset: 0, 0
   index: -1

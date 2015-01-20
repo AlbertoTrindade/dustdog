@@ -7,69 +7,116 @@ public class LevelGenerator {
 	public final Random random;
 
 	public final int NONE = 0;
-	public final int OBSTACLE_STONE = 1;
-	public final int OBSTACLE_TREE = 2;
-	public final int GARBAGE = 3;
+	public final int NONE_GARBAGE = 1;
+	public final int OBSTACLE_STONE = 2;
+	public final int OBSTACLE_TREE = 3;
+	public final int GARBAGE = 4;
 
 	public final int[][] map = new int[][] 
-			{{NONE, OBSTACLE_STONE, NONE},
+			{{GARBAGE, OBSTACLE_STONE, NONE},
+			{NONE_GARBAGE, NONE, NONE},
+			{GARBAGE, NONE, OBSTACLE_STONE},
+			{NONE_GARBAGE, NONE, NONE},
+			{GARBAGE, NONE, NONE},
+			{NONE_GARBAGE, NONE, NONE},
+			{GARBAGE, NONE, NONE},
+			{NONE_GARBAGE, NONE, NONE},
+			{GARBAGE, NONE, NONE},
+			{NONE_GARBAGE, NONE, NONE},
+			{OBSTACLE_TREE, NONE_GARBAGE, NONE},
+			{NONE, GARBAGE, OBSTACLE_STONE},
+			{NONE, NONE_GARBAGE, NONE},
+			{NONE, GARBAGE, NONE},
+			{NONE, NONE_GARBAGE, NONE},
+			{NONE, GARBAGE, NONE},
+			{NONE, NONE_GARBAGE, NONE},
+			{NONE, GARBAGE, NONE},
+			{NONE, NONE, NONE_GARBAGE},
 			{NONE, NONE, NONE},
-			{OBSTACLE_STONE, NONE, OBSTACLE_STONE},
+			{NONE, OBSTACLE_TREE, GARBAGE},
+			{NONE, NONE, NONE_GARBAGE},
+			{NONE, NONE, GARBAGE},
+			{NONE, NONE, NONE_GARBAGE},
+			{NONE, NONE, GARBAGE},
 			{NONE, NONE, NONE},
+			{OBSTACLE_STONE, GARBAGE, NONE},
+			{NONE, NONE_GARBAGE, NONE},
+			{NONE, GARBAGE, NONE},
+			{NONE, NONE_GARBAGE, NONE},
+			{NONE, GARBAGE, NONE},
+			{NONE, NONE_GARBAGE, NONE},
+			{NONE, GARBAGE, NONE},
+			{NONE, NONE_GARBAGE, NONE},
+			{NONE, GARBAGE, NONE},
+			{NONE_GARBAGE, NONE, NONE},
+			{GARBAGE, NONE, NONE},
+			{NONE_GARBAGE, NONE, NONE},
+			{GARBAGE, NONE, NONE},
+			{NONE_GARBAGE, NONE, NONE},
+			{GARBAGE, NONE, NONE},
+			{NONE_GARBAGE, NONE, NONE},
+			{GARBAGE, NONE, NONE},
 			{NONE, NONE, NONE},
 			{OBSTACLE_STONE, NONE, NONE},
 			{NONE, NONE, NONE},
-			{NONE, OBSTACLE_STONE, NONE},
-			{NONE, NONE, NONE},
-			{OBSTACLE_TREE, NONE, NONE},
-			{NONE, NONE, OBSTACLE_STONE},
-			{NONE, NONE, NONE},
-			{NONE, NONE, NONE},
-			{NONE, OBSTACLE_TREE, NONE},
-			{NONE, NONE, NONE},
-			{NONE, NONE, NONE},
-			{NONE, OBSTACLE_STONE, NONE},
 			{NONE, NONE, NONE},
 			{OBSTACLE_STONE, NONE, OBSTACLE_TREE},
 			{NONE, NONE, NONE},
-			{NONE, NONE, OBSTACLE_STONE},
-			{NONE, NONE, NONE},
-			{OBSTACLE_STONE, NONE, NONE},
-			{NONE, NONE, NONE},
-			{NONE, OBSTACLE_STONE, NONE},
-			{NONE, NONE, NONE},
-			{OBSTACLE_STONE, NONE, NONE},
-			{NONE, NONE, NONE},
-			{NONE, NONE, OBSTACLE_STONE},
-			{NONE, NONE, NONE},
-			{NONE, NONE, NONE},
-			{OBSTACLE_STONE, NONE, NONE},
-			{NONE, NONE, NONE},
-			{NONE, NONE, NONE},
-			{NONE, OBSTACLE_STONE, NONE},
-			{NONE, NONE, NONE},
-			{NONE, NONE, OBSTACLE_TREE},
-			{NONE, NONE, NONE},
-			{NONE, OBSTACLE_STONE, NONE},
-			{NONE, NONE, NONE},
+			{NONE, NONE_GARBAGE, NONE},
+			{NONE, GARBAGE, NONE},
+			{NONE, NONE_GARBAGE, NONE},
+			{OBSTACLE_TREE, GARBAGE, NONE},
+			{NONE, NONE_GARBAGE, NONE},
+			{NONE, GARBAGE, NONE},
+			{NONE, NONE_GARBAGE, NONE},
+			{NONE, GARBAGE, NONE},
+			{NONE, NONE, NONE_GARBAGE},
+			{NONE, NONE, GARBAGE},
+			{NONE, NONE, NONE_GARBAGE},
+			{OBSTACLE_STONE, NONE, GARBAGE},
+			{NONE, NONE, NONE_GARBAGE},
+			{NONE, NONE, GARBAGE},
+			{NONE, OBSTACLE_TREE, NONE_GARBAGE},
+			{NONE, NONE, GARBAGE},
 			{NONE, NONE, NONE},
 			{NONE, NONE, OBSTACLE_STONE},
-			{OBSTACLE_STONE, NONE, NONE},
 			{NONE, NONE, NONE},
-			{OBSTACLE_TREE, NONE, NONE},
+			{NONE, NONE, GARBAGE},
+			{NONE, OBSTACLE_STONE, NONE},
+			{NONE, NONE_GARBAGE, NONE},
+			{NONE, GARBAGE, NONE},
+			{OBSTACLE_TREE, NONE_GARBAGE, NONE},
+			{NONE, GARBAGE, NONE},
+			{NONE, NONE_GARBAGE, NONE},
+			{NONE, GARBAGE, NONE},
 			{NONE, NONE, NONE},
-			{OBSTACLE_STONE, NONE, NONE},
+			{NONE_GARBAGE, NONE, NONE},
+			{GARBAGE, NONE, NONE},
+			{NONE_GARBAGE, NONE, NONE},
+			{GARBAGE, NONE, NONE},
+			{NONE_GARBAGE, NONE, NONE},
+			{GARBAGE, NONE, NONE},
+			{NONE, NONE_GARBAGE, NONE},
+			{NONE, GARBAGE, NONE},
+			{OBSTACLE_TREE, NONE_GARBAGE, NONE},
+			{NONE, GARBAGE, NONE},
+			{NONE, NONE_GARBAGE, NONE},
+			{NONE, GARBAGE, NONE},
 			{NONE, NONE, NONE},
-			{NONE, OBSTACLE_TREE, NONE},
-			{NONE, NONE, NONE},
-			{OBSTACLE_STONE, NONE, NONE},
-			{NONE, NONE, NONE},
-			{NONE, NONE, NONE}};
+			{NONE, NONE, OBSTACLE_STONE},
+			{NONE, NONE, NONE_GARBAGE},
+			{NONE, NONE, GARBAGE},
+			{NONE, NONE, NONE_GARBAGE},
+			{NONE, OBSTACLE_TREE, GARBAGE},
+			{NONE, NONE, NONE_GARBAGE},
+			{NONE, NONE, GARBAGE},
+			{OBSTACLE_STONE, NONE, NONE}};
 
 	public int[] mapIndex;
 	public int[] noneCount;
 
-	public final int NONE_MAX = 30;
+	public final int NONE_MAX = 20;
+	public final int NONE_GARBAGE_MAX = 3;
 
 	public LevelGenerator() {
 		random = new Random();
@@ -93,12 +140,19 @@ public class LevelGenerator {
 	private LevelGeneratorObject getNextObjectFromMap(int laneIndex) {
 		LevelGeneratorObject nextObject = getObject(map[mapIndex[laneIndex]][laneIndex]);
 
-		if (nextObject != LevelGeneratorObject.NONE || noneCount[laneIndex] == NONE_MAX){
+		if (nextObject != LevelGeneratorObject.NONE){
 			incrementMapIndex(laneIndex);
+		}
+		else {
+			if ((map[mapIndex[laneIndex]][laneIndex] == NONE && noneCount[laneIndex] == NONE_MAX) || 
+				(map[mapIndex[laneIndex]][laneIndex] == NONE_GARBAGE && noneCount[laneIndex] == NONE_GARBAGE_MAX)) {
+				incrementMapIndex(laneIndex);
+			}
 		}
 
 		if (nextObject == LevelGeneratorObject.NONE) {
-			if (noneCount[laneIndex] < NONE_MAX) {
+			if ((map[mapIndex[laneIndex]][laneIndex] == NONE && noneCount[laneIndex] < NONE_MAX) ||
+				(map[mapIndex[laneIndex]][laneIndex] == NONE_GARBAGE && noneCount[laneIndex] < NONE_GARBAGE_MAX)) {
 				noneCount[laneIndex]++;
 			}
 			else {
@@ -152,8 +206,11 @@ public class LevelGenerator {
 			else if (randomNumber < 0.3f) {
 				object = LevelGeneratorObject.GARBAGE_COCONUT_STRAW;
 			}
-			else if (randomNumber < 0.4f) {
+			else if (randomNumber < 0.393f) {
 				object = LevelGeneratorObject.GARBAGE_COCONUT_NO_STRAW;
+			}
+			else if (randomNumber < 0.4f) {
+				object = LevelGeneratorObject.SPECIAL_ITEMS_COOKIE_BOX;
 			}
 			else if (randomNumber < 0.6f) {
 				object = LevelGeneratorObject.GARBAGE_FISHBONE;

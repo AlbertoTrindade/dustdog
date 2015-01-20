@@ -4,9 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.ufpe.cin.dustdog.Assets;
+import br.ufpe.cin.dustdog.objects.garbages.BottleBrown;
+import br.ufpe.cin.dustdog.objects.garbages.BottleGreen;
+import br.ufpe.cin.dustdog.objects.garbages.BottlePurple;
+import br.ufpe.cin.dustdog.objects.garbages.CanGreen;
+import br.ufpe.cin.dustdog.objects.garbages.CanPurple;
+import br.ufpe.cin.dustdog.objects.garbages.CanRed;
+import br.ufpe.cin.dustdog.objects.garbages.CoconutNoStraw;
+import br.ufpe.cin.dustdog.objects.garbages.CoconutStraw;
+import br.ufpe.cin.dustdog.objects.garbages.Fishbone;
+import br.ufpe.cin.dustdog.objects.garbages.Garbage;
+import br.ufpe.cin.dustdog.objects.garbages.PaperBallA;
+import br.ufpe.cin.dustdog.objects.garbages.PaperBallB;
+import br.ufpe.cin.dustdog.objects.garbages.PaperBallC;
 import br.ufpe.cin.dustdog.objects.obstacles.Obstacle;
 import br.ufpe.cin.dustdog.objects.obstacles.Stone;
 import br.ufpe.cin.dustdog.objects.obstacles.Tree;
+import br.ufpe.cin.dustdog.objects.specialItems.CookieBox;
+import br.ufpe.cin.dustdog.objects.specialItems.SpecialItem;
 import br.ufpe.cin.dustdog.objects.spot.Spot;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -54,9 +69,9 @@ public class WorldRenderer {
 		batch.enableBlending();
 		batch.begin();
 
-		// TODO: create and call here the methods: renderGarbages() and renderSpecialItems()
-
 		renderObstacles();
+		renderGarbages();
+		renderSpecialItems();
 		renderSpot();
 		renderRemainingTrees();
 
@@ -105,6 +120,67 @@ public class WorldRenderer {
 				else { // tree is behind spot, so it will be rendered after spot
 					remainingTrees.add((Tree) obstacle);
 				}
+			}
+		}
+	}
+	
+	private void renderGarbages() {
+		for (Garbage garbage : world.garbages) {
+			
+			if (garbage instanceof PaperBallA) {
+				batch.draw(Assets.garbagePaperBallA, garbage.position.x, garbage.position.y, PaperBallA.PAPER_BALL_A_WIDTH, PaperBallA.PAPER_BALL_A_HEIGHT);
+			}
+			
+			if (garbage instanceof PaperBallB) {
+				batch.draw(Assets.garbagePaperBallB, garbage.position.x, garbage.position.y, PaperBallB.PAPER_BALL_B_WIDTH, PaperBallB.PAPER_BALL_B_HEIGHT);
+			}
+			
+			if (garbage instanceof PaperBallC) {
+				batch.draw(Assets.garbagePaperBallC, garbage.position.x, garbage.position.y, PaperBallC.PAPER_BALL_C_WIDTH, PaperBallC.PAPER_BALL_C_HEIGHT);
+			}
+			
+			if (garbage instanceof CoconutStraw) {
+				batch.draw(Assets.garbageCoconutStraw, garbage.position.x, garbage.position.y, CoconutStraw.COCONUT_STRAW_WIDTH, CoconutStraw.COCONUT_STRAW_HEIGHT);
+			}
+			
+			if (garbage instanceof CoconutNoStraw) {
+				batch.draw(Assets.garbageCoconutNoStraw, garbage.position.x, garbage.position.y, CoconutNoStraw.COCONUT_NO_STRAW_WIDTH, CoconutNoStraw.COCONUT_NO_STRAW_HEIGHT);
+			}
+			
+			if (garbage instanceof BottleBrown) {
+				batch.draw(Assets.garbageBottleBrown, garbage.position.x, garbage.position.y, BottleBrown.BOTTLE_BROWN_WIDTH, BottleBrown.BOTTLE_BROWN_HEIGHT);
+			}
+			
+			if (garbage instanceof BottleGreen) {
+				batch.draw(Assets.garbageBottleGreen, garbage.position.x, garbage.position.y, BottleGreen.BOTTLE_GREEN_WIDTH, BottleGreen.BOTTLE_GREEN_HEIGHT);
+			}
+			
+			if (garbage instanceof BottlePurple) {
+				batch.draw(Assets.garbageBottlePurple, garbage.position.x, garbage.position.y, BottlePurple.BOTTLE_PURPLE_WIDTH, BottlePurple.BOTTLE_PURPLE_HEIGHT);
+			}
+			
+			if (garbage instanceof CanGreen) {
+				batch.draw(Assets.garbageCanGreen, garbage.position.x, garbage.position.y, CanGreen.CAN_GREEN_WIDTH, CanGreen.CAN_GREEN_HEIGHT);
+			}
+			
+			if (garbage instanceof CanRed) {
+				batch.draw(Assets.garbageCanRed, garbage.position.x, garbage.position.y, CanRed.CAN_RED_WIDTH, CanRed.CAN_RED_HEIGHT);
+			}
+			
+			if (garbage instanceof CanPurple) {
+				batch.draw(Assets.garbageCanPurple, garbage.position.x, garbage.position.y, CanPurple.CAN_PURPLE_WIDTH, CanPurple.CAN_PURPLE_HEIGHT);
+			}
+			
+			if (garbage instanceof Fishbone) {
+				batch.draw(Assets.garbageFishbone, garbage.position.x, garbage.position.y, Fishbone.FISHBONE_WIDTH, Fishbone.FISHBONE_HEIGHT);
+			}
+		}
+	}
+	
+	private void renderSpecialItems() {
+		for (SpecialItem specialItem : world.specialItems) {
+			if (specialItem instanceof CookieBox) {
+				batch.draw(Assets.specialItemCookieBox, specialItem.position.x, specialItem.position.y, CookieBox.COOKIE_BOX_WIDTH, CookieBox.COOKIE_BOX_HEIGHT);
 			}
 		}
 	}

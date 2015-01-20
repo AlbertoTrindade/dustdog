@@ -2,6 +2,7 @@ package br.ufpe.cin.dustdog.screens;
 
 import br.ufpe.cin.dustdog.Assets;
 import br.ufpe.cin.dustdog.Dustdog;
+import br.ufpe.cin.dustdog.Settings;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -102,6 +103,11 @@ public class MainScreen extends ScreenAdapter {
 		
 		game.batcher.draw(Assets.mainScreenLogo, 325, 695);
 		game.batcher.draw((bestScoreActive ? Assets.mainScreenBestScoreActive : Assets.mainScreenBestScore), 10, 225);
+		
+		String bestScore = Integer.toString(Settings.highscores[0]);
+		float scoreX = (Assets.mainScreenBestScoreActive.getRegionWidth() - Assets.font48.getBounds(bestScore).width) / 2;
+		Assets.font48.draw(game.batcher, bestScore, 10 + scoreX, 290);
+		
 		game.batcher.draw((tapPlayActive ? Assets.mainScreenTapPlayActive : Assets.mainScreenTapPlay), 10, 10);
 		game.batcher.draw((settingsButtonActive ? Assets.mainScreenSettingsButtonActive : Assets.mainScreenSettingsButton), 575, 10);
 		

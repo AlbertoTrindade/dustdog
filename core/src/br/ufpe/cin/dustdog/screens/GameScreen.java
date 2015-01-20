@@ -34,11 +34,13 @@ public class GameScreen extends ScreenAdapter {
 	Rectangle resumeButtonBounds;
 	Rectangle homeButtonBounds;
 	Rectangle settingsButtonBounds;
+	Rectangle gameOverScoreBounds;
 
 	boolean pauseButtonActive;
 	boolean resumeButtonActive;
 	boolean homeButtonActive;
 	boolean settingsButtonActive;
+	boolean gameOverScoreActive;
 
 	Vector3 touchPoint;
 
@@ -48,6 +50,9 @@ public class GameScreen extends ScreenAdapter {
 	boolean downPressed;
 	boolean leftPressed;
 	boolean rightPressed;
+
+	int currentGameOverScore;
+	boolean totalGameOverScoreShown;
 
 	ApplicationType applicationType;
 
@@ -70,20 +75,25 @@ public class GameScreen extends ScreenAdapter {
 		resumeButtonBounds = new Rectangle(202, 585, 283, 73);
 		homeButtonBounds = new Rectangle(202, 490, 277, 71);
 		settingsButtonBounds = new Rectangle(202, 390, 277, 71);
+		gameOverScoreBounds = new Rectangle(93.5f, 290, 495, 163);
 
 		pauseButtonActive = false;
 		resumeButtonActive = false;
 		homeButtonActive = false;
 		settingsButtonActive = false;
+		gameOverScoreActive = false;
 
 		touchPoint = new Vector3();
-		
+
 		backPressedRunning = false;
 		backPressedPaused = false;
 		upPressed = false;
 		downPressed = false;
 		leftPressed = false;
 		rightPressed = false;
+
+		currentGameOverScore = 0;
+		totalGameOverScoreShown = false;
 
 		applicationType = Gdx.app.getType();
 
@@ -112,14 +122,13 @@ public class GameScreen extends ScreenAdapter {
 			}));
 		}
 	}
-	
+
 	public GameScreen(Dustdog game, World world) {
 		// Constructor called when coming from settings screen instead the home one
-		
 		this(game);
 		this.world = world;
 		this.worldRenderer = new WorldRenderer(game.batcher, world);
-		
+
 		gameState = GameState.PAUSED;
 	}
 
@@ -151,13 +160,13 @@ public class GameScreen extends ScreenAdapter {
 		if (Gdx.input.justTouched()) {
 			gameState = GameState.RUNNING;
 		}
-		
+
 		if (Gdx.input.isKeyPressed(Keys.BACK) || Gdx.input.isKeyPressed(Keys.ESCAPE)) {
 			backPressedRunning = true;
 		}
 		else if (backPressedRunning){
 			backPressedRunning = false;
-			
+
 			game.setScreen(new MainScreen(game));
 			return;
 		}
@@ -172,7 +181,7 @@ public class GameScreen extends ScreenAdapter {
 				return;
 			}
 		}
-		
+
 		if (pauseButtonActive) {
 			pauseButtonActive = false;
 			gameState = GameState.PAUSED;
@@ -184,7 +193,7 @@ public class GameScreen extends ScreenAdapter {
 		}
 		else if (backPressedRunning){
 			backPressedRunning = false;
-			
+
 			gameState = GameState.PAUSED;
 			return;
 		}
@@ -231,7 +240,7 @@ public class GameScreen extends ScreenAdapter {
 		}
 
 		world.update(deltaTime, swipeDirection);
-		
+
 		if (world.state == WorldState.GAME_OVER) {
 			gameState = GameState.GAME_OVER;
 		}
@@ -245,61 +254,78 @@ public class GameScreen extends ScreenAdapter {
 				resumeButtonActive = true;
 				return;
 			}
-			
+
 			if (homeButtonBounds.contains(touchPoint.x, touchPoint.y)) {
 				homeButtonActive = true;
 				return;
 			}
-			
+
 			if (settingsButtonBounds.contains(touchPoint.x, touchPoint.y)) {
 				settingsButtonActive = true;
 				return;
 			}
 		}
-		
+
 		if (Gdx.input.isKeyPressed(Keys.BACK) || Gdx.input.isKeyPressed(Keys.ESCAPE)) {
 			backPressedPaused = true;
 		}
 		else if (backPressedPaused){
 			backPressedPaused = false;
-			
+
 			gameState = GameState.RUNNING;
 			return;
 		}
-		
+
 		if (resumeButtonActive) {
 			resumeButtonActive = false;
 			gameState = GameState.RUNNING;
 			return;
 		}
-		
+
 		if (homeButtonActive) {
 			homeButtonActive = false;
 			game.setScreen(new MainScreen(game));
 			return;
 		}
-		
+
 		if (settingsButtonActive) {
 			settingsButtonActive = false;
 			game.setScreen(new SettingsScreen(game, world));
 			return;
 		}
 	}
-	
+
 	private void updateGameOver() {
-		if (Gdx.input.justTouched()) {
-			game.setScreen(new MainScreen(game));
-			return;
-		}
-		
-		if (Gdx.input.isKeyPressed(Keys.BACK) || Gdx.input.isKeyPressed(Keys.ESCAPE)) {
-			backPressedRunning = true;
-		}
-		else if (backPressedRunning){
-			backPressedRunning = false;
+		if (totalGameOverScoreShown) {			
+			if (Gdx.input.isTouched()) {
+				camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+
+				if (gameOverScoreBounds.contains(touchPoint.x, touchPoint.y)) {
+					gameOverScoreActive = true;
+					return;
+				}
+			}
 			
-			game.setScreen(new MainScreen(game));
-			return;
+			if (gameOverScoreActive) {
+				gameOverScoreActive = false;
+				game.setScreen(new HighscoresScreen(game));
+				return;
+			}
+			
+			if (Gdx.input.justTouched()) {
+				game.setScreen(new MainScreen(game));
+				return;
+			}
+
+			if (Gdx.input.isKeyPressed(Keys.BACK) || Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+				backPressedRunning = true;
+			}
+			else if (backPressedRunning){
+				backPressedRunning = false;
+
+				game.setScreen(new MainScreen(game));
+				return;
+			}
 		}
 	}
 
@@ -344,11 +370,11 @@ public class GameScreen extends ScreenAdapter {
 	private void presentRunning() {
 		game.batcher.draw((pauseButtonActive ? Assets.gameScreenPauseButtonActive : Assets.gameScreenPauseButton), 5, 952);
 		game.batcher.draw(Assets.gameScreenScoreBox, 501, 945);
-		
+
 		String score = Integer.toString(world.score);
 		float scoreX = (Assets.gameScreenScoreBox.getRegionWidth() - Assets.font48.getBounds(score).width) / 2;
 		Assets.font48.draw(game.batcher, Integer.toString(world.score), 501 + scoreX, 1000);
-		
+
 		game.batcher.draw(Assets.gameScreenBonesBox, 547, 855);
 		Assets.font48.draw(game.batcher, Integer.toString(world.spot.numberBones), 592, 910);
 	}
@@ -361,9 +387,39 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	private void presentGameOver() {
-		game.batcher.draw(Assets.gameScreenGameOver, 28, 442);
+		game.batcher.draw(Assets.gameScreenGameOver, 28, 500);
+
+		if (world.newHighscore) {
+			game.batcher.draw((gameOverScoreActive ? Assets.gameScreenHighscoreBoxActive : Assets.gameScreenHighscoreBox), 93.5f, 290);
+		}
+		else {
+			game.batcher.draw((gameOverScoreActive ? Assets.gameScreenGameOverScoreBoxActive : Assets.gameScreenGameOverScoreBox), 93.5f, 290);	
+		}
+		
+		String currentScore = Integer.toString(currentGameOverScore);
+		float scoreX = (Assets.gameScreenGameOverScoreBox.getRegionWidth() - Assets.font48.getBounds(currentScore).width) / 2;
+		Assets.font48.draw(game.batcher, currentScore, 93.5f + scoreX, 350);
+		
+		int incrementGameOverScore;
+		
+		if (world.score - currentGameOverScore < 100) {
+			incrementGameOverScore = 1;
+		}
+		else if (world.score - currentGameOverScore < 1000) { 
+			incrementGameOverScore = 10;
+		}
+		else {
+			incrementGameOverScore = 100;
+		}
+		
+		if (currentGameOverScore == world.score) {
+			totalGameOverScoreShown = true;
+		}
+		else {
+			currentGameOverScore += incrementGameOverScore;
+		}
 	}
-	
+
 	@Override
 	public void render(float delta) {
 		update(delta);

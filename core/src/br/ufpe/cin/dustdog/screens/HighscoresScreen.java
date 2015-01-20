@@ -2,6 +2,7 @@ package br.ufpe.cin.dustdog.screens;
 
 import br.ufpe.cin.dustdog.Assets;
 import br.ufpe.cin.dustdog.Dustdog;
+import br.ufpe.cin.dustdog.Settings;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -24,6 +25,7 @@ public class HighscoresScreen extends ScreenAdapter {
 	boolean backPressed;
 	
 	String[] highscores;
+	float[] highscoresX;
 	
 	public HighscoresScreen(Dustdog game) {
 		this.game = game;
@@ -39,10 +41,11 @@ public class HighscoresScreen extends ScreenAdapter {
 		backPressed = false;
 		
 		highscores = new String[5];
+		highscoresX = new float[5];
 		
 		for (int i = 0; i < highscores.length; i++) {
-			// TODO: assign each highscore from Settings variable
-			highscores[i] = i + 1 + ".";
+			highscores[i] = Integer.toString(Settings.highscores[i]);
+			highscoresX[i] = (Assets.highscoresScreenHighscoresBox.getRegionWidth() - Assets.font48.getBounds(highscores[i]).width) / 2;
 		}
 	}
 	
@@ -90,7 +93,8 @@ public class HighscoresScreen extends ScreenAdapter {
 		float highscoreY = 730;
 		
 		for (int i = 0; i < highscores.length; i++) {
-			Assets.font48.draw(game.batcher, highscores[i], 208, highscoreY);
+			Assets.font48.draw(game.batcher, (i+1) + ".", 208, highscoreY);
+			Assets.font48.draw(game.batcher, highscores[i], 73 + highscoresX[i], highscoreY);
 			highscoreY -= Assets.font48.getLineHeight();
 		}
 		

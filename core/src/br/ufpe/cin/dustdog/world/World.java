@@ -3,15 +3,32 @@ package br.ufpe.cin.dustdog.world;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Pool;
 
 import br.ufpe.cin.dustdog.Assets;
+import br.ufpe.cin.dustdog.Settings;
 import br.ufpe.cin.dustdog.objects.LaneState;
 import br.ufpe.cin.dustdog.objects.LevelGenerator;
 import br.ufpe.cin.dustdog.objects.LevelGeneratorObject;
+import br.ufpe.cin.dustdog.objects.garbages.BottleBrown;
+import br.ufpe.cin.dustdog.objects.garbages.BottleGreen;
+import br.ufpe.cin.dustdog.objects.garbages.BottlePurple;
+import br.ufpe.cin.dustdog.objects.garbages.CanGreen;
+import br.ufpe.cin.dustdog.objects.garbages.CanPurple;
+import br.ufpe.cin.dustdog.objects.garbages.CanRed;
+import br.ufpe.cin.dustdog.objects.garbages.CoconutNoStraw;
+import br.ufpe.cin.dustdog.objects.garbages.CoconutStraw;
+import br.ufpe.cin.dustdog.objects.garbages.Fishbone;
+import br.ufpe.cin.dustdog.objects.garbages.Garbage;
+import br.ufpe.cin.dustdog.objects.garbages.PaperBallA;
+import br.ufpe.cin.dustdog.objects.garbages.PaperBallB;
+import br.ufpe.cin.dustdog.objects.garbages.PaperBallC;
 import br.ufpe.cin.dustdog.objects.obstacles.Obstacle;
 import br.ufpe.cin.dustdog.objects.obstacles.Stone;
 import br.ufpe.cin.dustdog.objects.obstacles.Tree;
+import br.ufpe.cin.dustdog.objects.specialItems.CookieBox;
+import br.ufpe.cin.dustdog.objects.specialItems.SpecialItem;
 import br.ufpe.cin.dustdog.objects.spot.Spot;
 import br.ufpe.cin.dustdog.objects.spot.SwipeDirection;
 import br.ufpe.cin.dustdog.parallax.ParallaxBackground;
@@ -33,6 +50,7 @@ public class World {
 	public final Spot spot;
 
 	public int score;
+	public boolean newHighscore;
 	public WorldState state;
 
 	public final LevelGenerator levelGenerator;
@@ -41,6 +59,25 @@ public class World {
 
 	public final Pool<Stone> stones;
 	public final Pool<Tree> trees;
+
+	public final List<Garbage> garbages;
+
+	public final Pool<PaperBallA> paperBallsA;
+	public final Pool<PaperBallB> paperBallsB;
+	public final Pool<PaperBallC> paperBallsC;
+	public final Pool<CoconutStraw> coconutsStraw;
+	public final Pool<CoconutNoStraw> coconutsNoStraw;
+	public final Pool<BottleBrown> bottlesBrown;
+	public final Pool<BottleGreen> bottlesGreen;
+	public final Pool<BottlePurple> bottlesPurple;
+	public final Pool<CanGreen> cansGreen;
+	public final Pool<CanRed> cansRed;
+	public final Pool<CanPurple> cansPurple;
+	public final Pool<Fishbone> fishbones;
+
+	public final List<SpecialItem> specialItems;
+
+	public final Pool<CookieBox> cookieBoxes;
 
 	public boolean leftLaneIsFree;
 	public boolean centralLaneIsFree;
@@ -57,6 +94,7 @@ public class World {
 		this.spot = new Spot(Spot.CENTRAL_LANE_POSITION_X, Spot.SPOT_POSITION_Y, Spot.SPOT_COLLISION_WIDTH, Spot.SPOT_COLLISION_HEIGHT);
 
 		this.score = 0;
+		this.newHighscore = false;
 		this.state = WorldState.RUNNING;
 
 		levelGenerator = new LevelGenerator();
@@ -69,11 +107,106 @@ public class World {
 				return new Stone(0, 0, Stone.STONE_WIDTH, Stone.STONE_HEIGHT);
 			}
 		};
-		
+
 		trees = new Pool<Tree>() {
 			@Override
 			protected Tree newObject() {
 				return new Tree(0, 0, Tree.TREE_WIDTH, Tree.TREE_HEIGHT);
+			}
+		};
+
+		garbages = new ArrayList<Garbage>();
+
+		paperBallsA = new Pool<PaperBallA>() {
+			@Override
+			protected PaperBallA newObject() {
+				return new PaperBallA(0, 0, PaperBallA.PAPER_BALL_A_WIDTH, PaperBallA.PAPER_BALL_A_HEIGHT);
+			}
+		};
+
+		paperBallsB = new Pool<PaperBallB>() {
+			@Override
+			protected PaperBallB newObject() {
+				return new PaperBallB(0, 0, PaperBallB.PAPER_BALL_B_WIDTH, PaperBallB.PAPER_BALL_B_HEIGHT);
+			}
+		};
+
+		paperBallsC = new Pool<PaperBallC>() {
+			@Override
+			protected PaperBallC newObject() {
+				return new PaperBallC(0, 0, PaperBallC.PAPER_BALL_C_WIDTH, PaperBallC.PAPER_BALL_C_HEIGHT);
+			}
+		};
+
+		coconutsStraw = new Pool<CoconutStraw>() {
+			@Override
+			protected CoconutStraw newObject() {
+				return new CoconutStraw(0, 0, CoconutStraw.COCONUT_STRAW_WIDTH, CoconutStraw.COCONUT_STRAW_HEIGHT);
+			}
+		};
+
+		coconutsNoStraw = new Pool<CoconutNoStraw>() {
+			@Override
+			protected CoconutNoStraw newObject() {
+				return new CoconutNoStraw(0, 0, CoconutNoStraw.COCONUT_NO_STRAW_WIDTH, CoconutNoStraw.COCONUT_NO_STRAW_HEIGHT);
+			}
+		};
+
+		bottlesBrown = new Pool<BottleBrown>() {
+			@Override
+			protected BottleBrown newObject() {
+				return new BottleBrown(0, 0, BottleBrown.BOTTLE_BROWN_WIDTH, BottleBrown.BOTTLE_BROWN_HEIGHT);
+			}
+		};
+
+		bottlesGreen = new Pool<BottleGreen>() {
+			@Override
+			protected BottleGreen newObject() {
+				return new BottleGreen(0, 0, BottleGreen.BOTTLE_GREEN_WIDTH, BottleGreen.BOTTLE_GREEN_HEIGHT);
+			}
+		};
+
+		bottlesPurple = new Pool<BottlePurple>() {
+			@Override
+			protected BottlePurple newObject() {
+				return new BottlePurple(0, 0, BottlePurple.BOTTLE_PURPLE_WIDTH, BottlePurple.BOTTLE_PURPLE_HEIGHT);
+			}
+		};
+
+		cansGreen = new Pool<CanGreen>() {
+			@Override
+			protected CanGreen newObject() {
+				return new CanGreen(0, 0, CanGreen.CAN_GREEN_WIDTH, CanGreen.CAN_GREEN_HEIGHT);
+			}
+		};
+
+		cansRed = new Pool<CanRed>() {
+			@Override
+			protected CanRed newObject() {
+				return new CanRed(0, 0, CanRed.CAN_RED_WIDTH, CanRed.CAN_RED_HEIGHT);
+			}
+		};
+
+		cansPurple = new Pool<CanPurple>() {
+			@Override
+			protected CanPurple newObject() {
+				return new CanPurple(0, 0, CanPurple.CAN_PURPLE_WIDTH, CanPurple.CAN_PURPLE_HEIGHT);
+			}
+		};
+
+		fishbones = new Pool<Fishbone>() {
+			@Override
+			protected Fishbone newObject() {
+				return new Fishbone(0, 0, Fishbone.FISHBONE_WIDTH, Fishbone.FISHBONE_HEIGHT);
+			}
+		};
+
+		specialItems = new ArrayList<SpecialItem>();
+
+		cookieBoxes = new Pool<CookieBox>() {
+			@Override
+			protected CookieBox newObject() {
+				return new CookieBox(0, 0, CookieBox.COOKIE_BOX_WIDTH, CookieBox.COOKIE_BOX_HEIGHT);
 			}
 		};
 
@@ -86,6 +219,8 @@ public class World {
 		updateBackground(deltaTime);
 		updateSpot(deltaTime, swipeDirection);
 		updateObstacles(deltaTime);
+		updateGarbages(deltaTime);
+		updateSpecialItems(deltaTime);
 
 		spawnObjects();
 		checkCollisions();
@@ -124,13 +259,13 @@ public class World {
 		for (int i = 0; i < obstacles.size(); i++) {
 			obstacle = obstacles.get(i);			
 			obstacle.update(deltaTime);
-			
+
 			float obstacleHeight = 0f;
-			
+
 			if (obstacle instanceof Stone) {
 				obstacleHeight = Stone.STONE_HEIGHT;
 			}
-			
+
 			if (obstacle instanceof Tree) {
 				obstacleHeight = Tree.TREE_HEIGHT;
 			}
@@ -156,14 +291,185 @@ public class World {
 			if (obstacle.position.y < - obstacleHeight) {
 				obstacles.remove(obstacle);
 				i--;
-				score+= 10; // TODO: remove this later
 
 				if (obstacle instanceof Stone) {
 					stones.free((Stone) obstacle);
 				}	
-				
+
 				if (obstacle instanceof Tree) {
 					trees.free((Tree) obstacle);
+				}
+			}
+		}
+	}
+
+	private void updateGarbages(float deltaTime) {
+		Garbage garbage;
+
+		for (int i = 0; i < garbages.size(); i++) {
+			garbage = garbages.get(i);			
+			garbage.update(deltaTime);
+
+			float garbageHeight = 0f;
+
+			if (garbage instanceof PaperBallA) {
+				garbageHeight = PaperBallA.PAPER_BALL_A_HEIGHT;
+			}
+
+			if (garbage instanceof PaperBallB) {
+				garbageHeight = PaperBallB.PAPER_BALL_B_HEIGHT;
+			}
+
+			if (garbage instanceof PaperBallC) {
+				garbageHeight = PaperBallC.PAPER_BALL_C_HEIGHT;
+			}
+
+			if (garbage instanceof CoconutStraw) {
+				garbageHeight = CoconutStraw.COCONUT_STRAW_HEIGHT;
+			}
+
+			if (garbage instanceof CoconutNoStraw) {
+				garbageHeight = CoconutNoStraw.COCONUT_NO_STRAW_HEIGHT;
+			}
+
+			if (garbage instanceof BottleBrown) {
+				garbageHeight = BottleBrown.BOTTLE_BROWN_HEIGHT;
+			}
+
+			if (garbage instanceof BottleGreen) {
+				garbageHeight = BottleGreen.BOTTLE_GREEN_HEIGHT;
+			}
+
+			if (garbage instanceof BottlePurple) {
+				garbageHeight = BottlePurple.BOTTLE_PURPLE_HEIGHT;
+			}
+
+			if (garbage instanceof CanGreen) {
+				garbageHeight = CanGreen.CAN_GREEN_HEIGHT;
+			}
+
+			if (garbage instanceof CanRed) {
+				garbageHeight = CanRed.CAN_RED_HEIGHT;
+			}
+
+			if (garbage instanceof CanPurple) {
+				garbageHeight = CanPurple.CAN_PURPLE_HEIGHT;
+			}
+
+			if (garbage instanceof Fishbone) {
+				garbageHeight = Fishbone.FISHBONE_HEIGHT;
+			}
+
+			// Check if some obstacle is not being completely showing up			
+			if (garbage.position.y >= WorldRenderer.FRUSTUM_HEIGHT - garbageHeight) {
+				switch (garbage.laneState) {
+				case CENTRAL:
+					centralLaneIsFree = false;
+					break;
+
+				case LEFT:
+					leftLaneIsFree = false;
+					break;
+
+				case RIGHT:
+					rightLaneIsFree = false;
+					break;
+				}
+			}
+
+			// Check if obstacle is out of the world
+			if (garbage.position.y < - garbageHeight) {
+				garbages.remove(garbage);
+				i--;
+
+				if (garbage instanceof PaperBallA) {
+					paperBallsA.free((PaperBallA) garbage);
+				}	
+
+				if (garbage instanceof PaperBallB) {
+					paperBallsB.free((PaperBallB) garbage);
+				}
+
+				if (garbage instanceof PaperBallC) {
+					paperBallsC.free((PaperBallC) garbage);
+				}
+
+				if (garbage instanceof CoconutStraw) {
+					coconutsStraw.free((CoconutStraw) garbage);
+				}
+
+				if (garbage instanceof CoconutNoStraw) {
+					coconutsNoStraw.free((CoconutNoStraw) garbage);
+				}
+
+				if (garbage instanceof BottleBrown) {
+					bottlesBrown.free((BottleBrown) garbage);
+				}
+
+				if (garbage instanceof BottleGreen) {
+					bottlesGreen.free((BottleGreen) garbage);
+				}
+
+				if (garbage instanceof BottlePurple) {
+					bottlesPurple.free((BottlePurple) garbage);
+				}
+
+				if (garbage instanceof CanGreen) {
+					cansGreen.free((CanGreen) garbage);
+				}
+
+				if (garbage instanceof CanRed) {
+					cansRed.free((CanRed) garbage);
+				}
+
+				if (garbage instanceof CanPurple) {
+					cansPurple.free((CanPurple) garbage);
+				}
+
+				if (garbage instanceof Fishbone) {
+					fishbones.free((Fishbone) garbage);
+				}
+			}
+		}
+	}
+
+	private void updateSpecialItems(float deltaTime) {
+		SpecialItem specialItem;
+
+		for (int i = 0; i < specialItems.size(); i++) {
+			specialItem = specialItems.get(i);			
+			specialItem.update(deltaTime);
+
+			float specialItemHeight = 0f;
+
+			if (specialItem instanceof CookieBox) {
+				specialItemHeight = CookieBox.COOKIE_BOX_HEIGHT;
+			}
+
+			// Check if some obstacle is not being completely showing up			
+			if (specialItem.position.y >= WorldRenderer.FRUSTUM_HEIGHT - specialItemHeight) {
+				switch (specialItem.laneState) {
+				case CENTRAL:
+					centralLaneIsFree = false;
+					break;
+
+				case LEFT:
+					leftLaneIsFree = false;
+					break;
+
+				case RIGHT:
+					rightLaneIsFree = false;
+					break;
+				}
+			}
+
+			// Check if obstacle is out of the world
+			if (specialItem.position.y < - specialItemHeight) {
+				specialItems.remove(specialItem);
+				i--;
+
+				if (specialItem instanceof CookieBox) {
+					cookieBoxes.free((CookieBox) specialItem);
 				}
 			}
 		}
@@ -174,6 +480,8 @@ public class World {
 		if (leftLaneIsFree) {
 			LevelGeneratorObject nextObject = levelGenerator.getNextLeftLaneObject();
 			Obstacle nextObstacle = null;
+			Garbage nextGarbage = null;
+			SpecialItem nextSpecialItem = null;
 
 			leftLaneIsFree = false;
 
@@ -181,22 +489,92 @@ public class World {
 
 			case OBSTACLE_STONE:
 				nextObstacle = stones.obtain();
-				nextObstacle.position.x = Stone.LEFT_LANE_POSITION_X;
-				nextObstacle.position.y = WorldRenderer.FRUSTUM_HEIGHT;
-				nextObstacle.bounds.x = nextObstacle.position.x;
-				nextObstacle.bounds.y = nextObstacle.position.y;
-				nextObstacle.laneState = LaneState.LEFT;
+				setObstacle(nextObstacle, Stone.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, Stone.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
 
 				break;
-				
+
 			case OBSTACLE_TREE:
 				nextObstacle = trees.obtain();
-				nextObstacle.position.x = Tree.LEFT_LANE_POSITION_X;
-				nextObstacle.position.y = WorldRenderer.FRUSTUM_HEIGHT;
-				nextObstacle.bounds.x = nextObstacle.position.x + Tree.TREE_COLLISION_POSITION_X;
-				nextObstacle.bounds.y = nextObstacle.position.y;
-				nextObstacle.laneState = LaneState.LEFT;
-				
+				setObstacle(nextObstacle, Tree.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, Tree.LEFT_LANE_POSITION_X + Tree.TREE_COLLISION_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
+
+				break;
+
+			case GARBAGE_PAPER_BALL_A:
+				nextGarbage = paperBallsA.obtain();
+				setGarbage(nextGarbage, PaperBallA.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, PaperBallA.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
+
+				break;
+
+			case GARBAGE_PAPER_BALL_B:
+				nextGarbage = paperBallsB.obtain();
+				setGarbage(nextGarbage, PaperBallB.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, PaperBallB.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
+
+				break;
+
+			case GARBAGE_PAPER_BALL_C:
+				nextGarbage = paperBallsC.obtain();
+				setGarbage(nextGarbage, PaperBallC.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, PaperBallC.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
+
+				break;
+
+			case GARBAGE_COCONUT_STRAW:
+				nextGarbage = coconutsStraw.obtain();
+				setGarbage(nextGarbage, CoconutStraw.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, CoconutStraw.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
+
+				break;
+
+			case GARBAGE_COCONUT_NO_STRAW:
+				nextGarbage = coconutsNoStraw.obtain();
+				setGarbage(nextGarbage, CoconutNoStraw.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, CoconutNoStraw.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
+
+				break;
+
+			case GARBAGE_BOTTLE_BROWN:
+				nextGarbage = bottlesBrown.obtain();
+				setGarbage(nextGarbage, BottleBrown.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, BottleBrown.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
+
+				break;
+
+			case GARBAGE_BOTTLE_GREEN:
+				nextGarbage = bottlesGreen.obtain();
+				setGarbage(nextGarbage, BottleGreen.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, BottleGreen.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
+
+				break;
+
+			case GARBAGE_BOTTLE_PURPLE:
+				nextGarbage = bottlesPurple.obtain();
+				setGarbage(nextGarbage, BottlePurple.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, BottlePurple.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
+
+				break;
+
+			case GARBAGE_CAN_GREEN:
+				nextGarbage = cansGreen.obtain();
+				setGarbage(nextGarbage, CanGreen.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, CanGreen.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
+
+				break;
+
+			case GARBAGE_CAN_RED:
+				nextGarbage = cansRed.obtain();
+				setGarbage(nextGarbage, CanRed.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, CanRed.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
+
+				break;
+
+			case GARBAGE_CAN_PURPLE:
+				nextGarbage = cansPurple.obtain();
+				setGarbage(nextGarbage, CanPurple.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, CanPurple.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
+
+				break;
+
+			case GARBAGE_FISHBONE:
+				nextGarbage = fishbones.obtain();
+				setGarbage(nextGarbage, Fishbone.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, Fishbone.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
+
+				break;
+
+			case SPECIAL_ITEMS_COOKIE_BOX:
+				nextSpecialItem = cookieBoxes.obtain();
+				setSpecialItem(nextSpecialItem, CookieBox.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, CookieBox.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
+
 				break;
 
 			case NONE:
@@ -207,11 +585,21 @@ public class World {
 			if (nextObstacle != null) {
 				obstacles.add(nextObstacle);
 			}
+
+			if (nextGarbage != null) {
+				garbages.add(nextGarbage);
+			}
+
+			if (nextSpecialItem != null) {
+				specialItems.add(nextSpecialItem);
+			}
 		}
 
 		if (centralLaneIsFree) {
 			LevelGeneratorObject nextObject = levelGenerator.getNextCentralLaneObject();
 			Obstacle nextObstacle = null;
+			Garbage nextGarbage = null;
+			SpecialItem nextSpecialItem = null;
 
 			centralLaneIsFree = false;
 
@@ -219,22 +607,92 @@ public class World {
 
 			case OBSTACLE_STONE:
 				nextObstacle = stones.obtain();
-				nextObstacle.position.x = Stone.CENTRAL_LANE_POSITION_X;
-				nextObstacle.position.y = WorldRenderer.FRUSTUM_HEIGHT;
-				nextObstacle.bounds.x = nextObstacle.position.x;
-				nextObstacle.bounds.y = nextObstacle.position.y;
-				nextObstacle.laneState = LaneState.CENTRAL;
+				setObstacle(nextObstacle, Stone.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, Stone.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
 
 				break;
-				
+
 			case OBSTACLE_TREE:
 				nextObstacle = trees.obtain();
-				nextObstacle.position.x = Tree.CENTRAL_LANE_POSITION_X;
-				nextObstacle.position.y = WorldRenderer.FRUSTUM_HEIGHT;
-				nextObstacle.bounds.x = nextObstacle.position.x + Tree.TREE_COLLISION_POSITION_X;
-				nextObstacle.bounds.y = nextObstacle.position.y;
-				nextObstacle.laneState = LaneState.CENTRAL;
-				
+				setObstacle(nextObstacle, Tree.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, Tree.CENTRAL_LANE_POSITION_X + Tree.TREE_COLLISION_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
+
+				break;
+
+			case GARBAGE_PAPER_BALL_A:
+				nextGarbage = paperBallsA.obtain();
+				setGarbage(nextGarbage, PaperBallA.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, PaperBallA.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
+
+				break;
+
+			case GARBAGE_PAPER_BALL_B:
+				nextGarbage = paperBallsB.obtain();
+				setGarbage(nextGarbage, PaperBallB.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, PaperBallB.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
+
+				break;
+
+			case GARBAGE_PAPER_BALL_C:
+				nextGarbage = paperBallsC.obtain();
+				setGarbage(nextGarbage, PaperBallC.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, PaperBallC.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
+
+				break;
+
+			case GARBAGE_COCONUT_STRAW:
+				nextGarbage = coconutsStraw.obtain();
+				setGarbage(nextGarbage, CoconutStraw.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, CoconutStraw.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
+
+				break;
+
+			case GARBAGE_COCONUT_NO_STRAW:
+				nextGarbage = coconutsNoStraw.obtain();
+				setGarbage(nextGarbage, CoconutNoStraw.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, CoconutNoStraw.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
+
+				break;
+
+			case GARBAGE_BOTTLE_BROWN:
+				nextGarbage = bottlesBrown.obtain();
+				setGarbage(nextGarbage, BottleBrown.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, BottleBrown.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
+
+				break;
+
+			case GARBAGE_BOTTLE_GREEN:
+				nextGarbage = bottlesGreen.obtain();
+				setGarbage(nextGarbage, BottleGreen.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, BottleGreen.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
+
+				break;
+
+			case GARBAGE_BOTTLE_PURPLE:
+				nextGarbage = bottlesPurple.obtain();
+				setGarbage(nextGarbage, BottlePurple.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, BottlePurple.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
+
+				break;
+
+			case GARBAGE_CAN_GREEN:
+				nextGarbage = cansGreen.obtain();
+				setGarbage(nextGarbage, CanGreen.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, CanGreen.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
+
+				break;
+
+			case GARBAGE_CAN_RED:
+				nextGarbage = cansRed.obtain();
+				setGarbage(nextGarbage, CanRed.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, CanRed.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
+
+				break;
+
+			case GARBAGE_CAN_PURPLE:
+				nextGarbage = cansPurple.obtain();
+				setGarbage(nextGarbage, CanPurple.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, CanPurple.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
+
+				break;
+
+			case GARBAGE_FISHBONE:
+				nextGarbage = fishbones.obtain();
+				setGarbage(nextGarbage, Fishbone.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, Fishbone.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
+
+				break;
+
+			case SPECIAL_ITEMS_COOKIE_BOX:
+				nextSpecialItem = cookieBoxes.obtain();
+				setSpecialItem(nextSpecialItem, CookieBox.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, CookieBox.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
+
 				break;
 
 			case NONE:
@@ -245,11 +703,21 @@ public class World {
 			if (nextObstacle != null) {
 				obstacles.add(nextObstacle);
 			}
+
+			if (nextGarbage != null) {
+				garbages.add(nextGarbage);
+			}
+
+			if (nextSpecialItem != null) {
+				specialItems.add(nextSpecialItem);
+			}
 		}
 
 		if (rightLaneIsFree) {
 			LevelGeneratorObject nextObject = levelGenerator.getNextRightLaneObject();
 			Obstacle nextObstacle = null;
+			Garbage nextGarbage = null;
+			SpecialItem nextSpecialItem = null;
 
 			rightLaneIsFree = false;
 
@@ -257,21 +725,91 @@ public class World {
 
 			case OBSTACLE_STONE:
 				nextObstacle = stones.obtain();
-				nextObstacle.position.x = Stone.RIGHT_LANE_POSITION_X;
-				nextObstacle.position.y = WorldRenderer.FRUSTUM_HEIGHT;
-				nextObstacle.bounds.x = nextObstacle.position.x;
-				nextObstacle.bounds.y = nextObstacle.position.y;
-				nextObstacle.laneState = LaneState.RIGHT;
-			
+				setObstacle(nextObstacle, Stone.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, Stone.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
+
 				break;
-				
+
 			case OBSTACLE_TREE:
 				nextObstacle = trees.obtain();
-				nextObstacle.position.x = Tree.RIGHT_LANE_POSITION_X;
-				nextObstacle.position.y = WorldRenderer.FRUSTUM_HEIGHT;
-				nextObstacle.bounds.x = nextObstacle.position.x + Tree.TREE_COLLISION_POSITION_X;
-				nextObstacle.bounds.y = nextObstacle.position.y;
-				nextObstacle.laneState = LaneState.RIGHT;
+				setObstacle(nextObstacle, Tree.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, Tree.RIGHT_LANE_POSITION_X + Tree.TREE_COLLISION_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
+
+				break;
+
+			case GARBAGE_PAPER_BALL_A:
+				nextGarbage = paperBallsA.obtain();
+				setGarbage(nextGarbage, PaperBallA.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, PaperBallA.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
+
+				break;
+
+			case GARBAGE_PAPER_BALL_B:
+				nextGarbage = paperBallsB.obtain();
+				setGarbage(nextGarbage, PaperBallB.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, PaperBallB.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
+
+				break;
+
+			case GARBAGE_PAPER_BALL_C:
+				nextGarbage = paperBallsC.obtain();
+				setGarbage(nextGarbage, PaperBallC.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, PaperBallC.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
+
+				break;
+
+			case GARBAGE_COCONUT_STRAW:
+				nextGarbage = coconutsStraw.obtain();
+				setGarbage(nextGarbage, CoconutStraw.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, CoconutStraw.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
+
+				break;
+
+			case GARBAGE_COCONUT_NO_STRAW:
+				nextGarbage = coconutsNoStraw.obtain();
+				setGarbage(nextGarbage, CoconutNoStraw.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, CoconutNoStraw.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
+
+				break;
+
+			case GARBAGE_BOTTLE_BROWN:
+				nextGarbage = bottlesBrown.obtain();
+				setGarbage(nextGarbage, BottleBrown.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, BottleBrown.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
+
+				break;
+
+			case GARBAGE_BOTTLE_GREEN:
+				nextGarbage = bottlesGreen.obtain();
+				setGarbage(nextGarbage, BottleGreen.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, BottleGreen.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
+
+				break;
+
+			case GARBAGE_BOTTLE_PURPLE:
+				nextGarbage = bottlesPurple.obtain();
+				setGarbage(nextGarbage, BottlePurple.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, BottlePurple.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
+
+				break;
+
+			case GARBAGE_CAN_GREEN:
+				nextGarbage = cansGreen.obtain();
+				setGarbage(nextGarbage, CanGreen.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, CanGreen.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
+
+				break;
+
+			case GARBAGE_CAN_RED:
+				nextGarbage = cansRed.obtain();
+				setGarbage(nextGarbage, CanRed.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, CanRed.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
+
+				break;
+
+			case GARBAGE_CAN_PURPLE:
+				nextGarbage = cansPurple.obtain();
+				setGarbage(nextGarbage, CanPurple.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, CanPurple.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
+
+				break;
+
+			case GARBAGE_FISHBONE:
+				nextGarbage = fishbones.obtain();
+				setGarbage(nextGarbage, Fishbone.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, Fishbone.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
+
+				break;
+
+			case SPECIAL_ITEMS_COOKIE_BOX:
+				nextSpecialItem = cookieBoxes.obtain();
+				setSpecialItem(nextSpecialItem, CookieBox.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, CookieBox.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
 
 				break;
 
@@ -283,12 +821,45 @@ public class World {
 			if (nextObstacle != null) {
 				obstacles.add(nextObstacle);
 			}
+
+			if (nextGarbage != null) {
+				garbages.add(nextGarbage);
+			}
+
+			if (nextSpecialItem != null) {
+				specialItems.add(nextSpecialItem);
+			}
 		}
+	}
+
+	private void setObstacle(Obstacle obstacle, float positionX, float positionY, float boundsX, float boundsY, LaneState laneState) {
+		obstacle.position.x = positionX;
+		obstacle.position.y = positionY;
+		obstacle.bounds.x = boundsX;
+		obstacle.bounds.y = boundsY;
+		obstacle.laneState = laneState;
+	}
+
+	private void setGarbage(Garbage garbage, float positionX, float positionY, float boundsX, float boundsY, LaneState laneState) {
+		garbage.position.x = positionX;
+		garbage.position.y = positionY;
+		garbage.bounds.x = boundsX;
+		garbage.bounds.y = boundsY;
+		garbage.laneState = laneState;
+	}
+
+	private void setSpecialItem(SpecialItem specialItem, float positionX, float positionY, float boundsX, float boundsY, LaneState laneState) {
+		specialItem.position.x = positionX;
+		specialItem.position.y = positionY;
+		specialItem.bounds.x = boundsX;
+		specialItem.bounds.y = boundsY;
+		specialItem.laneState = laneState;
 	}
 
 	private void checkCollisions() {
 		if (!spotCollision) checkObstacleCollisions();
-		//TODO checkGarbageCollisions, checkSpecialItemCollisions
+		checkGarbageCollisions();
+		checkSpecialItemCollisions();
 	}
 
 	private void checkObstacleCollisions() {
@@ -303,7 +874,7 @@ public class World {
 					case GOING_FORWARD:
 						collision = true;
 						break;
-						
+
 					case GOING_LEFT:
 						if (((obstacle.position.y >= spot.position.y + spot.bounds.height/2) && (obstacle.position.x < spot.position.x + spot.bounds.width/2)) ||
 							((obstacle.position.y < spot.position.y + spot.bounds.height/2) && (obstacle.position.x >= spot.position.x + spot.bounds.width/2))) {
@@ -316,17 +887,17 @@ public class World {
 							((obstacle.position.y < spot.position.y + spot.bounds.height/2) && (obstacle.position.x < spot.position.x + spot.bounds.width/2))) {
 							collision = true;
 						}
-						
+
 						break;
-						
+
 					case JUMPING:
 						break;
-						
+
 					case CROUCHING:
 						break;
 
 					}
-					
+
 					if(collision) {
 						break;
 					}
@@ -338,12 +909,194 @@ public class World {
 			spotCollision = true;
 			spotCollisionTimeSpent = 0;
 			spotCollisionStateTimeSpent = 0;
-			
+
 			spot.numberBones--;
-			
+
+			Gdx.input.vibrate(250);
+
 			if (spot.numberBones == 0) {
 				state = WorldState.GAME_OVER;
+				updateHighscores();
 			}
 		}
+	}
+
+	private void checkGarbageCollisions() {
+
+		boolean collision = false;
+		Garbage garbage;
+
+		for (int i = 0; i < garbages.size(); i++) {
+			garbage = garbages.get(i);
+
+			if (garbage.position.y <= spot.position.y + spot.bounds.height) {
+				if (spot.bounds.overlaps(garbage.bounds)) {
+
+					switch(spot.spotState) {
+					case GOING_FORWARD:
+						collision = true;
+						break;
+
+					case GOING_LEFT:
+						if (((garbage.position.y >= spot.position.y + spot.bounds.height/2) && (garbage.position.x < spot.position.x + spot.bounds.width/2)) ||
+							((garbage.position.y < spot.position.y + spot.bounds.height/2) && (garbage.position.x >= spot.position.x + spot.bounds.width/2))) {
+							collision = true;
+						}
+
+						break;
+					case GOING_RIGHT:
+						if (((garbage.position.y >= spot.position.y + spot.bounds.height/2) && (garbage.position.x >= spot.position.x + spot.bounds.width/2)) ||
+							((garbage.position.y < spot.position.y + spot.bounds.height/2) && (garbage.position.x < spot.position.x + spot.bounds.width/2))) {
+							collision = true;
+						}
+
+						break;
+
+					case JUMPING:
+						break;
+
+					case CROUCHING:
+						break;
+
+					}
+
+					if(collision) {
+						score += garbage.score;
+
+						garbages.remove(garbage);
+						i--;
+
+						if (garbage instanceof PaperBallA) {
+							paperBallsA.free((PaperBallA) garbage);
+						}	
+
+						if (garbage instanceof PaperBallB) {
+							paperBallsB.free((PaperBallB) garbage);
+						}
+
+						if (garbage instanceof PaperBallC) {
+							paperBallsC.free((PaperBallC) garbage);
+						}
+
+						if (garbage instanceof CoconutStraw) {
+							coconutsStraw.free((CoconutStraw) garbage);
+						}
+
+						if (garbage instanceof CoconutNoStraw) {
+							coconutsNoStraw.free((CoconutNoStraw) garbage);
+						}
+
+						if (garbage instanceof BottleBrown) {
+							bottlesBrown.free((BottleBrown) garbage);
+						}
+
+						if (garbage instanceof BottleGreen) {
+							bottlesGreen.free((BottleGreen) garbage);
+						}
+
+						if (garbage instanceof BottlePurple) {
+							bottlesPurple.free((BottlePurple) garbage);
+						}
+
+						if (garbage instanceof CanGreen) {
+							cansGreen.free((CanGreen) garbage);
+						}
+
+						if (garbage instanceof CanRed) {
+							cansRed.free((CanRed) garbage);
+						}
+
+						if (garbage instanceof CanPurple) {
+							cansPurple.free((CanPurple) garbage);
+						}
+
+						if (garbage instanceof Fishbone) {
+							fishbones.free((Fishbone) garbage);
+						}
+
+						collision = false;
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	private void checkSpecialItemCollisions() {
+		boolean collision = false;
+		SpecialItem specialItem;
+
+		for (int i = 0; i < specialItems.size(); i++) {
+			specialItem = specialItems.get(i);
+
+			if (specialItem.position.y <= spot.position.y + spot.bounds.height) {
+				if (spot.bounds.overlaps(specialItem.bounds)) {
+
+					switch(spot.spotState) {
+					case GOING_FORWARD:
+						collision = true;
+						break;
+
+					case GOING_LEFT:
+						if (((specialItem.position.y >= spot.position.y + spot.bounds.height/2) && (specialItem.position.x < spot.position.x + spot.bounds.width/2)) ||
+							((specialItem.position.y < spot.position.y + spot.bounds.height/2) && (specialItem.position.x >= spot.position.x + spot.bounds.width/2))) {
+							collision = true;
+						}
+
+						break;
+					case GOING_RIGHT:
+						if (((specialItem.position.y >= spot.position.y + spot.bounds.height/2) && (specialItem.position.x >= spot.position.x + spot.bounds.width/2)) ||
+							((specialItem.position.y < spot.position.y + spot.bounds.height/2) && (specialItem.position.x < spot.position.x + spot.bounds.width/2))) {
+							collision = true;
+						}
+
+						break;
+
+					case JUMPING:
+						break;
+
+					case CROUCHING:
+						break;
+
+					}
+
+					if(collision) {
+						specialItems.remove(specialItem);
+						i--;
+
+						if (specialItem instanceof CookieBox) {
+							if (spot.numberBones < Spot.SPOT_NUMBER_BONES) {
+								spot.numberBones++;
+							}
+
+							cookieBoxes.free((CookieBox) specialItem);
+						}	
+
+						collision = false;
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	private void updateHighscores() {
+		for (int i = 0; i < Settings.highscores.length; i++) {
+			if (score > Settings.highscores[i]) {
+				for (int j = Settings.highscores.length - 1; j > i; j--) {
+					Settings.highscores[j] = Settings.highscores[j-1];
+				}
+
+				Settings.highscores[i] = score;
+
+				if (i == 0) {
+					newHighscore = true;
+				}
+
+				break;
+			}
+		}
+
+		Settings.save();
 	}
 }
