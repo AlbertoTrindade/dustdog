@@ -941,7 +941,7 @@ public class World {
 
 			Gdx.input.vibrate(250);
 
-			if (spot.numberBones == 0) {
+			if (spot.numberBones < 0) {
 				state = WorldState.GAME_OVER;
 				updateHighscores();
 				

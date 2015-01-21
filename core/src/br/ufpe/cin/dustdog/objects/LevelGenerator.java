@@ -212,7 +212,7 @@ public class LevelGenerator {
 			else if (randomNumber < 0.3f) {
 				object = LevelGeneratorObject.GARBAGE_COCONUT_STRAW;
 			}
-			else if (randomNumber < 0.393f) {
+			else if (randomNumber < 0.395f) {
 				object = LevelGeneratorObject.GARBAGE_COCONUT_NO_STRAW;
 			}
 			else if (randomNumber < 0.4f) {

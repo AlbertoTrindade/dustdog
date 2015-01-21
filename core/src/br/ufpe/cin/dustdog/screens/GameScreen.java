@@ -402,7 +402,7 @@ public class GameScreen extends ScreenAdapter {
 		Assets.font48.draw(game.batcher, Integer.toString(world.score), 501 + scoreX, 1000);
 
 		game.batcher.draw(Assets.gameScreenBonesBox, 547, 855);
-		Assets.font48.draw(game.batcher, Integer.toString(world.spot.numberBones), 592, 910);
+		Assets.font48.draw(game.batcher, Integer.toString(world.spot.numberBones), 585, 910);
 	}
 
 	private void presentPaused() {
