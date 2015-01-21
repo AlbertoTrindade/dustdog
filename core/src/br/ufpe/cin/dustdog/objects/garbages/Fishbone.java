@@ -15,7 +15,7 @@ public class Fishbone extends Garbage {
 
 	public Fishbone(float x, float y, float width, float height) {
 		super(x, y, width, height);
-		velocity.y = -World.WORLD_VELOCITY;
+		velocity.y = -World.velocity.y;
 		
 		score = FISHBONE_SCORE;
 	}

@@ -6,7 +6,6 @@ import br.ufpe.cin.dustdog.GameState;
 import br.ufpe.cin.dustdog.objects.spot.DirectionGestureDetector;
 import br.ufpe.cin.dustdog.objects.spot.SwipeDirection;
 import br.ufpe.cin.dustdog.world.World;
-import br.ufpe.cin.dustdog.world.World.WorldListener;
 import br.ufpe.cin.dustdog.world.WorldRenderer;
 import br.ufpe.cin.dustdog.world.WorldState;
 
@@ -28,7 +27,6 @@ public class GameScreen extends ScreenAdapter {
 
 	World world;
 	WorldRenderer worldRenderer;
-	WorldListener worldListener;
 
 	Rectangle pauseButtonBounds;
 	Rectangle resumeButtonBounds;
@@ -50,6 +48,8 @@ public class GameScreen extends ScreenAdapter {
 	boolean downPressed;
 	boolean leftPressed;
 	boolean rightPressed;
+	boolean screenReleased;
+	boolean swipeProcessed;
 
 	int currentGameOverScore;
 	boolean totalGameOverScoreShown;
@@ -64,11 +64,7 @@ public class GameScreen extends ScreenAdapter {
 		camera = new OrthographicCamera(Assets.SCREEN_WIDTH, Assets.SCREEN_HEIGHT);
 		camera.position.set(Assets.SCREEN_WIDTH/2, Assets.SCREEN_HEIGHT/2, 0);
 
-		// TODO: create a WorldListener implementing the actions which generate sound (see SuperJumper code as reference)
-		worldListener = new WorldListener() {
-		};
-
-		world = new World(worldListener);
+		world = new World();
 		worldRenderer = new WorldRenderer(game.batcher, world);
 
 		pauseButtonBounds = new Rectangle(5, 952, 63, 64);
@@ -91,6 +87,8 @@ public class GameScreen extends ScreenAdapter {
 		downPressed = false;
 		leftPressed = false;
 		rightPressed = false;
+		screenReleased = false;
+		swipeProcessed = false;
 
 		currentGameOverScore = 0;
 		totalGameOverScoreShown = false;
@@ -103,21 +101,30 @@ public class GameScreen extends ScreenAdapter {
 				@Override
 				public void onUp() {
 					upPressed = true;
+					screenReleased = false;
 				}
 
 				@Override
 				public void onRight() {
 					rightPressed = true;
+					screenReleased = false;
 				}
 
 				@Override
 				public void onLeft() {
 					leftPressed = true;
+					screenReleased = false;
 				}
 
 				@Override
 				public void onDown() {
 					downPressed = true;
+					screenReleased = false;
+				}
+
+				@Override
+				public void onRelease() {
+					screenReleased = true;
 				}
 			}));
 		}
@@ -158,6 +165,7 @@ public class GameScreen extends ScreenAdapter {
 
 	private void updateReady() {
 		if (Gdx.input.justTouched()) {
+			Assets.playSound(Assets.barkSound);
 			gameState = GameState.RUNNING;
 		}
 
@@ -184,6 +192,7 @@ public class GameScreen extends ScreenAdapter {
 
 		if (pauseButtonActive) {
 			pauseButtonActive = false;
+			Assets.playSound(Assets.clickSound);
 			gameState = GameState.PAUSED;
 			return;
 		}
@@ -193,6 +202,7 @@ public class GameScreen extends ScreenAdapter {
 		}
 		else if (backPressedRunning){
 			backPressedRunning = false;
+			Assets.playSound(Assets.clickSound);
 
 			gameState = GameState.PAUSED;
 			return;
@@ -201,24 +211,36 @@ public class GameScreen extends ScreenAdapter {
 		SwipeDirection swipeDirection = SwipeDirection.NONE;
 
 		if (applicationType == ApplicationType.Android || applicationType == ApplicationType.iOS) {
-			if (leftPressed){
-				swipeDirection = SwipeDirection.LEFT;
-				leftPressed = false;
-			}
 
-			if (rightPressed){
-				swipeDirection = SwipeDirection.RIGHT;
-				rightPressed = false;
-			}
+			if (!swipeProcessed) {
+				if (leftPressed){
+					swipeDirection = SwipeDirection.LEFT;
+					leftPressed = false;
+					swipeProcessed = true;
+				}
 
-			if (upPressed){
-				swipeDirection = SwipeDirection.UP;
-				upPressed = false;
-			}
+				if (rightPressed){
+					swipeDirection = SwipeDirection.RIGHT;
+					rightPressed = false;
+					swipeProcessed = true;
+				}
 
-			if (downPressed){
-				swipeDirection = SwipeDirection.DOWN;
-				downPressed = false;
+				if (upPressed){
+					swipeDirection = SwipeDirection.UP;
+					upPressed = false;
+					swipeProcessed = true;
+				}
+
+				if (downPressed){
+					swipeDirection = SwipeDirection.DOWN;
+					downPressed = false;
+					swipeProcessed = true;
+				}
+			}
+			else {
+				if (screenReleased) {
+					swipeProcessed = false;
+				}
 			}
 		}
 		else { // Desktop
@@ -278,18 +300,21 @@ public class GameScreen extends ScreenAdapter {
 
 		if (resumeButtonActive) {
 			resumeButtonActive = false;
+			Assets.playSound(Assets.clickSound);
 			gameState = GameState.RUNNING;
 			return;
 		}
 
 		if (homeButtonActive) {
 			homeButtonActive = false;
+			Assets.playSound(Assets.clickSound);
 			game.setScreen(new MainScreen(game));
 			return;
 		}
 
 		if (settingsButtonActive) {
 			settingsButtonActive = false;
+			Assets.playSound(Assets.clickSound);
 			game.setScreen(new SettingsScreen(game, world));
 			return;
 		}
@@ -305,13 +330,14 @@ public class GameScreen extends ScreenAdapter {
 					return;
 				}
 			}
-			
+
 			if (gameOverScoreActive) {
 				gameOverScoreActive = false;
+				Assets.playSound(Assets.clickSound);
 				game.setScreen(new HighscoresScreen(game));
 				return;
 			}
-			
+
 			if (Gdx.input.justTouched()) {
 				game.setScreen(new MainScreen(game));
 				return;
@@ -395,23 +421,26 @@ public class GameScreen extends ScreenAdapter {
 		else {
 			game.batcher.draw((gameOverScoreActive ? Assets.gameScreenGameOverScoreBoxActive : Assets.gameScreenGameOverScoreBox), 93.5f, 290);	
 		}
-		
+
 		String currentScore = Integer.toString(currentGameOverScore);
 		float scoreX = (Assets.gameScreenGameOverScoreBox.getRegionWidth() - Assets.font48.getBounds(currentScore).width) / 2;
 		Assets.font48.draw(game.batcher, currentScore, 93.5f + scoreX, 350);
-		
+
 		int incrementGameOverScore;
-		
-		if (world.score - currentGameOverScore < 100) {
+
+		if (world.score - currentGameOverScore < 50) {
 			incrementGameOverScore = 1;
 		}
-		else if (world.score - currentGameOverScore < 1000) { 
+		else if (world.score - currentGameOverScore < 500) { 
 			incrementGameOverScore = 10;
 		}
-		else {
-			incrementGameOverScore = 100;
+		else if (world.score - currentGameOverScore < 5000) { 
+			incrementGameOverScore = 200;
 		}
-		
+		else {
+			incrementGameOverScore = 1000;
+		}
+
 		if (currentGameOverScore == world.score) {
 			totalGameOverScoreShown = true;
 		}

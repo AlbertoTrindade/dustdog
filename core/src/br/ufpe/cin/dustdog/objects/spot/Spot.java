@@ -1,5 +1,6 @@
 package br.ufpe.cin.dustdog.objects.spot;
 
+import br.ufpe.cin.dustdog.Assets;
 import br.ufpe.cin.dustdog.objects.DynamicGameObject;
 import br.ufpe.cin.dustdog.objects.LaneState;
 
@@ -52,6 +53,8 @@ public class Spot extends DynamicGameObject {
 				velocity.x = -SPOT_VELOCITY_X;
 				spotState = SpotState.GOING_LEFT;
 				stateTime = 0;
+				
+				Assets.playSound(Assets.moveLeftSound);
 
 				break;
 
@@ -59,6 +62,8 @@ public class Spot extends DynamicGameObject {
 				velocity.x = SPOT_VELOCITY_X;
 				spotState = SpotState.GOING_RIGHT;
 				stateTime = 0;
+				
+				Assets.playSound(Assets.moveRightSound);
 
 				break;
 

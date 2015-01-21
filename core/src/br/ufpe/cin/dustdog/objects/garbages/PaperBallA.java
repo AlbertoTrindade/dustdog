@@ -15,7 +15,7 @@ public class PaperBallA extends Garbage {
 
 	public PaperBallA(float x, float y, float width, float height) {
 		super(x, y, width, height);
-		velocity.y = -World.WORLD_VELOCITY;
+		velocity.y = -World.velocity.y;
 		
 		score = PAPER_BALL_A_SCORE;
 	}

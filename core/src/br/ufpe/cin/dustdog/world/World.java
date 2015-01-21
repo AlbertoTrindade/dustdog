@@ -2,8 +2,10 @@ package br.ufpe.cin.dustdog.world;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
 
 import br.ufpe.cin.dustdog.Assets;
@@ -36,15 +38,13 @@ import br.ufpe.cin.dustdog.parallax.ParallaxLayer;
 
 public class World {
 
-	public interface WorldListener {
-		// TODO: add method signature for each action in World that generates sound (hit an obstacle, for example)
-	}
-
 	public static final float WORLD_WIDTH = 10f;
 	public static final float WORLD_VELOCITY = 8f;
+	public static final float WORLD_VELOCITY_INCREMENT = 0.2f;
 	public static final float SPOT_COLLISION_DURATION = 3f;
-
-	public final WorldListener worldListener;
+	public static final float SPOT_BARK_MIN_INTERVAL = 45f;
+	
+	public static Vector2 velocity;
 
 	public final ParallaxBackground background;
 	public final Spot spot;
@@ -86,10 +86,14 @@ public class World {
 	public boolean spotCollision;
 	public float spotCollisionTimeSpent;
 	public float spotCollisionStateTimeSpent;
+	
+	public Random random;
+	public float timeSpentSinceLastBark;
 
-	public World(WorldListener worldListener) {
-		this.worldListener = worldListener;
-
+	public World() {
+		velocity = new Vector2();
+		velocity.y = WORLD_VELOCITY;
+		
 		this.background = new ParallaxBackground(new ParallaxLayer(Assets.backgroundRegionGameScreen, 0, 1, ((float) Assets.backgroundGameScreen.getHeight()/Assets.SCREEN_HEIGHT)));
 		this.spot = new Spot(Spot.CENTRAL_LANE_POSITION_X, Spot.SPOT_POSITION_Y, Spot.SPOT_COLLISION_WIDTH, Spot.SPOT_COLLISION_HEIGHT);
 
@@ -97,7 +101,7 @@ public class World {
 		this.newHighscore = false;
 		this.state = WorldState.RUNNING;
 
-		levelGenerator = new LevelGenerator();
+		levelGenerator = new LevelGenerator(this);
 
 		obstacles = new ArrayList<Obstacle>();
 
@@ -213,9 +217,19 @@ public class World {
 		leftLaneIsFree = true;
 		centralLaneIsFree = true;
 		rightLaneIsFree = true;
+		
+		random = new Random();
+		timeSpentSinceLastBark = 0;
 	}
 
 	public void update(float deltaTime, SwipeDirection swipeDirection) {
+		
+		if (velocity.y < WORLD_VELOCITY) {
+			velocity.y += WORLD_VELOCITY_INCREMENT;
+		}
+		
+		setObjectsVelocity(velocity.y);
+		
 		updateBackground(deltaTime);
 		updateSpot(deltaTime, swipeDirection);
 		updateObstacles(deltaTime);
@@ -224,10 +238,12 @@ public class World {
 
 		spawnObjects();
 		checkCollisions();
+		
+		bark(deltaTime);
 	}
 
 	private void updateBackground(float deltaTime) {
-		background.moveY(WORLD_VELOCITY * deltaTime);
+		background.moveY(velocity.y * deltaTime);
 	}
 
 	private void updateSpot(float deltaTime, SwipeDirection swipeDirection) {
@@ -899,6 +915,14 @@ public class World {
 					}
 
 					if(collision) {
+						if (obstacle instanceof Stone) {
+							Assets.playSound(Assets.hitStoneSound);
+						}
+						
+						if (obstacle instanceof Tree) {
+							Assets.playSound(Assets.hitTreeSound);
+						}
+						
 						break;
 					}
 				}
@@ -909,6 +933,9 @@ public class World {
 			spotCollision = true;
 			spotCollisionTimeSpent = 0;
 			spotCollisionStateTimeSpent = 0;
+			
+			velocity.y = 0f;
+			setObjectsVelocity(velocity.y);
 
 			spot.numberBones--;
 
@@ -917,6 +944,8 @@ public class World {
 			if (spot.numberBones == 0) {
 				state = WorldState.GAME_OVER;
 				updateHighscores();
+				
+				Assets.playSound(Assets.gameOverScoreSound);
 			}
 		}
 	}
@@ -1098,5 +1127,29 @@ public class World {
 		}
 
 		Settings.save();
+	}
+	
+	private void bark(float deltaTime) {
+		timeSpentSinceLastBark += deltaTime;		
+		
+		if ((state == WorldState.RUNNING) && (timeSpentSinceLastBark > SPOT_BARK_MIN_INTERVAL) && (random.nextFloat() > 0.9996f)) {
+			timeSpentSinceLastBark= 0;
+			
+			Assets.playSound(Assets.barkSound);
+		}
+	}
+	
+	private void setObjectsVelocity(float velocity) {
+		for (Obstacle obstacle : obstacles) {
+			obstacle.velocity.y = -velocity;
+		}
+		
+		for (Garbage garbage : garbages) {
+			garbage.velocity.y = -velocity;
+		}
+		
+		for (SpecialItem specialItem : specialItems) {
+			specialItem.velocity.y = -velocity;
+		}
 	}
 }

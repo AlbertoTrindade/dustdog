@@ -11,6 +11,8 @@ public class DirectionGestureDetector extends GestureDetector {
 		void onUp();
 
 		void onDown();
+		
+		void onRelease();
 	}
 
 	public DirectionGestureDetector(DirectionListener directionListener) {
@@ -25,25 +27,32 @@ public class DirectionGestureDetector extends GestureDetector {
 		}
 
 		@Override
-		public boolean fling(float velocityX, float velocityY, int button) {
-			if(Math.abs(velocityX) > Math.abs(velocityY)){
-				if(velocityX > 100){
+		public boolean pan(float velocityX, float velocityY, float deltaX, float deltaY) {
+			if(Math.abs(deltaX) > Math.abs(deltaY)){
+				if(deltaX > 0){
 					directionListener.onRight();
 				}
-				else if(velocityX < -100){
+				else if(deltaX < 0){
 					directionListener.onLeft();
 				}
 			}
 			else{
-				if(velocityY > 100){
+				if(deltaY > 0){
 					directionListener.onDown();
 				}
-				else if(velocityY < -100){                               
+				else if(deltaY < 0){                               
 					directionListener.onUp();
 				}
 			}
 			
-			return super.fling(velocityX, velocityY, button);
+			return super.pan(velocityX, velocityY, deltaX, deltaY);
+		}
+		
+		@Override
+		public boolean panStop(float velocityX, float velocityY, int pointer, int button) {
+			directionListener.onRelease();			
+			
+			return super.panStop(velocityX, velocityY, pointer, button);
 		}
 	}
 }

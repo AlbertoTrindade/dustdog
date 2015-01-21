@@ -21,6 +21,6 @@ public class Tree extends Obstacle {
 		bounds.width = TREE_COLLISION_WIDTH;
 		bounds.height = TREE_COLLISION_HEIGHT;
 		
-		velocity.y = -World.WORLD_VELOCITY;
+		velocity.y = -World.velocity.y;
 	}
 }

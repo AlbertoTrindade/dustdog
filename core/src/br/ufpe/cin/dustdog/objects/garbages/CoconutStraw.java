@@ -15,7 +15,7 @@ public class CoconutStraw extends Garbage {
 
 	public CoconutStraw(float x, float y, float width, float height) {
 		super(x, y, width, height);
-		velocity.y = -World.WORLD_VELOCITY;
+		velocity.y = -World.velocity.y;
 		
 		score = COCONUT_STRAW_SCORE;
 	}

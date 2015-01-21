@@ -15,7 +15,7 @@ public class CanPurple extends Garbage {
 
 	public CanPurple(float x, float y, float width, float height) {
 		super(x, y, width, height);
-		velocity.y = -World.WORLD_VELOCITY;
+		velocity.y = --World.velocity.y;
 		
 		score = CAN_PURPLE_SCORE;
 	}

@@ -15,7 +15,7 @@ public class BottleBrown extends Garbage {
 
 	public BottleBrown(float x, float y, float width, float height) {
 		super(x, y, width, height);
-		velocity.y = -World.WORLD_VELOCITY;
+		velocity.y = -World.velocity.y;
 		
 		score = BOTTLE_BROWN_SCORE;
 	}

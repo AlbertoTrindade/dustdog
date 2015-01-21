@@ -68,12 +68,14 @@ public class MainScreen extends ScreenAdapter {
 		
 		if (settingsButtonActive) {
 			settingsButtonActive = false;
+			Assets.playSound(Assets.clickSound);
 			game.setScreen(new SettingsScreen(game));
 			return;
 		}
 		
 		if (bestScoreActive) {
 			bestScoreActive = false;
+			Assets.playSound(Assets.clickSound);
 			game.setScreen(new HighscoresScreen(game));
 			return;
 		}

@@ -68,6 +68,7 @@ public class HighscoresScreen extends ScreenAdapter {
 
 		if (backButtonActive) {
 			backButtonActive = false;
+			Assets.playSound(Assets.clickSound);
 			game.setScreen(new MainScreen(game));
 		}
 	}

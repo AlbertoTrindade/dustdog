@@ -2,6 +2,9 @@ package br.ufpe.cin.dustdog.objects;
 
 import java.util.Random;
 
+import br.ufpe.cin.dustdog.objects.spot.Spot;
+import br.ufpe.cin.dustdog.world.World;
+
 public class LevelGenerator {
 
 	public final Random random;
@@ -115,10 +118,13 @@ public class LevelGenerator {
 	public int[] mapIndex;
 	public int[] noneCount;
 
+	public World world;
+	
 	public final int NONE_MAX = 20;
 	public final int NONE_GARBAGE_MAX = 3;
 
-	public LevelGenerator() {
+	public LevelGenerator(World world) {
+		this.world = world;
 		random = new Random();
 
 		mapIndex = new int[3];
@@ -210,7 +216,12 @@ public class LevelGenerator {
 				object = LevelGeneratorObject.GARBAGE_COCONUT_NO_STRAW;
 			}
 			else if (randomNumber < 0.4f) {
-				object = LevelGeneratorObject.SPECIAL_ITEMS_COOKIE_BOX;
+				if (world.spot.numberBones < Spot.SPOT_NUMBER_BONES) {
+					object = LevelGeneratorObject.SPECIAL_ITEMS_COOKIE_BOX;
+				}
+				else {
+					object = LevelGeneratorObject.GARBAGE_COCONUT_NO_STRAW;
+				}
 			}
 			else if (randomNumber < 0.6f) {
 				object = LevelGeneratorObject.GARBAGE_FISHBONE;

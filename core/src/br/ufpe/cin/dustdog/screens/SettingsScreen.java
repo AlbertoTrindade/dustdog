@@ -65,11 +65,15 @@ public class SettingsScreen extends ScreenAdapter {
 
 			if (soundEnabledBoxBounds.contains(touchPoint.x, touchPoint.y)) {
 				Settings.soundEnabled = !Settings.soundEnabled;
+				Assets.playSound(Assets.clickSound);
 				return;
 			}
 
 			if (musicEnabledBoxBounds.contains(touchPoint.x, touchPoint.y)) {
 				Settings.musicEnabled = !Settings.musicEnabled;
+				Assets.playSound(Assets.clickSound);
+				playOrPauseMusic();
+				
 				return;
 			}
 		}
@@ -100,18 +104,32 @@ public class SettingsScreen extends ScreenAdapter {
 
 		if (cancelButtonActive) {
 			cancelButtonActive = false;
+			Assets.playSound(Assets.clickSound);
+			
 			Settings.soundEnabled = initialSoundEnabled;
 			Settings.musicEnabled = initialMusicEnabled;
 			
+			playOrPauseMusic();
 			goBack();			
 			return;
 		}
 
 		if (okButtonActive) {
 			okButtonActive = false;
+			Assets.playSound(Assets.clickSound);
+			
 			Settings.save();
 			
 			goBack();
+		}
+	}
+	
+	private void playOrPauseMusic() {
+		if (Settings.musicEnabled) {
+			Assets.music.play();
+		}
+		else {
+			Assets.music.pause();
 		}
 	}
 	
