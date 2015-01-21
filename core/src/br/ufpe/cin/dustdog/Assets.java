@@ -194,6 +194,7 @@ public class Assets {
 
 		obstacleStone = gameItemsAtlas.findRegion("stone");
 		obstacleTree = gameItemsAtlas.findRegion("tree");
+		obstacleTree.flip(true, false);
 
 		garbagePaperBallA = gameItemsAtlas.findRegion("paperball_a");
 		garbagePaperBallB = gameItemsAtlas.findRegion("paperball_b");
