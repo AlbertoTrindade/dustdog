@@ -111,6 +111,8 @@ public class Assets {
 	public static Sound barkSound;
 	public static Sound hitStoneSound;
 	public static Sound hitTreeSound;
+	public static Sound hitGarbageSound;
+	public static Sound hitCookieBoxSound;
 	public static Sound gameOverScoreSound;
 
 	public static Texture loadTexture(String fileName) {
@@ -217,9 +219,9 @@ public class Assets {
 		font48.setColor(Color.BLACK);
 		fontGenerator.dispose();
 
-		music = Gdx.audio.newMusic(Gdx.files.internal("sounds/soundtrack_temp.mp3"));
+		music = Gdx.audio.newMusic(Gdx.files.internal("sounds/soundtrack_loop.mp3"));
 		music.setLooping(true);
-		music.setVolume(0.2f);
+		music.setVolume(0.3f);
 
 		if (Settings.musicEnabled) music.play();
 
@@ -228,8 +230,10 @@ public class Assets {
 		moveRightSound = Gdx.audio.newSound(Gdx.files.internal("sounds/move_right.wav"));
 		barkSound = Gdx.audio.newSound(Gdx.files.internal("sounds/dog_barks.wav"));
 		hitStoneSound = Gdx.audio.newSound(Gdx.files.internal("sounds/crash_rock.wav"));
-		hitTreeSound = Gdx.audio.newSound(Gdx.files.internal("sounds/crash_wood.wav"));;
-		gameOverScoreSound = Gdx.audio.newSound(Gdx.files.internal("sounds/count_score.wav"));;
+		hitTreeSound = Gdx.audio.newSound(Gdx.files.internal("sounds/crash_wood.wav"));
+		hitGarbageSound = Gdx.audio.newSound(Gdx.files.internal("sounds/trash.wav"));
+		hitCookieBoxSound = Gdx.audio.newSound(Gdx.files.internal("sounds/cookie_box.wav"));
+		gameOverScoreSound = Gdx.audio.newSound(Gdx.files.internal("sounds/count_score.wav"));
 	}
 
 	public static void playSound (Sound sound) {

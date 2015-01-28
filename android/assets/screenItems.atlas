@@ -208,9 +208,9 @@ btn_ok_active
   index: -1
 box_bones
   rotate: false
-  xy: 1561, 390
-  size: 135, 72
-  orig: 135, 72
+  xy: 1561, 388
+  size: 135, 74
+  orig: 135, 74
   offset: 0, 0
   index: -1
 chk_marked

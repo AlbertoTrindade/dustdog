@@ -20,7 +20,7 @@ public class Spot extends DynamicGameObject {
 	public static final float CENTRAL_LANE_POSITION_X = 4f;
 	public static final float RIGHT_LANE_POSITION_X = 6.2f;
 	
-	public static final int SPOT_NUMBER_BONES = 3;
+	public static final int SPOT_NUMBER_LIVES = 3;
 
 	public SpotState spotState;
 	public LaneState laneState;
@@ -28,7 +28,7 @@ public class Spot extends DynamicGameObject {
 	public float stateTime;
 	public boolean visible;
 	
-	public int numberBones;
+	public int numberLives;
 
 	public Spot(float x, float y, float width, float height) {
 		super(x, y, width, height);
@@ -38,7 +38,7 @@ public class Spot extends DynamicGameObject {
 		laneState = LaneState.CENTRAL;
 		visible = true;
 		
-		numberBones = SPOT_NUMBER_BONES;
+		numberLives = SPOT_NUMBER_LIVES;
 	}
 
 	public void update(float deltaTime, SwipeDirection swipeDirection) {

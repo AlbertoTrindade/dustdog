@@ -937,11 +937,11 @@ public class World {
 			velocity.y = 0f;
 			setObjectsVelocity(velocity.y);
 
-			spot.numberBones--;
+			spot.numberLives--;
 
 			Gdx.input.vibrate(250);
 
-			if (spot.numberBones < 0) {
+			if (spot.numberLives < 0) {
 				state = WorldState.GAME_OVER;
 				updateHighscores();
 				
@@ -990,6 +990,7 @@ public class World {
 					}
 
 					if(collision) {
+						Assets.playSound(Assets.hitGarbageSound);
 						score += garbage.score;
 
 						garbages.remove(garbage);
@@ -1094,8 +1095,10 @@ public class World {
 						i--;
 
 						if (specialItem instanceof CookieBox) {
-							if (spot.numberBones < Spot.SPOT_NUMBER_BONES) {
-								spot.numberBones++;
+							Assets.playSound(Assets.hitCookieBoxSound);
+							
+							if (spot.numberLives < Spot.SPOT_NUMBER_LIVES) {
+								spot.numberLives++;
 							}
 
 							cookieBoxes.free((CookieBox) specialItem);

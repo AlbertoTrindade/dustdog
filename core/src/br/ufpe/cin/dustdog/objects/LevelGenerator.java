@@ -216,7 +216,7 @@ public class LevelGenerator {
 				object = LevelGeneratorObject.GARBAGE_COCONUT_NO_STRAW;
 			}
 			else if (randomNumber < 0.4f) {
-				if (world.spot.numberBones < Spot.SPOT_NUMBER_BONES) {
+				if (world.spot.numberLives < Spot.SPOT_NUMBER_LIVES) {
 					object = LevelGeneratorObject.SPECIAL_ITEMS_COOKIE_BOX;
 				}
 				else {
