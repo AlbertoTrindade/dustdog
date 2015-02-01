@@ -50,10 +50,13 @@ public class MainScreen extends ScreenAdapter {
 				settingsButtonActive = true;
 				return;
 			}
-			
-			if (bestScoreBounds.contains(touchPoint.x, touchPoint.y)) {
+			else if (bestScoreBounds.contains(touchPoint.x, touchPoint.y)) {
 				bestScoreActive = true;
 				return;
+			}
+			else {
+				settingsButtonActive = false;
+				bestScoreActive = false;
 			}
 		}
 		

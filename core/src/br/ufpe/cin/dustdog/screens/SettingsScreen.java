@@ -85,10 +85,13 @@ public class SettingsScreen extends ScreenAdapter {
 				cancelButtonActive = true;
 				return;
 			}
-
-			if (okButtonBounds.contains(touchPoint.x, touchPoint.y)) {
+			else if (okButtonBounds.contains(touchPoint.x, touchPoint.y)) {
 				okButtonActive = true;
 				return;
+			}
+			else {
+				cancelButtonActive = false;
+				okButtonActive = false;
 			}
 		}
 

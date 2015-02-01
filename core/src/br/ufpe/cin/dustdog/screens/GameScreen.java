@@ -186,15 +186,18 @@ public class GameScreen extends ScreenAdapter {
 
 			if (pauseButtonBounds.contains(touchPoint.x, touchPoint.y)) {
 				pauseButtonActive = true;
-				return;
+			}
+			else {
+				pauseButtonActive = false;
 			}
 		}
-
-		if (pauseButtonActive) {
-			pauseButtonActive = false;
-			Assets.playSound(Assets.clickSound);
-			gameState = GameState.PAUSED;
-			return;
+		else {
+			if (pauseButtonActive) {
+				pauseButtonActive = false;
+				Assets.playSound(Assets.clickSound);
+				gameState = GameState.PAUSED;
+				return;
+			}
 		}
 
 		if (Gdx.input.isKeyPressed(Keys.BACK) || Gdx.input.isKeyPressed(Keys.ESCAPE)) {
@@ -276,15 +279,18 @@ public class GameScreen extends ScreenAdapter {
 				resumeButtonActive = true;
 				return;
 			}
-
-			if (homeButtonBounds.contains(touchPoint.x, touchPoint.y)) {
+			else if (homeButtonBounds.contains(touchPoint.x, touchPoint.y)) {
 				homeButtonActive = true;
 				return;
 			}
-
-			if (settingsButtonBounds.contains(touchPoint.x, touchPoint.y)) {
+			else if (settingsButtonBounds.contains(touchPoint.x, touchPoint.y)) {
 				settingsButtonActive = true;
 				return;
+			}
+			else {
+				resumeButtonActive = false;
+				homeButtonActive = false;
+				settingsButtonActive = false;
 			}
 		}
 
@@ -328,6 +334,9 @@ public class GameScreen extends ScreenAdapter {
 				if (gameOverScoreBounds.contains(touchPoint.x, touchPoint.y)) {
 					gameOverScoreActive = true;
 					return;
+				}
+				else {
+					gameOverScoreActive = false;
 				}
 			}
 

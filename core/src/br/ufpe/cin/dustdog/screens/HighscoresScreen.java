@@ -57,6 +57,9 @@ public class HighscoresScreen extends ScreenAdapter {
 				backButtonActive = true;
 				return;
 			}
+			else {
+				backButtonActive = false;
+			}
 		}
 
 		if (Gdx.input.isKeyPressed(Keys.BACK) || Gdx.input.isKeyPressed(Keys.ESCAPE)) { 
