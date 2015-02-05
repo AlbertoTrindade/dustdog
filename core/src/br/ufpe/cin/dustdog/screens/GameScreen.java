@@ -88,7 +88,7 @@ public class GameScreen extends ScreenAdapter {
 		leftPressed = false;
 		rightPressed = false;
 		screenReleased = false;
-		swipeProcessed = false;
+		swipeProcessed = true;
 
 		currentGameOverScore = 0;
 		totalGameOverScoreShown = false;
@@ -101,25 +101,21 @@ public class GameScreen extends ScreenAdapter {
 				@Override
 				public void onUp() {
 					upPressed = true;
-					screenReleased = false;
 				}
 
 				@Override
 				public void onRight() {
 					rightPressed = true;
-					screenReleased = false;
 				}
 
 				@Override
 				public void onLeft() {
 					leftPressed = true;
-					screenReleased = false;
 				}
 
 				@Override
 				public void onDown() {
 					downPressed = true;
-					screenReleased = false;
 				}
 
 				@Override
@@ -220,24 +216,28 @@ public class GameScreen extends ScreenAdapter {
 					swipeDirection = SwipeDirection.LEFT;
 					leftPressed = false;
 					swipeProcessed = true;
+					screenReleased = false;
 				}
 
 				if (rightPressed){
 					swipeDirection = SwipeDirection.RIGHT;
 					rightPressed = false;
 					swipeProcessed = true;
+					screenReleased = false;
 				}
 
 				if (upPressed){
 					swipeDirection = SwipeDirection.UP;
 					upPressed = false;
 					swipeProcessed = true;
+					screenReleased = false;
 				}
 
 				if (downPressed){
 					swipeDirection = SwipeDirection.DOWN;
 					downPressed = false;
 					swipeProcessed = true;
+					screenReleased = false;
 				}
 			}
 			else {

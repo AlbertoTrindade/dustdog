@@ -29,6 +29,9 @@ public class Spot extends DynamicGameObject {
 	public boolean visible;
 	
 	public int numberLives;
+	
+	public boolean hasCachedCommand;
+	public SwipeDirection cachedCommand;
 
 	public Spot(float x, float y, float width, float height) {
 		super(x, y, width, height);
@@ -39,14 +42,21 @@ public class Spot extends DynamicGameObject {
 		visible = true;
 		
 		numberLives = SPOT_NUMBER_LIVES;
+		
+		hasCachedCommand = false;
 	}
 
 	public void update(float deltaTime, SwipeDirection swipeDirection) {
 		position.x += velocity.x * deltaTime;
 		bounds.x = position.x + SPOT_COLLISION_POSITION_X;
-
+		
 		// Only apply spot movement (given the swipe) if it is going forward, otherwise let it finish that movement (ignoring the swipe)
-		if (spotState == SpotState.GOING_FORWARD) { 
+		if (spotState == SpotState.GOING_FORWARD) {
+			
+			if (hasCachedCommand) {
+				swipeDirection = cachedCommand;
+				hasCachedCommand = false;
+			}
 
 			switch (swipeDirection) {
 			case LEFT:
@@ -79,6 +89,12 @@ public class Spot extends DynamicGameObject {
 
 			case NONE:
 				break;
+			}
+		}
+		else {
+			if (!hasCachedCommand && swipeDirection != SwipeDirection.NONE) {
+				cachedCommand = swipeDirection;
+				hasCachedCommand = true;
 			}
 		}
 
