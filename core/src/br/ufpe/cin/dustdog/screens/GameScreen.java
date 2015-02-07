@@ -87,8 +87,8 @@ public class GameScreen extends ScreenAdapter {
 		downPressed = false;
 		leftPressed = false;
 		rightPressed = false;
-		screenReleased = false;
-		swipeProcessed = true;
+		screenReleased = true;
+		swipeProcessed = false;
 
 		currentGameOverScore = 0;
 		totalGameOverScoreShown = false;
@@ -120,7 +120,11 @@ public class GameScreen extends ScreenAdapter {
 
 				@Override
 				public void onRelease() {
-					screenReleased = true;
+					swipeProcessed = false;
+					upPressed = false;
+					rightPressed = false;
+					leftPressed = false;
+					downPressed = false;
 				}
 			}));
 		}
@@ -216,33 +220,24 @@ public class GameScreen extends ScreenAdapter {
 					swipeDirection = SwipeDirection.LEFT;
 					leftPressed = false;
 					swipeProcessed = true;
-					screenReleased = false;
 				}
 
 				if (rightPressed){
 					swipeDirection = SwipeDirection.RIGHT;
 					rightPressed = false;
 					swipeProcessed = true;
-					screenReleased = false;
 				}
 
 				if (upPressed){
 					swipeDirection = SwipeDirection.UP;
 					upPressed = false;
 					swipeProcessed = true;
-					screenReleased = false;
 				}
 
 				if (downPressed){
 					swipeDirection = SwipeDirection.DOWN;
 					downPressed = false;
 					swipeProcessed = true;
-					screenReleased = false;
-				}
-			}
-			else {
-				if (screenReleased) {
-					swipeProcessed = false;
 				}
 			}
 		}
