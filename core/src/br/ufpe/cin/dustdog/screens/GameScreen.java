@@ -218,25 +218,21 @@ public class GameScreen extends ScreenAdapter {
 			if (!swipeProcessed) {
 				if (leftPressed){
 					swipeDirection = SwipeDirection.LEFT;
-					leftPressed = false;
 					swipeProcessed = true;
 				}
 
 				if (rightPressed){
 					swipeDirection = SwipeDirection.RIGHT;
-					rightPressed = false;
 					swipeProcessed = true;
 				}
 
 				if (upPressed){
 					swipeDirection = SwipeDirection.UP;
-					upPressed = false;
 					swipeProcessed = true;
 				}
 
 				if (downPressed){
 					swipeDirection = SwipeDirection.DOWN;
-					downPressed = false;
 					swipeProcessed = true;
 				}
 			}
