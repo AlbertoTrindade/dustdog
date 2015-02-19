@@ -225,15 +225,15 @@ public class Assets {
 
 		if (Settings.musicEnabled) music.play();
 
-		clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.wav"));
-		moveLeftSound = Gdx.audio.newSound(Gdx.files.internal("sounds/move_left.wav"));
-		moveRightSound = Gdx.audio.newSound(Gdx.files.internal("sounds/move_right.wav"));
-		barkSound = Gdx.audio.newSound(Gdx.files.internal("sounds/dog_barks.wav"));
-		hitStoneSound = Gdx.audio.newSound(Gdx.files.internal("sounds/crash_rock.wav"));
-		hitTreeSound = Gdx.audio.newSound(Gdx.files.internal("sounds/crash_wood.wav"));
-		hitGarbageSound = Gdx.audio.newSound(Gdx.files.internal("sounds/trash.wav"));
-		hitCookieBoxSound = Gdx.audio.newSound(Gdx.files.internal("sounds/cookie_box.wav"));
-		gameOverScoreSound = Gdx.audio.newSound(Gdx.files.internal("sounds/count_score.wav"));
+		clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.ogg"));
+		moveLeftSound = Gdx.audio.newSound(Gdx.files.internal("sounds/move_left.ogg"));
+		moveRightSound = Gdx.audio.newSound(Gdx.files.internal("sounds/move_right.ogg"));
+		barkSound = Gdx.audio.newSound(Gdx.files.internal("sounds/dog_barks.ogg"));
+		hitStoneSound = Gdx.audio.newSound(Gdx.files.internal("sounds/crash_rock.ogg"));
+		hitTreeSound = Gdx.audio.newSound(Gdx.files.internal("sounds/crash_wood.ogg"));
+		hitGarbageSound = Gdx.audio.newSound(Gdx.files.internal("sounds/trash.ogg"));
+		hitCookieBoxSound = Gdx.audio.newSound(Gdx.files.internal("sounds/cookie_box.ogg"));
+		gameOverScoreSound = Gdx.audio.newSound(Gdx.files.internal("sounds/count_score.ogg"));
 	}
 
 	public static void playSound (Sound sound) {
