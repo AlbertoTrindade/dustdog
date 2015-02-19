@@ -114,7 +114,7 @@ public class WorldRenderer {
 			}
 			
 			if (obstacle instanceof Tree) {
-				if (world.spot.position.y <= obstacle.position.y + Tree.TREE_COLLISION_HEIGHT) {
+				if (world.spot.position.y <= obstacle.position.y + Tree.TREE_COLLISION_HEIGHT/2) {
 					batch.draw(Assets.obstacleTree, obstacle.position.x, obstacle.position.y, Tree.TREE_WIDTH, Tree.TREE_HEIGHT);
 				}
 				else { // tree is behind spot, so it will be rendered after spot

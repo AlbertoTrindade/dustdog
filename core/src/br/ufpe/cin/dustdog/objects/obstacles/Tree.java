@@ -9,7 +9,7 @@ public class Tree extends Obstacle {
 	public static final float TREE_HEIGHT = 2.4f;
 	
 	public static final float TREE_COLLISION_WIDTH = 0.59f;
-	public static final float TREE_COLLISION_HEIGHT = Spot.SPOT_COLLISION_HEIGHT/2;
+	public static final float TREE_COLLISION_HEIGHT = Spot.SPOT_COLLISION_HEIGHT/10;
 	public static final float TREE_COLLISION_POSITION_X = 0.92f;
 	
 	public static final float LEFT_LANE_POSITION_X = 1.7f;

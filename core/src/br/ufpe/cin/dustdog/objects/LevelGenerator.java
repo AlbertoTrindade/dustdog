@@ -19,11 +19,11 @@ public class LevelGenerator {
 	public int[] noneCount;
 	public int[] noneObstacle;
 	public int[] lastGarbage;
-	public int[] lassObject;
+	public int[] lastObject;
 
 	public World world;
-	public float nivel = 0.0f; // 0.00 for easy, until 0.1 for hard
-	public int pointToChangeNivel = 10;
+	public float level = 0.0f; // 0.00 for easy, until 0.1 for hard
+	public int pointsToChangeLevel = 10;
 	public int lastPoints = 0;
 	
 	public final int NONE_MAX = 20;
@@ -37,7 +37,7 @@ public class LevelGenerator {
 
 		mapIndex = new int[3];
 		noneCount = new int[3];
-		lassObject = new int[3]; //0 = nada, 1 = lixo, 2 = arvore;
+		lastObject = new int[3]; //0 = nada, 1 = lixo, 2 = arvore;
 		noneObstacle = new int[3];
 		lastGarbage = new int[3];
 		lastGarbage[0] = lastGarbage[1] = lastGarbage[2] = 3;
@@ -56,10 +56,10 @@ public class LevelGenerator {
 	}
 	
 	private float levelRegulator(){
-		float current = nivel;
+		float current = level;
 		int score = world.score;
-		if(score - pointToChangeNivel >= lastPoints){
-			lastPoints += pointToChangeNivel;
+		if(score - pointsToChangeLevel >= lastPoints){
+			lastPoints += pointsToChangeLevel;
 			float rand = random.nextFloat();
 			if( rand < 0.75f){
 				current += 0.001;
@@ -81,11 +81,11 @@ public class LevelGenerator {
 		noneObstacle[laneIndex]++;
 		lastGarbage[laneIndex]++;
 		
-		nivel = levelRegulator();
+		level = levelRegulator();
 		
 		float randomNumber = random.nextFloat();
 		
-		if(randomNumber < (0.01f-nivel/100) || lastGarbage[laneIndex] < 3){
+		if(randomNumber < (0.01f-level/100) || lastGarbage[laneIndex] < 3){
 			int parallel = 0;
 			parallel += (lastGarbage[0] < 5?1:0);
 			parallel += (lastGarbage[1] < 5?1:0);
@@ -106,7 +106,7 @@ public class LevelGenerator {
 			object = getGarbageTipe();
 		}else if(randomNumber < 0.9f){
 			object = LevelGeneratorObject.NONE;
-		}else if(randomNumber < (0.901f+nivel) ){
+		}else if(randomNumber < (0.901f+level) ){
 			int parallel = 0;
 			parallel += (noneObstacle[0] < 15?1:0);
 			parallel += (noneObstacle[1] < 15?1:0);
