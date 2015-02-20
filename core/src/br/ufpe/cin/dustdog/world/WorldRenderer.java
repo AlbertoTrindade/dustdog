@@ -18,7 +18,10 @@ import br.ufpe.cin.dustdog.objects.garbages.PaperBallA;
 import br.ufpe.cin.dustdog.objects.garbages.PaperBallB;
 import br.ufpe.cin.dustdog.objects.garbages.PaperBallC;
 import br.ufpe.cin.dustdog.objects.obstacles.Obstacle;
-import br.ufpe.cin.dustdog.objects.obstacles.Stone;
+import br.ufpe.cin.dustdog.objects.obstacles.StoneA;
+import br.ufpe.cin.dustdog.objects.obstacles.StoneB;
+import br.ufpe.cin.dustdog.objects.obstacles.StoneC;
+import br.ufpe.cin.dustdog.objects.obstacles.StoneD;
 import br.ufpe.cin.dustdog.objects.obstacles.Tree;
 import br.ufpe.cin.dustdog.objects.specialItems.CookieBox;
 import br.ufpe.cin.dustdog.objects.specialItems.SpecialItem;
@@ -109,8 +112,20 @@ public class WorldRenderer {
 	private void renderObstacles() {
 		for (Obstacle obstacle : world.obstacles) {
 			
-			if (obstacle instanceof Stone) {
-				batch.draw(Assets.obstacleStone, obstacle.position.x, obstacle.position.y, Stone.STONE_WIDTH, Stone.STONE_HEIGHT);
+			if (obstacle instanceof StoneA) {
+				batch.draw(Assets.obstacleStoneA, obstacle.position.x, obstacle.position.y, StoneA.STONE_WIDTH, StoneA.STONE_HEIGHT);
+			}
+			
+			if (obstacle instanceof StoneB) {
+				batch.draw(Assets.obstacleStoneB, obstacle.position.x, obstacle.position.y, StoneB.STONE_WIDTH, StoneB.STONE_HEIGHT);
+			}
+			
+			if (obstacle instanceof StoneC) {
+				batch.draw(Assets.obstacleStoneC, obstacle.position.x, obstacle.position.y, StoneC.STONE_WIDTH, StoneC.STONE_HEIGHT);
+			}
+			
+			if (obstacle instanceof StoneD) {
+				batch.draw(Assets.obstacleStoneD, obstacle.position.x, obstacle.position.y, StoneD.STONE_WIDTH, StoneD.STONE_HEIGHT);
 			}
 			
 			if (obstacle instanceof Tree) {

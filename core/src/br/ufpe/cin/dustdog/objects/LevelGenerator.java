@@ -9,12 +9,6 @@ public class LevelGenerator {
 
 	public final Random random;
 
-	public final int NONE = 0;
-	public final int NONE_GARBAGE = 1;
-	public final int OBSTACLE_STONE = 2;
-	public final int OBSTACLE_TREE = 3;
-	public final int GARBAGE = 4;
-
 	public int[] mapIndex;
 	public int[] noneCount;
 	public int[] noneObstacle;
@@ -85,44 +79,62 @@ public class LevelGenerator {
 		
 		float randomNumber = random.nextFloat();
 		
-		if(randomNumber < (0.01f-level/100) || lastGarbage[laneIndex] < 3){
+		if (randomNumber < (0.01f-level/100) || lastGarbage[laneIndex] < 3){
 			int parallel = 0;
 			parallel += (lastGarbage[0] < 5?1:0);
 			parallel += (lastGarbage[1] < 5?1:0);
 			parallel += (lastGarbage[2] < 5?1:0);
 			parallel -= (lastGarbage[laneIndex] < 5?1:0);
 			
-			if(noneCount[laneIndex] < NONE_GARBAGE_MAX || parallel > 0){
+			if (noneCount[laneIndex] < NONE_GARBAGE_MAX || parallel > 0){
 				lastGarbage[laneIndex]--;
 				noneCount[laneIndex]++;
 				return LevelGeneratorObject.NONE;
 			}
 				
-			if(lastGarbage[laneIndex] > 3){
+			if (lastGarbage[laneIndex] > 3){
 				//(3 to 3+lengthSequence) garbage
 				int lengthSequence = (int)(random.nextFloat()*7);
 				lastGarbage[laneIndex] = -lengthSequence;
 			}
 			object = getGarbageTipe();
-		}else if(randomNumber < 0.9f){
+		}
+		else if (randomNumber < 0.9f){
 			object = LevelGeneratorObject.NONE;
-		}else if(randomNumber < (0.901f+level) ){
+		}
+		else if (randomNumber < (0.901f+level) ){
 			int parallel = 0;
 			parallel += (noneObstacle[0] < 15?1:0);
 			parallel += (noneObstacle[1] < 15?1:0);
 			parallel += (noneObstacle[2] < 15?1:0);
-			if(noneObstacle[laneIndex] < NONE_MAX || parallel > 1){
+			
+			if (noneObstacle[laneIndex] < NONE_MAX || parallel > 1){
 				noneCount[laneIndex]++;
 				return object;
 			}
-			if(random.nextFloat() < 0.6f)
+			
+			float randomNumberObstacle = random.nextFloat();
+			
+			if (randomNumberObstacle < 0.5f) { 
 				object = LevelGeneratorObject.OBSTACLE_TREE;
-			else
-				object = LevelGeneratorObject.OBSTACLE_STONE;
+			}
+			else if (randomNumberObstacle < 0.625f) {
+				object = LevelGeneratorObject.OBSTACLE_STONE_A;
+			}
+			else if (randomNumberObstacle < 0.75f) {
+				object = LevelGeneratorObject.OBSTACLE_STONE_B;
+			}
+			else if (randomNumberObstacle < 0.875f) {
+				object = LevelGeneratorObject.OBSTACLE_STONE_C;				
+			}
+			else {
+				object = LevelGeneratorObject.OBSTACLE_STONE_D;				
+			}
+				
 			noneObstacle[laneIndex] = 0;
 		}
 		
-		if(object != LevelGeneratorObject.NONE)
+		if (object != LevelGeneratorObject.NONE)
 			noneCount[laneIndex] = 0;
 		else
 			noneCount[laneIndex]++;

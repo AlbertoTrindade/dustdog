@@ -27,7 +27,10 @@ import br.ufpe.cin.dustdog.objects.garbages.PaperBallA;
 import br.ufpe.cin.dustdog.objects.garbages.PaperBallB;
 import br.ufpe.cin.dustdog.objects.garbages.PaperBallC;
 import br.ufpe.cin.dustdog.objects.obstacles.Obstacle;
-import br.ufpe.cin.dustdog.objects.obstacles.Stone;
+import br.ufpe.cin.dustdog.objects.obstacles.StoneA;
+import br.ufpe.cin.dustdog.objects.obstacles.StoneB;
+import br.ufpe.cin.dustdog.objects.obstacles.StoneC;
+import br.ufpe.cin.dustdog.objects.obstacles.StoneD;
 import br.ufpe.cin.dustdog.objects.obstacles.Tree;
 import br.ufpe.cin.dustdog.objects.specialItems.CookieBox;
 import br.ufpe.cin.dustdog.objects.specialItems.SpecialItem;
@@ -57,7 +60,10 @@ public class World {
 
 	public final List<Obstacle> obstacles;
 
-	public final Pool<Stone> stones;
+	public final Pool<StoneA> stonesA;
+	public final Pool<StoneB> stonesB;
+	public final Pool<StoneC> stonesC;
+	public final Pool<StoneD> stonesD;
 	public final Pool<Tree> trees;
 
 	public final List<Garbage> garbages;
@@ -105,10 +111,31 @@ public class World {
 
 		obstacles = new ArrayList<Obstacle>();
 
-		stones = new Pool<Stone>() {
+		stonesA = new Pool<StoneA>() {
 			@Override
-			protected Stone newObject() {
-				return new Stone(0, 0, Stone.STONE_WIDTH, Stone.STONE_HEIGHT);
+			protected StoneA newObject() {
+				return new StoneA(0, 0, StoneA.STONE_WIDTH, StoneA.STONE_HEIGHT);
+			}
+		};
+		
+		stonesB = new Pool<StoneB>() {
+			@Override
+			protected StoneB newObject() {
+				return new StoneB(0, 0, StoneB.STONE_WIDTH, StoneB.STONE_HEIGHT);
+			}
+		};
+		
+		stonesC = new Pool<StoneC>() {
+			@Override
+			protected StoneC newObject() {
+				return new StoneC(0, 0, StoneC.STONE_WIDTH, StoneC.STONE_HEIGHT);
+			}
+		};
+		
+		stonesD = new Pool<StoneD>() {
+			@Override
+			protected StoneD newObject() {
+				return new StoneD(0, 0, StoneD.STONE_WIDTH, StoneD.STONE_HEIGHT);
 			}
 		};
 
@@ -278,8 +305,20 @@ public class World {
 
 			float obstacleHeight = 0f;
 
-			if (obstacle instanceof Stone) {
-				obstacleHeight = Stone.STONE_HEIGHT;
+			if (obstacle instanceof StoneA) {
+				obstacleHeight = StoneA.STONE_HEIGHT;
+			}
+			
+			if (obstacle instanceof StoneB) {
+				obstacleHeight = StoneB.STONE_HEIGHT;
+			}
+
+			if (obstacle instanceof StoneC) {
+				obstacleHeight = StoneC.STONE_HEIGHT;
+			}
+			
+			if (obstacle instanceof StoneD) {
+				obstacleHeight = StoneD.STONE_HEIGHT;
 			}
 
 			if (obstacle instanceof Tree) {
@@ -308,9 +347,21 @@ public class World {
 				obstacles.remove(obstacle);
 				i--;
 
-				if (obstacle instanceof Stone) {
-					stones.free((Stone) obstacle);
-				}	
+				if (obstacle instanceof StoneA) {
+					stonesA.free((StoneA) obstacle);
+				}
+				
+				if (obstacle instanceof StoneB) {
+					stonesB.free((StoneB) obstacle);
+				}
+				
+				if (obstacle instanceof StoneC) {
+					stonesC.free((StoneC) obstacle);
+				}
+				
+				if (obstacle instanceof StoneD) {
+					stonesD.free((StoneD) obstacle);
+				}
 
 				if (obstacle instanceof Tree) {
 					trees.free((Tree) obstacle);
@@ -503,9 +554,27 @@ public class World {
 
 			switch (nextObject) {
 
-			case OBSTACLE_STONE:
-				nextObstacle = stones.obtain();
-				setObstacle(nextObstacle, Stone.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, Stone.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
+			case OBSTACLE_STONE_A:
+				nextObstacle = stonesA.obtain();
+				setObstacle(nextObstacle, StoneA.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, StoneA.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
+
+				break;
+				
+			case OBSTACLE_STONE_B:
+				nextObstacle = stonesB.obtain();
+				setObstacle(nextObstacle, StoneB.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, StoneB.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
+
+				break;
+				
+			case OBSTACLE_STONE_C:
+				nextObstacle = stonesC.obtain();
+				setObstacle(nextObstacle, StoneC.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, StoneC.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
+
+				break;
+				
+			case OBSTACLE_STONE_D:
+				nextObstacle = stonesD.obtain();
+				setObstacle(nextObstacle, StoneD.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, StoneD.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
 
 				break;
 
@@ -621,9 +690,27 @@ public class World {
 
 			switch (nextObject) {
 
-			case OBSTACLE_STONE:
-				nextObstacle = stones.obtain();
-				setObstacle(nextObstacle, Stone.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, Stone.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
+			case OBSTACLE_STONE_A:
+				nextObstacle = stonesA.obtain();
+				setObstacle(nextObstacle, StoneA.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, StoneA.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
+
+				break;
+				
+			case OBSTACLE_STONE_B:
+				nextObstacle = stonesB.obtain();
+				setObstacle(nextObstacle, StoneB.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, StoneB.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
+
+				break;
+				
+			case OBSTACLE_STONE_C:
+				nextObstacle = stonesC.obtain();
+				setObstacle(nextObstacle, StoneC.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, StoneC.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
+
+				break;
+				
+			case OBSTACLE_STONE_D:
+				nextObstacle = stonesD.obtain();
+				setObstacle(nextObstacle, StoneD.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, StoneD.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
 
 				break;
 
@@ -739,9 +826,27 @@ public class World {
 
 			switch (nextObject) {
 
-			case OBSTACLE_STONE:
-				nextObstacle = stones.obtain();
-				setObstacle(nextObstacle, Stone.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, Stone.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
+			case OBSTACLE_STONE_A:
+				nextObstacle = stonesA.obtain();
+				setObstacle(nextObstacle, StoneA.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, StoneA.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
+
+				break;
+				
+			case OBSTACLE_STONE_B:
+				nextObstacle = stonesB.obtain();
+				setObstacle(nextObstacle, StoneB.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, StoneB.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
+
+				break;
+				
+			case OBSTACLE_STONE_C:
+				nextObstacle = stonesC.obtain();
+				setObstacle(nextObstacle, StoneC.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, StoneC.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
+
+				break;
+				
+			case OBSTACLE_STONE_D:
+				nextObstacle = stonesA.obtain();
+				setObstacle(nextObstacle, StoneD.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, StoneD.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
 
 				break;
 
@@ -915,7 +1020,7 @@ public class World {
 					}
 
 					if(collision) {
-						if (obstacle instanceof Stone) {
+						if ((obstacle instanceof StoneA) || (obstacle instanceof StoneB) || (obstacle instanceof StoneC) || (obstacle instanceof StoneD)) {
 							Assets.playSound(Assets.hitStoneSound);
 						}
 						

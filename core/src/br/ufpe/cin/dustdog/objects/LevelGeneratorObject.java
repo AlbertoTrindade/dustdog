@@ -1,7 +1,10 @@
 package br.ufpe.cin.dustdog.objects;
 
 public enum LevelGeneratorObject {
-	OBSTACLE_STONE,
+	OBSTACLE_STONE_A,
+	OBSTACLE_STONE_B,
+	OBSTACLE_STONE_C,
+	OBSTACLE_STONE_D,
 	OBSTACLE_TREE,
 	GARBAGE_PAPER_BALL_A,
 	GARBAGE_PAPER_BALL_B,

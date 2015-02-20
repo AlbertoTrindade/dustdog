@@ -81,8 +81,15 @@ public class Assets {
 	public static Animation spotGoingRightAnimation;
 	public static Animation spotGoingLeftAnimation;
 
-	public static TextureRegion obstacleStone;
+	public static TextureRegion obstacleStoneA;
+	public static TextureRegion obstacleStoneB;
+	public static TextureRegion obstacleStoneC;
+	public static TextureRegion obstacleStoneD;
 	public static TextureRegion obstacleTree;
+	public static TextureRegion obstacleBeachUmbrellaBlue;
+	public static TextureRegion obstacleBeachUmbrellaGreen;
+	public static TextureRegion obstacleBeachUmbrellaYellow;
+	public static TextureRegion obstacleSandCastle;
 
 	public static TextureRegion garbagePaperBallA;
 	public static TextureRegion garbagePaperBallB;
@@ -98,6 +105,13 @@ public class Assets {
 	public static TextureRegion garbageFishbone;
 
 	public static TextureRegion specialItemCookieBox;
+	public static TextureRegion specialItemCarBattery;
+	public static TextureRegion specialItemStarfish;
+	public static TextureRegion specialItemTornadoA;
+	public static TextureRegion specialItemTornadoB;
+	public static TextureRegion specialItemTornadoC;
+	
+	public static Animation specialItemTornado;
 
 	public static FreeTypeFontGenerator fontGenerator;
 	public static FreeTypeFontParameter fontParameter;
@@ -194,9 +208,16 @@ public class Assets {
 		spotGoingRightAnimation = new Animation(0.05f, spotForwardA, spotRightA, spotRightB, spotRightC, spotRightB, spotRightA, spotForwardA);
 		spotGoingLeftAnimation = new Animation(0.05f, spotForwardA, spotLeftA, spotLeftB, spotLeftC, spotLeftB, spotLeftA, spotForwardA);
 
-		obstacleStone = gameItemsAtlas.findRegion("stone");
+		obstacleStoneA = gameItemsAtlas.findRegion("stone_a");
+		obstacleStoneB = gameItemsAtlas.findRegion("stone_b");
+		obstacleStoneC = gameItemsAtlas.findRegion("stone_c");
+		obstacleStoneD = gameItemsAtlas.findRegion("stone_d");
 		obstacleTree = gameItemsAtlas.findRegion("tree");
 		obstacleTree.flip(true, false);
+		obstacleBeachUmbrellaBlue = gameItemsAtlas.findRegion("beach_umbrella_blue");
+		obstacleBeachUmbrellaGreen = gameItemsAtlas.findRegion("beach_umbrella_green");
+		obstacleBeachUmbrellaYellow = gameItemsAtlas.findRegion("beach_umbrella_yellow");
+		obstacleSandCastle = gameItemsAtlas.findRegion("sand_castle");
 
 		garbagePaperBallA = gameItemsAtlas.findRegion("paperball_a");
 		garbagePaperBallB = gameItemsAtlas.findRegion("paperball_b");
@@ -210,7 +231,15 @@ public class Assets {
 		garbageCanRed = gameItemsAtlas.findRegion("can_red");
 		garbageCanPurple = gameItemsAtlas.findRegion("can_purple");
 		garbageFishbone = gameItemsAtlas.findRegion("fishbone");
-		specialItemCookieBox =  gameItemsAtlas.findRegion("cookie_box");
+		
+		specialItemCookieBox = gameItemsAtlas.findRegion("cookie_box");
+		specialItemCarBattery = gameItemsAtlas.findRegion("car_battery");
+		specialItemStarfish = gameItemsAtlas.findRegion("starfish");
+		specialItemTornadoA = gameItemsAtlas.findRegion("tornado_a");
+		specialItemTornadoB = gameItemsAtlas.findRegion("tornado_b");
+		specialItemTornadoC = gameItemsAtlas.findRegion("tornado_c");
+		
+		specialItemTornado = new Animation(0.1f, specialItemTornadoA, specialItemTornadoB, specialItemTornadoC);
 
 		fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/berlin-sans-fb.ttf"));
 		fontParameter = new FreeTypeFontParameter();
