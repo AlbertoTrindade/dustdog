@@ -120,6 +120,7 @@ public class Assets {
 
 	public static Music music;
 	public static Music tornadoMusic;
+	public static Music starfishMusic;
 	
 	public static Sound clickSound;
 	public static Sound moveLeftSound;
@@ -130,8 +131,8 @@ public class Assets {
 	public static Sound hitGarbageSound;
 	public static Sound hitCookieBoxSound;
 	public static Sound hitCarBatterySound;
+	public static Sound hitStarfishSound;
 	public static Sound gameOverScoreSound;
-	public static Sound tornadoSound;
 
 	public static Texture loadTexture(String fileName) {
 		return new Texture(Gdx.files.internal(fileName));
@@ -261,6 +262,10 @@ public class Assets {
 		tornadoMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/music_powerup_aspiration.ogg"));
 		tornadoMusic.setLooping(true);
 		tornadoMusic.setVolume(1f);
+		
+		starfishMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/music_powerup_temp_invincibility.ogg"));
+		starfishMusic.setLooping(true);
+		starfishMusic.setVolume(1f);
 
 		clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.ogg"));
 		moveLeftSound = Gdx.audio.newSound(Gdx.files.internal("sounds/move_left.ogg"));
@@ -270,7 +275,8 @@ public class Assets {
 		hitTreeSound = Gdx.audio.newSound(Gdx.files.internal("sounds/crash_wood.ogg"));
 		hitGarbageSound = Gdx.audio.newSound(Gdx.files.internal("sounds/trash.ogg"));
 		hitCookieBoxSound = Gdx.audio.newSound(Gdx.files.internal("sounds/cookie_box.ogg"));
-		hitCarBatterySound = Gdx.audio.newSound(Gdx.files.internal("sounds/powerup_aspiration.ogg")); 
+		hitCarBatterySound = Gdx.audio.newSound(Gdx.files.internal("sounds/powerup_aspiration.ogg"));
+		hitStarfishSound = Gdx.audio.newSound(Gdx.files.internal("sounds/powerup_temp_invincibility.ogg"));
 		gameOverScoreSound = Gdx.audio.newSound(Gdx.files.internal("sounds/count_score.ogg"));
 	}
 

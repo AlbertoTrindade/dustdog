@@ -26,6 +26,7 @@ import br.ufpe.cin.dustdog.objects.obstacles.Tree;
 import br.ufpe.cin.dustdog.objects.specialItems.CarBattery;
 import br.ufpe.cin.dustdog.objects.specialItems.CookieBox;
 import br.ufpe.cin.dustdog.objects.specialItems.SpecialItem;
+import br.ufpe.cin.dustdog.objects.specialItems.Starfish;
 import br.ufpe.cin.dustdog.objects.specialItems.Tornado;
 import br.ufpe.cin.dustdog.objects.spot.Spot;
 
@@ -202,6 +203,10 @@ public class WorldRenderer {
 			
 			if (specialItem instanceof CarBattery) {
 				batch.draw(Assets.specialItemCarBattery, specialItem.position.x, specialItem.position.y, CarBattery.CAR_BATTERY_WIDTH, CarBattery.CAR_BATTERY_HEIGHT);
+			}
+			
+			if (specialItem instanceof Starfish) {
+				batch.draw(Assets.specialItemStarfish, specialItem.position.x, specialItem.position.y, Starfish.STARFISH_WIDTH, Starfish.STARFISH_HEIGHT);
 			}
 		}
 		

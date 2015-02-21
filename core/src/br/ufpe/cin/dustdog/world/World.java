@@ -35,6 +35,7 @@ import br.ufpe.cin.dustdog.objects.obstacles.Tree;
 import br.ufpe.cin.dustdog.objects.specialItems.CarBattery;
 import br.ufpe.cin.dustdog.objects.specialItems.CookieBox;
 import br.ufpe.cin.dustdog.objects.specialItems.SpecialItem;
+import br.ufpe.cin.dustdog.objects.specialItems.Starfish;
 import br.ufpe.cin.dustdog.objects.specialItems.Tornado;
 import br.ufpe.cin.dustdog.objects.spot.Spot;
 import br.ufpe.cin.dustdog.objects.spot.SwipeDirection;
@@ -49,6 +50,7 @@ public class World {
 	public static final float SPOT_COLLISION_DURATION = 3f;
 	public static final float SPOT_BARK_MIN_INTERVAL = 45f;
 	public static final float TORNADO_DURATION = 20f;
+	public static final float STARFISH_DURATION = 20f;
 
 	public static Vector2 velocity;
 
@@ -89,6 +91,7 @@ public class World {
 	public final Pool<CookieBox> cookieBoxes;
 	public final Pool<CarBattery> carBatteries;
 	public final Pool<Tornado> tornadoes;
+	public final Pool<Starfish> starfishes;
 
 	public boolean leftLaneIsFree;
 	public boolean centralLaneIsFree;
@@ -100,6 +103,9 @@ public class World {
 
 	public boolean tornadoRunning;
 	public float tornadoRunningTimeSpent;
+	
+	public boolean starfishRunning;
+	public float starfishRunningTimeSpent;
 
 	public Random random;
 	public float timeSpentSinceLastBark;
@@ -262,6 +268,13 @@ public class World {
 				return new Tornado(0, 0, Tornado.TORNADO_WIDTH, Tornado.TORNADO_HEIGHT);
 			}
 		};
+		
+		starfishes = new Pool<Starfish>() {
+			@Override
+			protected Starfish newObject() {
+				return new Starfish(0, 0, Starfish.STARFISH_WIDTH, Starfish.STARFISH_HEIGHT);
+			}
+		};
 
 		leftLaneIsFree = true;
 		centralLaneIsFree = true;
@@ -301,15 +314,23 @@ public class World {
 		if (spotCollision) {
 			spotCollisionTimeSpent += deltaTime;
 			spotCollisionStateTimeSpent += deltaTime;
-
-			if (spotCollisionStateTimeSpent >= SPOT_COLLISION_DURATION/20) {
+			
+			float collisionDuration = (starfishRunning ? STARFISH_DURATION : SPOT_COLLISION_DURATION);
+			float collisionStateDuration = (starfishRunning ? (STARFISH_DURATION/200) : (SPOT_COLLISION_DURATION/20));
+			
+			if (spotCollisionStateTimeSpent >= collisionStateDuration) {
 				spot.visible = !spot.visible;
 				spotCollisionStateTimeSpent = 0;
 			}
 
-			if (spotCollisionTimeSpent >= SPOT_COLLISION_DURATION) {
+			if (spotCollisionTimeSpent >= collisionDuration) {
 				spot.visible = true;
 				spotCollision = false;
+				
+				if (starfishRunning) {
+					starfishRunning = false;
+					if (Settings.soundEnabled) Assets.starfishMusic.stop();
+				}
 			}
 		}
 
@@ -593,10 +614,58 @@ public class World {
 
 			if (specialItem instanceof CookieBox) {
 				specialItemHeight = CookieBox.COOKIE_BOX_HEIGHT;
+				
+				// Checking if Cookie Box is in tornado area
+				if (tornadoRunning) {
+					// cookie box is front of spot
+					if ((specialItem.laneState == spot.laneState) && 
+						((specialItem.position.y >= spot.tornado.position.y + Tornado.TORNADO_HEIGHT) && 
+						 (specialItem.position.y <= spot.tornado.position.y + Tornado.TORNADO_HEIGHT + 0.8))) {
+						specialItem.velocity.y = -2*WORLD_VELOCITY;
+					}
+					
+					// cookie box is next to spot
+					switch (spot.laneState) {
+					case LEFT:
+						if ((specialItem.laneState == LaneState.CENTRAL) && 
+							((specialItem.position.y >= spot.tornado.position.y) &&
+							 (specialItem.position.y <= spot.tornado.position.y + Tornado.TORNADO_HEIGHT))){
+							specialItem.velocity.x = -2*WORLD_VELOCITY;
+						}
+
+						break;
+
+					case CENTRAL:
+						if ((specialItem.position.y >= spot.tornado.position.y) && (specialItem.position.y <= spot.tornado.position.y + Tornado.TORNADO_HEIGHT)){
+							if (specialItem.laneState == LaneState.LEFT) {
+								specialItem.velocity.x = 2*WORLD_VELOCITY;
+							}
+							
+							if (specialItem.laneState == LaneState.RIGHT) {
+								specialItem.velocity.x = -2*WORLD_VELOCITY;
+							}
+						}
+
+						break;
+
+					case RIGHT:
+						if ((specialItem.laneState == LaneState.CENTRAL) && 
+							((specialItem.position.y >= spot.tornado.position.y) &&
+							 (specialItem.position.y <= spot.tornado.position.y + Tornado.TORNADO_HEIGHT))){
+							specialItem.velocity.x = 2*WORLD_VELOCITY;
+						}
+
+						break;
+					}
+				}
 			}
 
 			if (specialItem instanceof CarBattery) {
 				specialItemHeight = CarBattery.CAR_BATTERY_HEIGHT;
+			}
+			
+			if (specialItem instanceof Starfish) {
+				specialItemHeight = Starfish.STARFISH_HEIGHT;
 			}
 
 			if (specialItem instanceof Tornado) {
@@ -634,6 +703,10 @@ public class World {
 
 				if (specialItem instanceof CarBattery) {
 					carBatteries.free((CarBattery) specialItem);
+				}
+				
+				if (specialItem instanceof Starfish) {
+					starfishes.free((Starfish) specialItem);
 				}
 			}
 		}
@@ -762,6 +835,12 @@ public class World {
 			case SPECIAL_ITEMS_CAR_BATTERY:
 				nextSpecialItem = carBatteries.obtain();
 				setSpecialItem(nextSpecialItem, CarBattery.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, CarBattery.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
+
+				break;
+				
+			case SPECIAL_ITEMS_STARFISH:
+				nextSpecialItem = starfishes.obtain();
+				setSpecialItem(nextSpecialItem, Starfish.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, Starfish.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
 
 				break;
 
@@ -906,6 +985,12 @@ public class World {
 				setSpecialItem(nextSpecialItem, CarBattery.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, CarBattery.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
 
 				break;
+				
+			case SPECIAL_ITEMS_STARFISH:
+				nextSpecialItem = starfishes.obtain();
+				setSpecialItem(nextSpecialItem, Starfish.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, Starfish.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
+
+				break;
 
 			case NONE:
 				centralLaneIsFree = true;
@@ -1046,6 +1131,12 @@ public class World {
 			case SPECIAL_ITEMS_CAR_BATTERY:
 				nextSpecialItem = carBatteries.obtain();
 				setSpecialItem(nextSpecialItem, CarBattery.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, CarBattery.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
+
+				break;
+				
+			case SPECIAL_ITEMS_STARFISH:
+				nextSpecialItem = starfishes.obtain();
+				setSpecialItem(nextSpecialItem, Starfish.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, Starfish.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
 
 				break;
 
@@ -1331,27 +1422,46 @@ public class World {
 						}
 
 						if (specialItem instanceof CarBattery) {
-							Assets.playSound(Assets.hitCarBatterySound);
-
 							carBatteries.free((CarBattery) specialItem);
+							
+							if (!starfishRunning) {
+								Assets.playSound(Assets.hitCarBatterySound);
+								
+								// Creating tornado
+								if (!tornadoRunning) {
+									if (!tornadoRunning && !starfishRunning) {
+										Tornado tornado = tornadoes.obtain();
+										tornado.position.x = spot.position.x + (Spot.SPOT_WIDTH - Tornado.TORNADO_WIDTH)/2;
+										tornado.position.y = spot.position.y + 2*Spot.SPOT_HEIGHT/3;
+										tornado.velocity.x = spot.velocity.x;
+										tornado.velocity.y = spot.velocity.y;
 
-							// Creating tornado
-							if (!tornadoRunning) {
-								Tornado tornado = tornadoes.obtain();
-								tornado.position.x = spot.position.x + (Spot.SPOT_WIDTH - Tornado.TORNADO_WIDTH)/2;
-								tornado.position.y = spot.position.y + 2*Spot.SPOT_HEIGHT/3;
-								tornado.velocity.x = spot.velocity.x;
-								tornado.velocity.y = spot.velocity.y;
+										spot.tornado = tornado;
+										specialItems.add(tornado);
 
-								spot.tornado = tornado;
-								specialItems.add(tornado);
-
-								tornadoRunning = true;
+										tornadoRunning = true;
+									}
+								}	
+								
+								tornadoRunningTimeSpent = 0;
+								if (Settings.soundEnabled) Assets.tornadoMusic.play();
 							}
+						}
+						
+						if (specialItem instanceof Starfish) {
+							starfishes.free((Starfish) specialItem);
 
-							tornadoRunningTimeSpent = 0;
-							if (Settings.soundEnabled) Assets.tornadoMusic.play();
-						}	
+							if (!tornadoRunning) {
+								Assets.playSound(Assets.hitStarfishSound);
+								
+								starfishRunning = true;
+								spotCollision = true; // set true to make spot to blink
+								starfishRunningTimeSpent = 0;
+								spotCollisionTimeSpent = 0;
+								
+								if (Settings.soundEnabled) Assets.starfishMusic.play();
+							}
+						}
 
 						collision = false;
 						break;
@@ -1397,7 +1507,6 @@ public class World {
 		}
 
 		for (Garbage garbage : garbages) {
-			garbage.velocity.x = 0;
 			garbage.velocity.y = -velocity;
 		}
 

@@ -200,6 +200,7 @@ public class GameScreen extends ScreenAdapter {
 				
 				// pause game musics (tornado and starfish)
 				if ((Settings.soundEnabled) && (world.tornadoRunning)) Assets.tornadoMusic.pause();
+				if ((Settings.soundEnabled) && (world.starfishRunning)) Assets.starfishMusic.pause();
 				
 				return;
 			}
@@ -216,6 +217,7 @@ public class GameScreen extends ScreenAdapter {
 			
 			// pause game musics (tornado and starfish)
 			if ((Settings.soundEnabled) && (world.tornadoRunning)) Assets.tornadoMusic.pause();
+			if ((Settings.soundEnabled) && (world.starfishRunning)) Assets.starfishMusic.pause();
 			
 			return;
 		}
@@ -304,6 +306,7 @@ public class GameScreen extends ScreenAdapter {
 			
 			// resume game musics (tornado and starfish)
 			if ((Settings.soundEnabled) && (world.tornadoRunning)) Assets.tornadoMusic.play();
+			if ((Settings.soundEnabled) && (world.starfishRunning)) Assets.starfishMusic.play();
 						
 			return;
 		}
@@ -315,6 +318,7 @@ public class GameScreen extends ScreenAdapter {
 			
 			// resume game musics (tornado and starfish)
 			if ((Settings.soundEnabled) && (world.tornadoRunning)) Assets.tornadoMusic.play();
+			if ((Settings.soundEnabled) && (world.starfishRunning)) Assets.starfishMusic.play();
 			
 			return;
 		}
@@ -477,6 +481,7 @@ public class GameScreen extends ScreenAdapter {
 		if (gameState == GameState.RUNNING) {
 			// pause game musics (tornado and starfish)
 			if ((Settings.soundEnabled) && (world.tornadoRunning)) Assets.tornadoMusic.pause();
+			if ((Settings.soundEnabled) && (world.starfishRunning)) Assets.starfishMusic.pause();
 			
 			gameState = GameState.PAUSED;
 		}

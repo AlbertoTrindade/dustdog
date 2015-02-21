@@ -115,16 +115,16 @@ public class LevelGenerator {
 			
 			float randomNumberObstacle = random.nextFloat();
 			
-			if (randomNumberObstacle < 0.5f) { 
+			if (randomNumberObstacle < 0.6f) { 
 				object = LevelGeneratorObject.OBSTACLE_TREE;
 			}
-			else if (randomNumberObstacle < 0.625f) {
+			else if (randomNumberObstacle < 0.7f) {
 				object = LevelGeneratorObject.OBSTACLE_STONE_A;
 			}
-			else if (randomNumberObstacle < 0.75f) {
+			else if (randomNumberObstacle < 0.8f) {
 				object = LevelGeneratorObject.OBSTACLE_STONE_B;
 			}
-			else if (randomNumberObstacle < 0.875f) {
+			else if (randomNumberObstacle < 0.9f) {
 				object = LevelGeneratorObject.OBSTACLE_STONE_C;				
 			}
 			else {
@@ -169,11 +169,11 @@ public class LevelGenerator {
 				object = LevelGeneratorObject.GARBAGE_COCONUT_NO_STRAW;
 			}
 		}
-		else if (randomNumber < 0.595f) {
+		else if (randomNumber < 0.597f) {
 			object = LevelGeneratorObject.GARBAGE_FISHBONE;
 		}
-		else if (randomNumber < 1f) {
-			if (!world.tornadoRunning) {
+		else if (randomNumber < 0.6f) {
+			if (!world.tornadoRunning && !world.starfishRunning) {
 				object = LevelGeneratorObject.SPECIAL_ITEMS_CAR_BATTERY;
 			}
 			else {
@@ -195,9 +195,18 @@ public class LevelGenerator {
 		else if (randomNumber < 0.94f) {
 			object = LevelGeneratorObject.GARBAGE_BOTTLE_GREEN;
 		}
-		else if (randomNumber < 1f) {
+		else if (randomNumber < 0.998f) {
 			object = LevelGeneratorObject.GARBAGE_BOTTLE_PURPLE;
 		}
+		else {
+			if (!world.tornadoRunning && !world.starfishRunning) {
+				object = LevelGeneratorObject.SPECIAL_ITEMS_STARFISH;
+			}
+			else {
+				object = LevelGeneratorObject.GARBAGE_FISHBONE;
+			}
+		}
+		
 		return object;
 	}
 	
