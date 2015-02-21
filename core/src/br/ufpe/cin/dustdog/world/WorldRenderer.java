@@ -206,7 +206,7 @@ public class WorldRenderer {
 		}
 		
 		for (SpecialItem specialItem : world.specialItems) {
-			if (specialItem instanceof Tornado) {
+			if ((specialItem instanceof Tornado) && (world.spot.visible)) {
 				TextureRegion keyFrame = Assets.specialItemTornado.getKeyFrame(world.spot.tornado.stateTime, true);
 				batch.draw(keyFrame, specialItem.position.x, specialItem.position.y, Tornado.TORNADO_WIDTH, Tornado.TORNADO_HEIGHT);
 			}

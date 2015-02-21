@@ -15,7 +15,8 @@ public class Tornado extends SpecialItem {
 	}
 	
 	public void update(float deltaTime) {
-		super.update(deltaTime);
+		bounds.x = position.x;
+		bounds.y = position.y;
 		stateTime += deltaTime;		
 	}
 }

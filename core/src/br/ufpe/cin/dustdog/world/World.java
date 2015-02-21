@@ -48,7 +48,7 @@ public class World {
 	public static final float WORLD_VELOCITY_INCREMENT = 0.2f;
 	public static final float SPOT_COLLISION_DURATION = 3f;
 	public static final float SPOT_BARK_MIN_INTERVAL = 45f;
-	public static final float TORNADO_DURATION = 7f;
+	public static final float TORNADO_DURATION = 20f;
 
 	public static Vector2 velocity;
 
@@ -588,7 +588,6 @@ public class World {
 
 		for (int i = 0; i < specialItems.size(); i++) {
 			specialItem = specialItems.get(i);			
-			specialItem.update(deltaTime);
 
 			float specialItemHeight = 0f;
 
@@ -601,9 +600,11 @@ public class World {
 			}
 
 			if (specialItem instanceof Tornado) {
-				specialItem.velocity.x = spot.velocity.x;
-				specialItem.velocity.y = spot.velocity.y;
+				specialItem.position.x = spot.position.x + (Spot.SPOT_WIDTH - Tornado.TORNADO_WIDTH)/2;
+				specialItem.position.y = spot.position.y + 2*Spot.SPOT_HEIGHT/3;
 			}
+			
+			specialItem.update(deltaTime);
 
 			// Check if some obstacle is not being completely showing up			
 			if (specialItem.position.y >= WorldRenderer.FRUSTUM_HEIGHT - specialItemHeight) {
@@ -1396,6 +1397,7 @@ public class World {
 		}
 
 		for (Garbage garbage : garbages) {
+			garbage.velocity.x = 0;
 			garbage.velocity.y = -velocity;
 		}
 
