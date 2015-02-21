@@ -10,37 +10,12 @@ import com.badlogic.gdx.utils.Pool;
 
 import br.ufpe.cin.dustdog.Assets;
 import br.ufpe.cin.dustdog.Settings;
-import br.ufpe.cin.dustdog.objects.LaneState;
-import br.ufpe.cin.dustdog.objects.LevelGenerator;
-import br.ufpe.cin.dustdog.objects.LevelGeneratorObject;
-import br.ufpe.cin.dustdog.objects.garbages.BottleBrown;
-import br.ufpe.cin.dustdog.objects.garbages.BottleGreen;
-import br.ufpe.cin.dustdog.objects.garbages.BottlePurple;
-import br.ufpe.cin.dustdog.objects.garbages.CanGreen;
-import br.ufpe.cin.dustdog.objects.garbages.CanPurple;
-import br.ufpe.cin.dustdog.objects.garbages.CanRed;
-import br.ufpe.cin.dustdog.objects.garbages.CoconutNoStraw;
-import br.ufpe.cin.dustdog.objects.garbages.CoconutStraw;
-import br.ufpe.cin.dustdog.objects.garbages.Fishbone;
-import br.ufpe.cin.dustdog.objects.garbages.Garbage;
-import br.ufpe.cin.dustdog.objects.garbages.PaperBallA;
-import br.ufpe.cin.dustdog.objects.garbages.PaperBallB;
-import br.ufpe.cin.dustdog.objects.garbages.PaperBallC;
-import br.ufpe.cin.dustdog.objects.obstacles.Obstacle;
-import br.ufpe.cin.dustdog.objects.obstacles.StoneA;
-import br.ufpe.cin.dustdog.objects.obstacles.StoneB;
-import br.ufpe.cin.dustdog.objects.obstacles.StoneC;
-import br.ufpe.cin.dustdog.objects.obstacles.StoneD;
-import br.ufpe.cin.dustdog.objects.obstacles.Tree;
-import br.ufpe.cin.dustdog.objects.specialItems.CarBattery;
-import br.ufpe.cin.dustdog.objects.specialItems.CookieBox;
-import br.ufpe.cin.dustdog.objects.specialItems.SpecialItem;
-import br.ufpe.cin.dustdog.objects.specialItems.Starfish;
-import br.ufpe.cin.dustdog.objects.specialItems.Tornado;
-import br.ufpe.cin.dustdog.objects.spot.Spot;
-import br.ufpe.cin.dustdog.objects.spot.SwipeDirection;
-import br.ufpe.cin.dustdog.parallax.ParallaxBackground;
-import br.ufpe.cin.dustdog.parallax.ParallaxLayer;
+import br.ufpe.cin.dustdog.objects.*;
+import br.ufpe.cin.dustdog.objects.garbages.*;
+import br.ufpe.cin.dustdog.objects.obstacles.*;
+import br.ufpe.cin.dustdog.objects.specialItems.*;
+import br.ufpe.cin.dustdog.objects.spot.*;
+import br.ufpe.cin.dustdog.parallax.*;
 
 public class World {
 
@@ -1376,7 +1351,13 @@ public class World {
 		for (int i = 0; i < specialItems.size(); i++) {
 			specialItem = specialItems.get(i);
 
-			if (specialItem.position.y <= spot.position.y + spot.bounds.height) {
+			// Tornado dont collide with spot (or itself)
+			if (specialItem instanceof Tornado) {
+				continue;
+			}
+			
+			// Check collision with Spot
+			if (specialItem.position.y <= spot.position.y + spot.bounds.height) {				
 				if (spot.bounds.overlaps(specialItem.bounds)) {
 
 					switch(spot.spotState) {
@@ -1406,67 +1387,72 @@ public class World {
 						break;
 
 					}
+				}
+			}
 
-					if(collision) {
-						specialItems.remove(specialItem);
-						i--;
+			// Checking collision with tornado
+			if (tornadoRunning && (spot.tornado.bounds.overlaps(specialItem.bounds))) {
+				collision = true;
+			}
+			
+			if(collision) {
+				specialItems.remove(specialItem);
+				i--;
 
-						if (specialItem instanceof CookieBox) {
-							Assets.playSound(Assets.hitCookieBoxSound);
+				if (specialItem instanceof CookieBox) {
+					Assets.playSound(Assets.hitCookieBoxSound);
 
-							if (spot.numberLives < Spot.SPOT_NUMBER_LIVES) {
-								spot.numberLives++;
-							}
+					if (spot.numberLives < Spot.SPOT_NUMBER_LIVES) {
+						spot.numberLives++;
+					}
 
-							cookieBoxes.free((CookieBox) specialItem);
-						}
+					cookieBoxes.free((CookieBox) specialItem);
+				}
 
-						if (specialItem instanceof CarBattery) {
-							carBatteries.free((CarBattery) specialItem);
-							
-							if (!starfishRunning) {
-								Assets.playSound(Assets.hitCarBatterySound);
-								
-								// Creating tornado
-								if (!tornadoRunning) {
-									if (!tornadoRunning && !starfishRunning) {
-										Tornado tornado = tornadoes.obtain();
-										tornado.position.x = spot.position.x + (Spot.SPOT_WIDTH - Tornado.TORNADO_WIDTH)/2;
-										tornado.position.y = spot.position.y + 2*Spot.SPOT_HEIGHT/3;
-										tornado.velocity.x = spot.velocity.x;
-										tornado.velocity.y = spot.velocity.y;
-
-										spot.tornado = tornado;
-										specialItems.add(tornado);
-
-										tornadoRunning = true;
-									}
-								}	
-								
-								tornadoRunningTimeSpent = 0;
-								if (Settings.soundEnabled) Assets.tornadoMusic.play();
-							}
-						}
+				if (specialItem instanceof CarBattery) {
+					carBatteries.free((CarBattery) specialItem);
+					
+					if (!starfishRunning) {
+						Assets.playSound(Assets.hitCarBatterySound);
 						
-						if (specialItem instanceof Starfish) {
-							starfishes.free((Starfish) specialItem);
+						// Creating tornado
+						if (!tornadoRunning) {
+							if (!tornadoRunning && !starfishRunning) {
+								Tornado tornado = tornadoes.obtain();
+								tornado.position.x = spot.position.x + (Spot.SPOT_WIDTH - Tornado.TORNADO_WIDTH)/2;
+								tornado.position.y = spot.position.y + 2*Spot.SPOT_HEIGHT/3;
+								tornado.velocity.x = spot.velocity.x;
+								tornado.velocity.y = spot.velocity.y;
 
-							if (!tornadoRunning) {
-								Assets.playSound(Assets.hitStarfishSound);
-								
-								starfishRunning = true;
-								spotCollision = true; // set true to make spot to blink
-								starfishRunningTimeSpent = 0;
-								spotCollisionTimeSpent = 0;
-								
-								if (Settings.soundEnabled) Assets.starfishMusic.play();
+								spot.tornado = tornado;
+								specialItems.add(tornado);
+
+								tornadoRunning = true;
 							}
-						}
-
-						collision = false;
-						break;
+						}	
+						
+						tornadoRunningTimeSpent = 0;
+						if (Settings.soundEnabled) Assets.tornadoMusic.play();
 					}
 				}
+				
+				if (specialItem instanceof Starfish) {
+					starfishes.free((Starfish) specialItem);
+
+					if (!tornadoRunning) {
+						Assets.playSound(Assets.hitStarfishSound);
+						
+						starfishRunning = true;
+						spotCollision = true; // set true to make spot to blink
+						starfishRunningTimeSpent = 0;
+						spotCollisionTimeSpent = 0;
+						
+						if (Settings.soundEnabled) Assets.starfishMusic.play();
+					}
+				}
+
+				collision = false;
+				break;
 			}
 		}
 	}

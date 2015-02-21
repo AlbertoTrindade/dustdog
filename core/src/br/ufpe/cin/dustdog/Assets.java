@@ -88,6 +88,7 @@ public class Assets {
 	public static TextureRegion obstacleTree;
 	public static TextureRegion obstacleBeachUmbrellaBlue;
 	public static TextureRegion obstacleBeachUmbrellaGreen;
+	public static TextureRegion obstacleBeachUmbrellaRed;
 	public static TextureRegion obstacleBeachUmbrellaYellow;
 	public static TextureRegion obstacleSandCastle;
 
@@ -221,6 +222,7 @@ public class Assets {
 		obstacleTree.flip(true, false);
 		obstacleBeachUmbrellaBlue = gameItemsAtlas.findRegion("beach_umbrella_blue");
 		obstacleBeachUmbrellaGreen = gameItemsAtlas.findRegion("beach_umbrella_green");
+		obstacleBeachUmbrellaRed = gameItemsAtlas.findRegion("beach_umbrella_red");
 		obstacleBeachUmbrellaYellow = gameItemsAtlas.findRegion("beach_umbrella_yellow");
 		obstacleSandCastle = gameItemsAtlas.findRegion("sand_castle");
 
