@@ -45,6 +45,11 @@ public class World {
 	public final Pool<StoneC> stonesC;
 	public final Pool<StoneD> stonesD;
 	public final Pool<Tree> trees;
+	public final Pool<BeachUmbrellaBlue> beachUmbrellasBlue;
+	public final Pool<BeachUmbrellaGreen> beachUmbrellasGreen;
+	public final Pool<BeachUmbrellaRed> beachUmbrellasRed;
+	public final Pool<BeachUmbrellaYellow> beachUmbrellasYellow;
+	public final Pool<Sandcastle> sandcastles;
 
 	public final List<Garbage> garbages;
 
@@ -131,6 +136,41 @@ public class World {
 			@Override
 			protected Tree newObject() {
 				return new Tree(0, 0, Tree.TREE_WIDTH, Tree.TREE_HEIGHT);
+			}
+		};
+		
+		beachUmbrellasBlue = new Pool<BeachUmbrellaBlue>() {
+			@Override
+			protected BeachUmbrellaBlue newObject() {
+				return new BeachUmbrellaBlue(0, 0, BeachUmbrellaBlue.BEACH_UMBRELLA_BLUE_WIDTH, BeachUmbrellaBlue.BEACH_UMBRELLA_BLUE_HEIGHT);
+			}
+		};
+		
+		beachUmbrellasGreen = new Pool<BeachUmbrellaGreen>() {
+			@Override
+			protected BeachUmbrellaGreen newObject() {
+				return new BeachUmbrellaGreen(0, 0, BeachUmbrellaGreen.BEACH_UMBRELLA_GREEN_WIDTH, BeachUmbrellaGreen.BEACH_UMBRELLA_GREEN_HEIGHT);
+			}
+		};
+		
+		beachUmbrellasRed = new Pool<BeachUmbrellaRed>() {
+			@Override
+			protected BeachUmbrellaRed newObject() {
+				return new BeachUmbrellaRed(0, 0, BeachUmbrellaRed.BEACH_UMBRELLA_RED_WIDTH, BeachUmbrellaRed.BEACH_UMBRELLA_RED_COLLISION_HEIGHT);
+			}
+		};
+		
+		beachUmbrellasYellow = new Pool<BeachUmbrellaYellow>() {
+			@Override
+			protected BeachUmbrellaYellow newObject() {
+				return new BeachUmbrellaYellow(0, 0, BeachUmbrellaYellow.BEACH_UMBRELLA_YELLOW_WIDTH, BeachUmbrellaYellow.BEACH_UMBRELLA_YELLOW_HEIGHT);
+			}
+		};
+		
+		sandcastles = new Pool<Sandcastle>() {
+			@Override
+			protected Sandcastle newObject() {
+				return new Sandcastle(0, 0, Sandcastle.SANDCASTLE_WIDTH, Sandcastle.SANDCASTLE_HEIGHT);
 			}
 		};
 
@@ -349,6 +389,26 @@ public class World {
 			if (obstacle instanceof Tree) {
 				obstacleHeight = Tree.TREE_HEIGHT;
 			}
+			
+			if (obstacle instanceof BeachUmbrellaBlue) {
+				obstacleHeight = BeachUmbrellaBlue.BEACH_UMBRELLA_BLUE_HEIGHT;
+			}
+			
+			if (obstacle instanceof BeachUmbrellaGreen) {
+				obstacleHeight = BeachUmbrellaGreen.BEACH_UMBRELLA_GREEN_HEIGHT;
+			}
+			
+			if (obstacle instanceof BeachUmbrellaRed) {
+				obstacleHeight = BeachUmbrellaRed.BEACH_UMBRELLA_RED_HEIGHT;
+			}
+			
+			if (obstacle instanceof BeachUmbrellaYellow) {
+				obstacleHeight = BeachUmbrellaYellow.BEACH_UMBRELLA_YELLOW_HEIGHT;
+			}
+			
+			if (obstacle instanceof Sandcastle) {
+				obstacleHeight = Sandcastle.SANDCASTLE_HEIGHT;
+			}
 
 			// Check if some obstacle is not being completely showing up			
 			if (obstacle.position.y >= WorldRenderer.FRUSTUM_HEIGHT - obstacleHeight) {
@@ -390,6 +450,26 @@ public class World {
 
 				if (obstacle instanceof Tree) {
 					trees.free((Tree) obstacle);
+				}
+				
+				if (obstacle instanceof BeachUmbrellaBlue) {
+					beachUmbrellasBlue.free((BeachUmbrellaBlue) obstacle);
+				}
+				
+				if (obstacle instanceof BeachUmbrellaGreen) {
+					beachUmbrellasGreen.free((BeachUmbrellaGreen) obstacle);
+				}
+				
+				if (obstacle instanceof BeachUmbrellaRed) {
+					beachUmbrellasRed.free((BeachUmbrellaRed) obstacle);
+				}
+				
+				if (obstacle instanceof BeachUmbrellaYellow) {
+					beachUmbrellasYellow.free((BeachUmbrellaYellow) obstacle);
+				}
+				
+				if (obstacle instanceof Sandcastle) {
+					sandcastles.free((Sandcastle) obstacle);
 				}
 			}
 		}
@@ -721,6 +801,36 @@ public class World {
 				setObstacle(nextObstacle, Tree.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, Tree.LEFT_LANE_POSITION_X + Tree.TREE_COLLISION_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
 
 				break;
+				
+			case OBSTACLE_BEACH_UMBRELLA_BLUE:
+				nextObstacle = beachUmbrellasBlue.obtain();
+				setObstacle(nextObstacle, BeachUmbrellaBlue.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, BeachUmbrellaBlue.LEFT_LANE_POSITION_X + BeachUmbrellaBlue.BEACH_UMBRELLA_BLUE_COLLISION_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
+
+				break;
+				
+			case OBSTACLE_BEACH_UMBRELLA_GREEN:
+				nextObstacle = beachUmbrellasGreen.obtain();
+				setObstacle(nextObstacle, BeachUmbrellaGreen.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, BeachUmbrellaGreen.LEFT_LANE_POSITION_X + BeachUmbrellaGreen.BEACH_UMBRELLA_GREEN_COLLISION_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
+
+				break;
+				
+			case OBSTACLE_BEACH_UMBRELLA_RED:
+				nextObstacle = beachUmbrellasRed.obtain();
+				setObstacle(nextObstacle, BeachUmbrellaRed.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, BeachUmbrellaRed.LEFT_LANE_POSITION_X + BeachUmbrellaRed.BEACH_UMBRELLA_RED_COLLISION_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
+
+				break;
+				
+			case OBSTACLE_BEACH_UMBRELLA_YELLOW:
+				nextObstacle = beachUmbrellasYellow.obtain();
+				setObstacle(nextObstacle, BeachUmbrellaYellow.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, BeachUmbrellaYellow.LEFT_LANE_POSITION_X + BeachUmbrellaYellow.BEACH_UMBRELLA_YELLOW_COLLISION_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
+
+				break;
+				
+			case OBSTACLE_SANDCASTLE:
+				nextObstacle = sandcastles.obtain();
+				setObstacle(nextObstacle, Sandcastle.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, Sandcastle.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
+
+				break;
 
 			case GARBAGE_PAPER_BALL_A:
 				nextGarbage = paperBallsA.obtain();
@@ -869,6 +979,36 @@ public class World {
 				setObstacle(nextObstacle, Tree.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, Tree.CENTRAL_LANE_POSITION_X + Tree.TREE_COLLISION_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
 
 				break;
+				
+			case OBSTACLE_BEACH_UMBRELLA_BLUE:
+				nextObstacle = beachUmbrellasBlue.obtain();
+				setObstacle(nextObstacle, BeachUmbrellaBlue.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, BeachUmbrellaBlue.CENTRAL_LANE_POSITION_X + BeachUmbrellaBlue.BEACH_UMBRELLA_BLUE_COLLISION_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
+
+				break;
+				
+			case OBSTACLE_BEACH_UMBRELLA_GREEN:
+				nextObstacle = beachUmbrellasGreen.obtain();
+				setObstacle(nextObstacle, BeachUmbrellaGreen.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, BeachUmbrellaGreen.CENTRAL_LANE_POSITION_X + BeachUmbrellaGreen.BEACH_UMBRELLA_GREEN_COLLISION_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
+
+				break;
+				
+			case OBSTACLE_BEACH_UMBRELLA_RED:
+				nextObstacle = beachUmbrellasRed.obtain();
+				setObstacle(nextObstacle, BeachUmbrellaRed.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, BeachUmbrellaRed.CENTRAL_LANE_POSITION_X + BeachUmbrellaRed.BEACH_UMBRELLA_RED_COLLISION_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
+
+				break;
+				
+			case OBSTACLE_BEACH_UMBRELLA_YELLOW:
+				nextObstacle = beachUmbrellasYellow.obtain();
+				setObstacle(nextObstacle, BeachUmbrellaYellow.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, BeachUmbrellaYellow.CENTRAL_LANE_POSITION_X + BeachUmbrellaYellow.BEACH_UMBRELLA_YELLOW_COLLISION_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
+
+				break;
+				
+			case OBSTACLE_SANDCASTLE:
+				nextObstacle = sandcastles.obtain();
+				setObstacle(nextObstacle, Sandcastle.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, Sandcastle.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
+
+				break;
 
 			case GARBAGE_PAPER_BALL_A:
 				nextGarbage = paperBallsA.obtain();
@@ -1015,6 +1155,36 @@ public class World {
 			case OBSTACLE_TREE:
 				nextObstacle = trees.obtain();
 				setObstacle(nextObstacle, Tree.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, Tree.RIGHT_LANE_POSITION_X + Tree.TREE_COLLISION_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
+
+				break;
+				
+			case OBSTACLE_BEACH_UMBRELLA_BLUE:
+				nextObstacle = beachUmbrellasBlue.obtain();
+				setObstacle(nextObstacle, BeachUmbrellaBlue.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, BeachUmbrellaBlue.RIGHT_LANE_POSITION_X + BeachUmbrellaBlue.BEACH_UMBRELLA_BLUE_COLLISION_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
+
+				break;
+				
+			case OBSTACLE_BEACH_UMBRELLA_GREEN:
+				nextObstacle = beachUmbrellasGreen.obtain();
+				setObstacle(nextObstacle, BeachUmbrellaGreen.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, BeachUmbrellaGreen.RIGHT_LANE_POSITION_X + BeachUmbrellaGreen.BEACH_UMBRELLA_GREEN_COLLISION_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
+
+				break;
+				
+			case OBSTACLE_BEACH_UMBRELLA_RED:
+				nextObstacle = beachUmbrellasRed.obtain();
+				setObstacle(nextObstacle, BeachUmbrellaRed.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, BeachUmbrellaRed.RIGHT_LANE_POSITION_X + BeachUmbrellaRed.BEACH_UMBRELLA_RED_COLLISION_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
+
+				break;
+				
+			case OBSTACLE_BEACH_UMBRELLA_YELLOW:
+				nextObstacle = beachUmbrellasYellow.obtain();
+				setObstacle(nextObstacle, BeachUmbrellaYellow.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, BeachUmbrellaYellow.RIGHT_LANE_POSITION_X + BeachUmbrellaYellow.BEACH_UMBRELLA_YELLOW_COLLISION_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
+
+				break;
+				
+			case OBSTACLE_SANDCASTLE:
+				nextObstacle = sandcastles.obtain();
+				setObstacle(nextObstacle, Sandcastle.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, Sandcastle.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
 
 				break;
 
@@ -1200,6 +1370,14 @@ public class World {
 
 						if (obstacle instanceof Tree) {
 							Assets.playSound(Assets.hitTreeSound);
+						}
+						
+						if ((obstacle instanceof BeachUmbrellaBlue) || (obstacle instanceof BeachUmbrellaGreen) || (obstacle instanceof BeachUmbrellaRed) || (obstacle instanceof BeachUmbrellaYellow)) {
+							Assets.playSound(Assets.hitBeachUmbrellaSound);
+						}
+						
+						if (obstacle instanceof Sandcastle) {
+							Assets.playSound(Assets.hitSandcastleSound);
 						}
 
 						break;

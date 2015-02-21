@@ -5,238 +5,238 @@ filter: Nearest,Nearest
 repeat: none
 beach_umbrella_blue
   rotate: false
-  xy: 1, 358
+  xy: 1, 361
   size: 187, 150
   orig: 187, 150
   offset: 0, 0
   index: -1
 beach_umbrella_green
   rotate: false
-  xy: 1, 206
+  xy: 1, 209
   size: 187, 150
   orig: 187, 150
   offset: 0, 0
   index: -1
 beach_umbrella_red
   rotate: false
-  xy: 190, 358
+  xy: 190, 361
   size: 187, 150
   orig: 187, 150
   offset: 0, 0
   index: -1
 beach_umbrella_yellow
   rotate: false
-  xy: 1, 54
+  xy: 1, 57
   size: 187, 150
   orig: 187, 150
   offset: 0, 0
   index: -1
 tree
   rotate: false
-  xy: 190, 192
+  xy: 190, 195
   size: 142, 164
   orig: 142, 164
   offset: 0, 0
   index: -1
 spot_right_c
   rotate: false
-  xy: 379, 352
+  xy: 379, 355
   size: 130, 156
   orig: 130, 156
   offset: 0, 0
   index: -1
 spot_right_a
   rotate: false
-  xy: 511, 337
+  xy: 511, 340
   size: 124, 171
   orig: 124, 171
   offset: 0, 0
   index: -1
 spot_right_b
   rotate: false
-  xy: 637, 341
+  xy: 637, 344
   size: 120, 167
   orig: 120, 167
   offset: 0, 0
   index: -1
 spot_forward_a
   rotate: false
-  xy: 759, 337
+  xy: 759, 340
   size: 113, 171
   orig: 113, 171
   offset: 0, 0
   index: -1
 spot_forward_b
   rotate: false
-  xy: 874, 337
+  xy: 874, 340
   size: 113, 171
   orig: 113, 171
   offset: 0, 0
   index: -1
 spot_forward_c
   rotate: false
-  xy: 190, 19
+  xy: 190, 22
   size: 113, 171
   orig: 113, 171
   offset: 0, 0
   index: -1
+sand_castle
+  rotate: false
+  xy: 334, 267
+  size: 120, 86
+  orig: 120, 86
+  offset: 0, 0
+  index: -1
+stone_c
+  rotate: false
+  xy: 334, 183
+  size: 85, 82
+  orig: 85, 82
+  offset: 0, 0
+  index: -1
 tornado_c
   rotate: false
-  xy: 334, 242
+  xy: 305, 73
   size: 80, 108
   orig: 80, 108
   offset: 0, 0
   index: -1
 tornado_b
   rotate: false
-  xy: 416, 248
+  xy: 387, 79
   size: 80, 102
   orig: 80, 102
   offset: 0, 0
   index: -1
-sand_castle
-  rotate: false
-  xy: 498, 261
-  size: 103, 74
-  orig: 103, 74
-  offset: 0, 0
-  index: -1
 car_battery
   rotate: false
-  xy: 334, 174
+  xy: 305, 5
   size: 83, 66
   orig: 83, 66
   offset: 0, 0
   index: -1
-tornado_a
-  rotate: false
-  xy: 305, 76
-  size: 80, 96
-  orig: 80, 96
-  offset: 0, 0
-  index: -1
-stone_c
-  rotate: false
-  xy: 419, 164
-  size: 85, 82
-  orig: 85, 82
-  offset: 0, 0
-  index: -1
-cookie_box
-  rotate: false
-  xy: 506, 170
-  size: 76, 89
-  orig: 76, 89
-  offset: 0, 0
-  index: -1
-stone_a
-  rotate: false
-  xy: 305, 9
-  size: 83, 65
-  orig: 83, 65
-  offset: 0, 0
-  index: -1
 starfish
   rotate: false
-  xy: 387, 88
+  xy: 390, 3
   size: 75, 74
   orig: 75, 74
   offset: 0, 0
   index: -1
 stone_b
   rotate: false
-  xy: 390, 12
+  xy: 421, 191
   size: 70, 74
   orig: 70, 74
   offset: 0, 0
   index: -1
-stone_d
+tornado_a
   rotate: false
-  xy: 464, 103
-  size: 73, 59
-  orig: 73, 59
+  xy: 469, 93
+  size: 80, 96
+  orig: 80, 96
   offset: 0, 0
   index: -1
 coconut_straw
   rotate: false
-  xy: 1, 1
+  xy: 1, 4
   size: 44, 51
   orig: 44, 51
   offset: 0, 0
   index: -1
+stone_a
+  rotate: false
+  xy: 456, 273
+  size: 83, 65
+  orig: 83, 65
+  offset: 0, 0
+  index: -1
+cookie_box
+  rotate: false
+  xy: 541, 249
+  size: 76, 89
+  orig: 76, 89
+  offset: 0, 0
+  index: -1
 coconut_no_straw
   rotate: false
-  xy: 47, 8
+  xy: 47, 11
   size: 43, 44
   orig: 43, 44
   offset: 0, 0
   index: -1
+stone_d
+  rotate: false
+  xy: 469, 32
+  size: 73, 59
+  orig: 73, 59
+  offset: 0, 0
+  index: -1
+paperball_c
+  rotate: false
+  xy: 467, 1
+  size: 32, 29
+  orig: 32, 29
+  offset: 0, 0
+  index: -1
+fishbone
+  rotate: false
+  xy: 493, 250
+  size: 46, 21
+  orig: 46, 21
+  offset: 0, 0
+  index: -1
 bottle_brown
   rotate: false
-  xy: 989, 445
+  xy: 989, 448
   size: 20, 63
   orig: 20, 63
   offset: 0, 0
   index: -1
 can_purple
   rotate: false
-  xy: 603, 290
+  xy: 493, 203
   size: 24, 45
   orig: 24, 45
   offset: 0, 0
   index: -1
 can_red
   rotate: false
-  xy: 92, 7
+  xy: 92, 10
   size: 24, 45
   orig: 24, 45
   offset: 0, 0
   index: -1
 can_green
   rotate: false
-  xy: 118, 8
+  xy: 118, 11
   size: 23, 44
   orig: 23, 44
   offset: 0, 0
   index: -1
 paperball_a
   rotate: false
-  xy: 143, 24
+  xy: 501, 2
   size: 36, 28
   orig: 36, 28
   offset: 0, 0
   index: -1
 bottle_green
   rotate: false
-  xy: 989, 400
+  xy: 989, 403
   size: 19, 43
   orig: 19, 43
   offset: 0, 0
   index: -1
 bottle_purple
   rotate: false
-  xy: 989, 355
+  xy: 519, 205
   size: 19, 43
   orig: 19, 43
   offset: 0, 0
   index: -1
-fishbone
-  rotate: false
-  xy: 464, 80
-  size: 46, 21
-  orig: 46, 21
-  offset: 0, 0
-  index: -1
-paperball_c
-  rotate: false
-  xy: 462, 49
-  size: 32, 29
-  orig: 32, 29
-  offset: 0, 0
-  index: -1
 paperball_b
   rotate: false
-  xy: 462, 22
+  xy: 143, 30
   size: 29, 25
   orig: 29, 25
   offset: 0, 0

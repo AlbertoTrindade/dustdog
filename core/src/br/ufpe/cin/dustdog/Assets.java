@@ -96,7 +96,7 @@ public class Assets {
 	public static TextureRegion obstacleBeachUmbrellaGreen;
 	public static TextureRegion obstacleBeachUmbrellaRed;
 	public static TextureRegion obstacleBeachUmbrellaYellow;
-	public static TextureRegion obstacleSandCastle;
+	public static TextureRegion obstacleSandcastle;
 
 	public static TextureRegion garbagePaperBallA;
 	public static TextureRegion garbagePaperBallB;
@@ -135,6 +135,8 @@ public class Assets {
 	public static Sound barkSound;
 	public static Sound hitStoneSound;
 	public static Sound hitTreeSound;
+	public static Sound hitBeachUmbrellaSound;
+	public static Sound hitSandcastleSound;
 	public static Sound hitGarbageSound;
 	public static Sound hitCookieBoxSound;
 	public static Sound hitCarBatterySound;
@@ -236,7 +238,7 @@ public class Assets {
 		obstacleBeachUmbrellaGreen = gameItemsAtlas.findRegion("beach_umbrella_green");
 		obstacleBeachUmbrellaRed = gameItemsAtlas.findRegion("beach_umbrella_red");
 		obstacleBeachUmbrellaYellow = gameItemsAtlas.findRegion("beach_umbrella_yellow");
-		obstacleSandCastle = gameItemsAtlas.findRegion("sand_castle");
+		obstacleSandcastle = gameItemsAtlas.findRegion("sand_castle");
 
 		garbagePaperBallA = gameItemsAtlas.findRegion("paperball_a");
 		garbagePaperBallB = gameItemsAtlas.findRegion("paperball_b");
@@ -287,6 +289,8 @@ public class Assets {
 		barkSound = Gdx.audio.newSound(Gdx.files.internal("sounds/dog_barks.ogg"));
 		hitStoneSound = Gdx.audio.newSound(Gdx.files.internal("sounds/crash_rock.ogg"));
 		hitTreeSound = Gdx.audio.newSound(Gdx.files.internal("sounds/crash_wood.ogg"));
+		hitBeachUmbrellaSound = Gdx.audio.newSound(Gdx.files.internal("sounds/crash_sunshade.ogg"));
+		hitSandcastleSound = Gdx.audio.newSound(Gdx.files.internal("sounds/crash_sand_castle.ogg"));
 		hitGarbageSound = Gdx.audio.newSound(Gdx.files.internal("sounds/trash.ogg"));
 		hitCookieBoxSound = Gdx.audio.newSound(Gdx.files.internal("sounds/cookie_box.ogg"));
 		hitCarBatterySound = Gdx.audio.newSound(Gdx.files.internal("sounds/powerup_aspiration.ogg"));

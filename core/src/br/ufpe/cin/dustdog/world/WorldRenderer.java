@@ -17,7 +17,12 @@ import br.ufpe.cin.dustdog.objects.garbages.Garbage;
 import br.ufpe.cin.dustdog.objects.garbages.PaperBallA;
 import br.ufpe.cin.dustdog.objects.garbages.PaperBallB;
 import br.ufpe.cin.dustdog.objects.garbages.PaperBallC;
+import br.ufpe.cin.dustdog.objects.obstacles.BeachUmbrellaBlue;
+import br.ufpe.cin.dustdog.objects.obstacles.BeachUmbrellaGreen;
+import br.ufpe.cin.dustdog.objects.obstacles.BeachUmbrellaRed;
+import br.ufpe.cin.dustdog.objects.obstacles.BeachUmbrellaYellow;
 import br.ufpe.cin.dustdog.objects.obstacles.Obstacle;
+import br.ufpe.cin.dustdog.objects.obstacles.Sandcastle;
 import br.ufpe.cin.dustdog.objects.obstacles.StoneA;
 import br.ufpe.cin.dustdog.objects.obstacles.StoneB;
 import br.ufpe.cin.dustdog.objects.obstacles.StoneC;
@@ -44,6 +49,10 @@ public class WorldRenderer {
 	SpriteBatch batch;
 	
 	List<Tree> remainingTrees;
+	List<BeachUmbrellaBlue> remainingBeachUmbrellasBlue;
+	List<BeachUmbrellaGreen> remainingBeachUmbrellasGreen;
+	List<BeachUmbrellaRed> remainingBeachUmbrellasRed;
+	List<BeachUmbrellaYellow> remainingBeachUmbrellasYellow;
 
 	public WorldRenderer(SpriteBatch batch, World world) {
 		this.world = world;
@@ -52,6 +61,10 @@ public class WorldRenderer {
 		this.batch = batch;
 		
 		remainingTrees = new ArrayList<Tree>();
+		remainingBeachUmbrellasBlue = new ArrayList<BeachUmbrellaBlue>();
+		remainingBeachUmbrellasGreen = new ArrayList<BeachUmbrellaGreen>();
+		remainingBeachUmbrellasRed = new ArrayList<BeachUmbrellaRed>();
+		remainingBeachUmbrellasYellow = new ArrayList<BeachUmbrellaYellow>();
 	}
 
 	public void render() {
@@ -79,7 +92,12 @@ public class WorldRenderer {
 		renderGarbages();
 		renderSpecialItems();
 		renderSpot();
+		
 		renderRemainingTrees();
+		renderRemainingBeachUmbrellasBlue();
+		renderRemainingBeachUmbrellasGreen();
+		renderRemainingBeachUmbrellasRed();
+		renderRemainingBeachUmbrellasYellow();
 
 		batch.end();
 	}
@@ -132,12 +150,57 @@ public class WorldRenderer {
 			}
 			
 			if (obstacle instanceof Tree) {
-				if (world.spot.position.y <= obstacle.position.y + Tree.TREE_COLLISION_HEIGHT/2) {
+				if ((world.spot.position.y <= obstacle.position.y + Tree.TREE_COLLISION_HEIGHT/2) &&
+					(world.spot.laneState == obstacle.laneState)){
 					batch.draw(Assets.obstacleTree, obstacle.position.x, obstacle.position.y, Tree.TREE_WIDTH, Tree.TREE_HEIGHT);
 				}
 				else { // tree is behind spot, so it will be rendered after spot
 					remainingTrees.add((Tree) obstacle);
 				}
+			}
+			
+			if (obstacle instanceof BeachUmbrellaBlue) {
+				if ((world.spot.position.y <= obstacle.position.y + BeachUmbrellaBlue.BEACH_UMBRELLA_BLUE_COLLISION_HEIGHT/10) &&
+					(world.spot.laneState == obstacle.laneState)){
+					batch.draw(Assets.obstacleBeachUmbrellaBlue, obstacle.position.x, obstacle.position.y, BeachUmbrellaBlue.BEACH_UMBRELLA_BLUE_WIDTH, BeachUmbrellaBlue.BEACH_UMBRELLA_BLUE_HEIGHT);
+				}
+				else { // beach umbrella is behind spot, so it will be rendered after spot
+					remainingBeachUmbrellasBlue.add((BeachUmbrellaBlue) obstacle);
+				}
+			}
+			
+			if (obstacle instanceof BeachUmbrellaGreen) {
+				if ((world.spot.position.y <= obstacle.position.y + BeachUmbrellaGreen.BEACH_UMBRELLA_GREEN_COLLISION_HEIGHT/10) &&
+					(world.spot.laneState == obstacle.laneState)){
+					batch.draw(Assets.obstacleBeachUmbrellaGreen, obstacle.position.x, obstacle.position.y, BeachUmbrellaGreen.BEACH_UMBRELLA_GREEN_WIDTH, BeachUmbrellaGreen.BEACH_UMBRELLA_GREEN_HEIGHT);
+				}
+				else { // beach umbrella is behind spot, so it will be rendered after spot
+					remainingBeachUmbrellasGreen.add((BeachUmbrellaGreen) obstacle);
+				}
+			}
+			
+			if (obstacle instanceof BeachUmbrellaRed) {
+				if ((world.spot.position.y <= obstacle.position.y + BeachUmbrellaRed.BEACH_UMBRELLA_RED_COLLISION_HEIGHT/10) &&
+					(world.spot.laneState == obstacle.laneState)){
+					batch.draw(Assets.obstacleBeachUmbrellaRed, obstacle.position.x, obstacle.position.y, BeachUmbrellaRed.BEACH_UMBRELLA_RED_WIDTH, BeachUmbrellaRed.BEACH_UMBRELLA_RED_HEIGHT);
+				}
+				else { // beach umbrella is behind spot, so it will be rendered after spot
+					remainingBeachUmbrellasRed.add((BeachUmbrellaRed) obstacle);
+				}
+			}
+			
+			if (obstacle instanceof BeachUmbrellaYellow) {
+				if ((world.spot.position.y <= obstacle.position.y + BeachUmbrellaYellow.BEACH_UMBRELLA_YELLOW_COLLISION_HEIGHT/10) &&
+					(world.spot.laneState == obstacle.laneState)){
+					batch.draw(Assets.obstacleBeachUmbrellaYellow, obstacle.position.x, obstacle.position.y, BeachUmbrellaYellow.BEACH_UMBRELLA_YELLOW_WIDTH, BeachUmbrellaYellow.BEACH_UMBRELLA_YELLOW_HEIGHT);
+				}
+				else { // beach umbrella is behind spot, so it will be rendered after spot
+					remainingBeachUmbrellasYellow.add((BeachUmbrellaYellow) obstacle);
+				}
+			}
+			
+			if (obstacle instanceof Sandcastle) {
+				batch.draw(Assets.obstacleSandcastle, obstacle.position.x, obstacle.position.y, Sandcastle.SANDCASTLE_WIDTH, Sandcastle.SANDCASTLE_HEIGHT);
 			}
 		}
 	}
@@ -224,5 +287,37 @@ public class WorldRenderer {
 		}
 		
 		remainingTrees.clear();
+	}
+	
+	private void renderRemainingBeachUmbrellasBlue() {
+		for (BeachUmbrellaBlue beachUmbrella : remainingBeachUmbrellasBlue) {
+			batch.draw(Assets.obstacleBeachUmbrellaBlue, beachUmbrella.position.x, beachUmbrella.position.y, BeachUmbrellaBlue.BEACH_UMBRELLA_BLUE_WIDTH, BeachUmbrellaBlue.BEACH_UMBRELLA_BLUE_HEIGHT);
+		}
+		
+		remainingBeachUmbrellasBlue.clear();
+	}
+	
+	private void renderRemainingBeachUmbrellasGreen() {
+		for (BeachUmbrellaGreen beachUmbrella : remainingBeachUmbrellasGreen) {
+			batch.draw(Assets.obstacleBeachUmbrellaGreen, beachUmbrella.position.x, beachUmbrella.position.y, BeachUmbrellaGreen.BEACH_UMBRELLA_GREEN_WIDTH, BeachUmbrellaGreen.BEACH_UMBRELLA_GREEN_HEIGHT);
+		}
+		
+		remainingBeachUmbrellasGreen.clear();
+	}
+	
+	private void renderRemainingBeachUmbrellasRed() {
+		for (BeachUmbrellaRed beachUmbrella : remainingBeachUmbrellasRed) {
+			batch.draw(Assets.obstacleBeachUmbrellaRed, beachUmbrella.position.x, beachUmbrella.position.y, BeachUmbrellaRed.BEACH_UMBRELLA_RED_WIDTH, BeachUmbrellaRed.BEACH_UMBRELLA_RED_HEIGHT);
+		}
+		
+		remainingBeachUmbrellasRed.clear();
+	}
+	
+	private void renderRemainingBeachUmbrellasYellow() {
+		for (BeachUmbrellaYellow beachUmbrella : remainingBeachUmbrellasYellow) {
+			batch.draw(Assets.obstacleBeachUmbrellaYellow, beachUmbrella.position.x, beachUmbrella.position.y, BeachUmbrellaYellow.BEACH_UMBRELLA_YELLOW_WIDTH, BeachUmbrellaYellow.BEACH_UMBRELLA_YELLOW_HEIGHT);
+		}
+		
+		remainingBeachUmbrellasYellow.clear();
 	}
 }

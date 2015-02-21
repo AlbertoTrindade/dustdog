@@ -24,6 +24,12 @@ public class LevelGenerator {
 	public final int NONE_OBSTACLE = 20;
 	public final int NONE_GARBAGE_MAX = 3;
 	
+	public int scenario;
+	public final int SCENARIO_A = 0;
+	public final int SCENARIO_B = 1;
+	
+	public int scoreLastScenarioChange;
+	public final int SCENARIO_DURATION_IN_SCORES = 1000;
 
 	public LevelGenerator(World world) {
 		this.world = world;
@@ -35,6 +41,9 @@ public class LevelGenerator {
 		noneObstacle = new int[3];
 		lastGarbage = new int[3];
 		lastGarbage[0] = lastGarbage[1] = lastGarbage[2] = 3;
+		
+		scenario = SCENARIO_A;
+		scoreLastScenarioChange = 0;
 	}
 	
 	public LevelGeneratorObject getNextLeftLaneObject() {
@@ -60,7 +69,18 @@ public class LevelGenerator {
 			}else{
 				rand = random.nextFloat();
 				if( rand < 0.25f){
-					current -= 0.003;
+					// check if it is time to change scenario:
+					if (world.score - scoreLastScenarioChange > SCENARIO_DURATION_IN_SCORES) {
+						System.out.print("Previous current: " + current);
+						current -= 0.03;
+						current = Math.max(current, 0.02f); // to avoid to make it so easy
+						
+						scenario = ((scenario == SCENARIO_A) ? SCENARIO_B : SCENARIO_A);
+						scoreLastScenarioChange = world.score;
+					}
+					else {
+						current -= 0.003;
+					}
 				}
 				current -= 0.001;
 			}
@@ -115,20 +135,56 @@ public class LevelGenerator {
 			
 			float randomNumberObstacle = random.nextFloat();
 			
-			if (randomNumberObstacle < 0.6f) { 
-				object = LevelGeneratorObject.OBSTACLE_TREE;
-			}
-			else if (randomNumberObstacle < 0.7f) {
-				object = LevelGeneratorObject.OBSTACLE_STONE_A;
-			}
-			else if (randomNumberObstacle < 0.8f) {
-				object = LevelGeneratorObject.OBSTACLE_STONE_B;
-			}
-			else if (randomNumberObstacle < 0.9f) {
-				object = LevelGeneratorObject.OBSTACLE_STONE_C;				
-			}
-			else {
-				object = LevelGeneratorObject.OBSTACLE_STONE_D;				
+			switch (scenario) {
+			case SCENARIO_A: // trees and stones
+				if (randomNumberObstacle < 0.6f) { 
+					object = LevelGeneratorObject.OBSTACLE_TREE;
+				}
+				else if (randomNumberObstacle < 0.7f) {
+					object = LevelGeneratorObject.OBSTACLE_STONE_A;
+				}
+				else if (randomNumberObstacle < 0.8f) {
+					object = LevelGeneratorObject.OBSTACLE_STONE_B;
+				}
+				else if (randomNumberObstacle < 0.9f) {
+					object = LevelGeneratorObject.OBSTACLE_STONE_C;				
+				}
+				else {
+					object = LevelGeneratorObject.OBSTACLE_STONE_D;				
+				}
+				
+				break;
+				
+			case SCENARIO_B: // beach umbrellas, stones and suncastles
+				if (randomNumberObstacle < 0.125f) { 
+					object = LevelGeneratorObject.OBSTACLE_BEACH_UMBRELLA_BLUE;
+				}
+				else if (randomNumberObstacle < 0.25f) { 
+					object = LevelGeneratorObject.OBSTACLE_BEACH_UMBRELLA_GREEN;
+				}
+				else if (randomNumberObstacle < 0.375f) { 
+					object = LevelGeneratorObject.OBSTACLE_BEACH_UMBRELLA_RED;
+				}
+				else if (randomNumberObstacle < 0.5f) { 
+					object = LevelGeneratorObject.OBSTACLE_BEACH_UMBRELLA_YELLOW;
+				}
+				else if (randomNumberObstacle < 0.6125f) {
+					object = LevelGeneratorObject.OBSTACLE_STONE_A;
+				}
+				else if (randomNumberObstacle < 0.725f) {
+					object = LevelGeneratorObject.OBSTACLE_STONE_B;
+				}
+				else if (randomNumberObstacle < 0.8375f) {
+					object = LevelGeneratorObject.OBSTACLE_STONE_C;				
+				}
+				else if (randomNumberObstacle < 0.95f) {
+					object = LevelGeneratorObject.OBSTACLE_STONE_D;				
+				}
+				else {
+					object = LevelGeneratorObject.OBSTACLE_SANDCASTLE;	
+				}
+				
+				break;
 			}
 				
 			noneObstacle[laneIndex] = 0;
