@@ -1229,6 +1229,19 @@ public class World {
 
 			if (spot.numberLives < 0) {
 				state = WorldState.GAME_OVER;
+				
+				// if tornado is running, it will be finished
+				if (tornadoRunning) {
+					specialItems.remove(spot.tornado);
+					tornadoes.free((Tornado) spot.tornado);
+
+					spot.tornado = null;
+
+					if (Settings.soundEnabled) Assets.tornadoMusic.stop();
+					
+					tornadoRunning = false;
+				}
+				
 				updateHighscores();
 
 				Assets.playSound(Assets.gameOverScoreSound);
