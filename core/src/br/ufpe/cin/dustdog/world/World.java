@@ -313,14 +313,7 @@ public class World {
 			tornadoRunningTimeSpent += deltaTime;
 
 			if (tornadoRunningTimeSpent >= TORNADO_DURATION) {
-				tornadoRunning = false;
-
-				specialItems.remove(spot.tornado);
-				tornadoes.free((Tornado) spot.tornado);
-
-				spot.tornado = null;
-
-				if (Settings.soundEnabled) Assets.tornadoMusic.stop();
+				stopTornado();
 			}
 		}
 	}
@@ -1232,14 +1225,7 @@ public class World {
 				
 				// if tornado is running, it will be finished
 				if (tornadoRunning) {
-					specialItems.remove(spot.tornado);
-					tornadoes.free((Tornado) spot.tornado);
-
-					spot.tornado = null;
-
-					if (Settings.soundEnabled) Assets.tornadoMusic.stop();
-					
-					tornadoRunning = false;
+					stopTornado();
 				}
 				
 				updateHighscores();
@@ -1514,5 +1500,16 @@ public class World {
 				specialItem.velocity.y = -velocity;
 			}
 		}
+	}
+	
+	private void stopTornado() {
+		tornadoRunning = false;
+		
+		specialItems.remove(spot.tornado);
+		tornadoes.free((Tornado) spot.tornado);
+
+		spot.tornado = null;
+
+		if (Settings.soundEnabled) Assets.tornadoMusic.stop();
 	}
 }
