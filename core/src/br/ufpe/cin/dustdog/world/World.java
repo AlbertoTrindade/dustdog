@@ -32,8 +32,10 @@ import br.ufpe.cin.dustdog.objects.obstacles.StoneB;
 import br.ufpe.cin.dustdog.objects.obstacles.StoneC;
 import br.ufpe.cin.dustdog.objects.obstacles.StoneD;
 import br.ufpe.cin.dustdog.objects.obstacles.Tree;
+import br.ufpe.cin.dustdog.objects.specialItems.CarBattery;
 import br.ufpe.cin.dustdog.objects.specialItems.CookieBox;
 import br.ufpe.cin.dustdog.objects.specialItems.SpecialItem;
+import br.ufpe.cin.dustdog.objects.specialItems.Tornado;
 import br.ufpe.cin.dustdog.objects.spot.Spot;
 import br.ufpe.cin.dustdog.objects.spot.SwipeDirection;
 import br.ufpe.cin.dustdog.parallax.ParallaxBackground;
@@ -46,7 +48,8 @@ public class World {
 	public static final float WORLD_VELOCITY_INCREMENT = 0.2f;
 	public static final float SPOT_COLLISION_DURATION = 3f;
 	public static final float SPOT_BARK_MIN_INTERVAL = 45f;
-	
+	public static final float TORNADO_DURATION = 7f;
+
 	public static Vector2 velocity;
 
 	public final ParallaxBackground background;
@@ -84,6 +87,8 @@ public class World {
 	public final List<SpecialItem> specialItems;
 
 	public final Pool<CookieBox> cookieBoxes;
+	public final Pool<CarBattery> carBatteries;
+	public final Pool<Tornado> tornadoes;
 
 	public boolean leftLaneIsFree;
 	public boolean centralLaneIsFree;
@@ -92,14 +97,17 @@ public class World {
 	public boolean spotCollision;
 	public float spotCollisionTimeSpent;
 	public float spotCollisionStateTimeSpent;
-	
+
+	public boolean tornadoRunning;
+	public float tornadoRunningTimeSpent;
+
 	public Random random;
 	public float timeSpentSinceLastBark;
 
 	public World() {
 		velocity = new Vector2();
 		velocity.y = WORLD_VELOCITY;
-		
+
 		this.background = new ParallaxBackground(new ParallaxLayer(Assets.backgroundRegionGameScreen, 0, 1, ((float) Assets.backgroundGameScreen.getHeight()/Assets.SCREEN_HEIGHT)));
 		this.spot = new Spot(Spot.CENTRAL_LANE_POSITION_X, Spot.SPOT_POSITION_Y, Spot.SPOT_COLLISION_WIDTH, Spot.SPOT_COLLISION_HEIGHT);
 
@@ -117,21 +125,21 @@ public class World {
 				return new StoneA(0, 0, StoneA.STONE_WIDTH, StoneA.STONE_HEIGHT);
 			}
 		};
-		
+
 		stonesB = new Pool<StoneB>() {
 			@Override
 			protected StoneB newObject() {
 				return new StoneB(0, 0, StoneB.STONE_WIDTH, StoneB.STONE_HEIGHT);
 			}
 		};
-		
+
 		stonesC = new Pool<StoneC>() {
 			@Override
 			protected StoneC newObject() {
 				return new StoneC(0, 0, StoneC.STONE_WIDTH, StoneC.STONE_HEIGHT);
 			}
 		};
-		
+
 		stonesD = new Pool<StoneD>() {
 			@Override
 			protected StoneD newObject() {
@@ -241,22 +249,36 @@ public class World {
 			}
 		};
 
+		carBatteries = new Pool<CarBattery>() {
+			@Override
+			protected CarBattery newObject() {
+				return new CarBattery(0, 0, CarBattery.CAR_BATTERY_WIDTH, CarBattery.CAR_BATTERY_HEIGHT);
+			}
+		};
+
+		tornadoes = new Pool<Tornado>() {
+			@Override
+			protected Tornado newObject() {
+				return new Tornado(0, 0, Tornado.TORNADO_WIDTH, Tornado.TORNADO_HEIGHT);
+			}
+		};
+
 		leftLaneIsFree = true;
 		centralLaneIsFree = true;
 		rightLaneIsFree = true;
-		
+
 		random = new Random();
 		timeSpentSinceLastBark = 0;
 	}
 
 	public void update(float deltaTime, SwipeDirection swipeDirection) {
-		
+
 		if (velocity.y < WORLD_VELOCITY) {
 			velocity.y += WORLD_VELOCITY_INCREMENT;
 		}
-		
+
 		setObjectsVelocity(velocity.y);
-		
+
 		updateBackground(deltaTime);
 		updateSpot(deltaTime, swipeDirection);
 		updateObstacles(deltaTime);
@@ -265,7 +287,7 @@ public class World {
 
 		spawnObjects();
 		checkCollisions();
-		
+
 		bark(deltaTime);
 	}
 
@@ -290,6 +312,21 @@ public class World {
 				spotCollision = false;
 			}
 		}
+
+		if (tornadoRunning) {
+			tornadoRunningTimeSpent += deltaTime;
+
+			if (tornadoRunningTimeSpent >= TORNADO_DURATION) {
+				tornadoRunning = false;
+
+				specialItems.remove(spot.tornado);
+				tornadoes.free((Tornado) spot.tornado);
+
+				spot.tornado = null;
+
+				if (Settings.soundEnabled) Assets.tornadoMusic.stop();
+			}
+		}
 	}
 
 	private void updateObstacles(float deltaTime) {
@@ -308,7 +345,7 @@ public class World {
 			if (obstacle instanceof StoneA) {
 				obstacleHeight = StoneA.STONE_HEIGHT;
 			}
-			
+
 			if (obstacle instanceof StoneB) {
 				obstacleHeight = StoneB.STONE_HEIGHT;
 			}
@@ -316,7 +353,7 @@ public class World {
 			if (obstacle instanceof StoneC) {
 				obstacleHeight = StoneC.STONE_HEIGHT;
 			}
-			
+
 			if (obstacle instanceof StoneD) {
 				obstacleHeight = StoneD.STONE_HEIGHT;
 			}
@@ -350,15 +387,15 @@ public class World {
 				if (obstacle instanceof StoneA) {
 					stonesA.free((StoneA) obstacle);
 				}
-				
+
 				if (obstacle instanceof StoneB) {
 					stonesB.free((StoneB) obstacle);
 				}
-				
+
 				if (obstacle instanceof StoneC) {
 					stonesC.free((StoneC) obstacle);
 				}
-				
+
 				if (obstacle instanceof StoneD) {
 					stonesD.free((StoneD) obstacle);
 				}
@@ -375,6 +412,52 @@ public class World {
 
 		for (int i = 0; i < garbages.size(); i++) {
 			garbage = garbages.get(i);			
+
+			// Checking if garbage is in tornado area
+			if (tornadoRunning) {
+
+				// garbage is front of spot
+				if ((garbage.laneState == spot.laneState) && 
+					((garbage.position.y >= spot.tornado.position.y + Tornado.TORNADO_HEIGHT) && 
+					 (garbage.position.y <= spot.tornado.position.y + Tornado.TORNADO_HEIGHT + 0.8))) {
+					garbage.velocity.y = -2*WORLD_VELOCITY;
+				}
+				
+				// garbage is next to spot
+				switch (spot.laneState) {
+				case LEFT:
+					if ((garbage.laneState == LaneState.CENTRAL) && 
+						((garbage.position.y >= spot.tornado.position.y) &&
+						 (garbage.position.y <= spot.tornado.position.y + Tornado.TORNADO_HEIGHT))){
+						garbage.velocity.x = -2*WORLD_VELOCITY;
+					}
+
+					break;
+
+				case CENTRAL:
+					if ((garbage.position.y >= spot.tornado.position.y) && (garbage.position.y <= spot.tornado.position.y + Tornado.TORNADO_HEIGHT)){
+						if (garbage.laneState == LaneState.LEFT) {
+							garbage.velocity.x = 2*WORLD_VELOCITY;
+						}
+						
+						if (garbage.laneState == LaneState.RIGHT) {
+							garbage.velocity.x = -2*WORLD_VELOCITY;
+						}
+					}
+
+					break;
+
+				case RIGHT:
+					if ((garbage.laneState == LaneState.CENTRAL) && 
+						((garbage.position.y >= spot.tornado.position.y) &&
+						 (garbage.position.y <= spot.tornado.position.y + Tornado.TORNADO_HEIGHT))){
+						garbage.velocity.x = 2*WORLD_VELOCITY;
+					}
+
+					break;
+				}
+			}
+
 			garbage.update(deltaTime);
 
 			float garbageHeight = 0f;
@@ -513,6 +596,15 @@ public class World {
 				specialItemHeight = CookieBox.COOKIE_BOX_HEIGHT;
 			}
 
+			if (specialItem instanceof CarBattery) {
+				specialItemHeight = CarBattery.CAR_BATTERY_HEIGHT;
+			}
+
+			if (specialItem instanceof Tornado) {
+				specialItem.velocity.x = spot.velocity.x;
+				specialItem.velocity.y = spot.velocity.y;
+			}
+
 			// Check if some obstacle is not being completely showing up			
 			if (specialItem.position.y >= WorldRenderer.FRUSTUM_HEIGHT - specialItemHeight) {
 				switch (specialItem.laneState) {
@@ -538,6 +630,10 @@ public class World {
 				if (specialItem instanceof CookieBox) {
 					cookieBoxes.free((CookieBox) specialItem);
 				}
+
+				if (specialItem instanceof CarBattery) {
+					carBatteries.free((CarBattery) specialItem);
+				}
 			}
 		}
 	}
@@ -559,19 +655,19 @@ public class World {
 				setObstacle(nextObstacle, StoneA.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, StoneA.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
 
 				break;
-				
+
 			case OBSTACLE_STONE_B:
 				nextObstacle = stonesB.obtain();
 				setObstacle(nextObstacle, StoneB.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, StoneB.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
 
 				break;
-				
+
 			case OBSTACLE_STONE_C:
 				nextObstacle = stonesC.obtain();
 				setObstacle(nextObstacle, StoneC.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, StoneC.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
 
 				break;
-				
+
 			case OBSTACLE_STONE_D:
 				nextObstacle = stonesD.obtain();
 				setObstacle(nextObstacle, StoneD.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, StoneD.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
@@ -662,6 +758,12 @@ public class World {
 
 				break;
 
+			case SPECIAL_ITEMS_CAR_BATTERY:
+				nextSpecialItem = carBatteries.obtain();
+				setSpecialItem(nextSpecialItem, CarBattery.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, CarBattery.LEFT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.LEFT);
+
+				break;
+
 			case NONE:
 				leftLaneIsFree = true;
 				break;
@@ -695,19 +797,19 @@ public class World {
 				setObstacle(nextObstacle, StoneA.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, StoneA.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
 
 				break;
-				
+
 			case OBSTACLE_STONE_B:
 				nextObstacle = stonesB.obtain();
 				setObstacle(nextObstacle, StoneB.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, StoneB.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
 
 				break;
-				
+
 			case OBSTACLE_STONE_C:
 				nextObstacle = stonesC.obtain();
 				setObstacle(nextObstacle, StoneC.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, StoneC.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
 
 				break;
-				
+
 			case OBSTACLE_STONE_D:
 				nextObstacle = stonesD.obtain();
 				setObstacle(nextObstacle, StoneD.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, StoneD.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
@@ -798,6 +900,12 @@ public class World {
 
 				break;
 
+			case SPECIAL_ITEMS_CAR_BATTERY:
+				nextSpecialItem = carBatteries.obtain();
+				setSpecialItem(nextSpecialItem, CarBattery.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, CarBattery.CENTRAL_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.CENTRAL);
+
+				break;
+
 			case NONE:
 				centralLaneIsFree = true;
 				break;
@@ -831,19 +939,19 @@ public class World {
 				setObstacle(nextObstacle, StoneA.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, StoneA.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
 
 				break;
-				
+
 			case OBSTACLE_STONE_B:
 				nextObstacle = stonesB.obtain();
 				setObstacle(nextObstacle, StoneB.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, StoneB.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
 
 				break;
-				
+
 			case OBSTACLE_STONE_C:
 				nextObstacle = stonesC.obtain();
 				setObstacle(nextObstacle, StoneC.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, StoneC.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
 
 				break;
-				
+
 			case OBSTACLE_STONE_D:
 				nextObstacle = stonesA.obtain();
 				setObstacle(nextObstacle, StoneD.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, StoneD.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
@@ -934,6 +1042,12 @@ public class World {
 
 				break;
 
+			case SPECIAL_ITEMS_CAR_BATTERY:
+				nextSpecialItem = carBatteries.obtain();
+				setSpecialItem(nextSpecialItem, CarBattery.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, CarBattery.RIGHT_LANE_POSITION_X, WorldRenderer.FRUSTUM_HEIGHT, LaneState.RIGHT);
+
+				break;
+
 			case NONE:
 				rightLaneIsFree = true;
 				break;
@@ -998,14 +1112,14 @@ public class World {
 
 					case GOING_LEFT:
 						if (((obstacle.position.y >= spot.position.y + spot.bounds.height/2) && (obstacle.position.x < spot.position.x + spot.bounds.width/2)) ||
-							((obstacle.position.y < spot.position.y + spot.bounds.height/2) && (obstacle.position.x >= spot.position.x + spot.bounds.width/2))) {
+								((obstacle.position.y < spot.position.y + spot.bounds.height/2) && (obstacle.position.x >= spot.position.x + spot.bounds.width/2))) {
 							collision = true;
 						}
 
 						break;
 					case GOING_RIGHT:
 						if (((obstacle.position.y >= spot.position.y + spot.bounds.height/2) && (obstacle.position.x >= spot.position.x + spot.bounds.width/2)) ||
-							((obstacle.position.y < spot.position.y + spot.bounds.height/2) && (obstacle.position.x < spot.position.x + spot.bounds.width/2))) {
+								((obstacle.position.y < spot.position.y + spot.bounds.height/2) && (obstacle.position.x < spot.position.x + spot.bounds.width/2))) {
 							collision = true;
 						}
 
@@ -1023,11 +1137,11 @@ public class World {
 						if ((obstacle instanceof StoneA) || (obstacle instanceof StoneB) || (obstacle instanceof StoneC) || (obstacle instanceof StoneD)) {
 							Assets.playSound(Assets.hitStoneSound);
 						}
-						
+
 						if (obstacle instanceof Tree) {
 							Assets.playSound(Assets.hitTreeSound);
 						}
-						
+
 						break;
 					}
 				}
@@ -1038,7 +1152,7 @@ public class World {
 			spotCollision = true;
 			spotCollisionTimeSpent = 0;
 			spotCollisionStateTimeSpent = 0;
-			
+
 			velocity.y = 0f;
 			setObjectsVelocity(velocity.y);
 
@@ -1049,7 +1163,7 @@ public class World {
 			if (spot.numberLives < 0) {
 				state = WorldState.GAME_OVER;
 				updateHighscores();
-				
+
 				Assets.playSound(Assets.gameOverScoreSound);
 			}
 		}
@@ -1063,6 +1177,7 @@ public class World {
 		for (int i = 0; i < garbages.size(); i++) {
 			garbage = garbages.get(i);
 
+			// Checking collision with Spot
 			if (garbage.position.y <= spot.position.y + spot.bounds.height) {
 				if (spot.bounds.overlaps(garbage.bounds)) {
 
@@ -1073,14 +1188,14 @@ public class World {
 
 					case GOING_LEFT:
 						if (((garbage.position.y >= spot.position.y + spot.bounds.height/2) && (garbage.position.x < spot.position.x + spot.bounds.width/2)) ||
-							((garbage.position.y < spot.position.y + spot.bounds.height/2) && (garbage.position.x >= spot.position.x + spot.bounds.width/2))) {
+								((garbage.position.y < spot.position.y + spot.bounds.height/2) && (garbage.position.x >= spot.position.x + spot.bounds.width/2))) {
 							collision = true;
 						}
 
 						break;
 					case GOING_RIGHT:
 						if (((garbage.position.y >= spot.position.y + spot.bounds.height/2) && (garbage.position.x >= spot.position.x + spot.bounds.width/2)) ||
-							((garbage.position.y < spot.position.y + spot.bounds.height/2) && (garbage.position.x < spot.position.x + spot.bounds.width/2))) {
+								((garbage.position.y < spot.position.y + spot.bounds.height/2) && (garbage.position.x < spot.position.x + spot.bounds.width/2))) {
 							collision = true;
 						}
 
@@ -1093,66 +1208,71 @@ public class World {
 						break;
 
 					}
-
-					if(collision) {
-						Assets.playSound(Assets.hitGarbageSound);
-						score += garbage.score;
-
-						garbages.remove(garbage);
-						i--;
-
-						if (garbage instanceof PaperBallA) {
-							paperBallsA.free((PaperBallA) garbage);
-						}	
-
-						if (garbage instanceof PaperBallB) {
-							paperBallsB.free((PaperBallB) garbage);
-						}
-
-						if (garbage instanceof PaperBallC) {
-							paperBallsC.free((PaperBallC) garbage);
-						}
-
-						if (garbage instanceof CoconutStraw) {
-							coconutsStraw.free((CoconutStraw) garbage);
-						}
-
-						if (garbage instanceof CoconutNoStraw) {
-							coconutsNoStraw.free((CoconutNoStraw) garbage);
-						}
-
-						if (garbage instanceof BottleBrown) {
-							bottlesBrown.free((BottleBrown) garbage);
-						}
-
-						if (garbage instanceof BottleGreen) {
-							bottlesGreen.free((BottleGreen) garbage);
-						}
-
-						if (garbage instanceof BottlePurple) {
-							bottlesPurple.free((BottlePurple) garbage);
-						}
-
-						if (garbage instanceof CanGreen) {
-							cansGreen.free((CanGreen) garbage);
-						}
-
-						if (garbage instanceof CanRed) {
-							cansRed.free((CanRed) garbage);
-						}
-
-						if (garbage instanceof CanPurple) {
-							cansPurple.free((CanPurple) garbage);
-						}
-
-						if (garbage instanceof Fishbone) {
-							fishbones.free((Fishbone) garbage);
-						}
-
-						collision = false;
-						break;
-					}
 				}
+			}
+			
+			// Checking collision with tornado
+			if (tornadoRunning && (spot.tornado.bounds.overlaps(garbage.bounds))) {
+				collision = true;
+			}
+
+			if (collision) {
+				Assets.playSound(Assets.hitGarbageSound);
+				score += garbage.score;
+
+				garbages.remove(garbage);
+				i--;
+
+				if (garbage instanceof PaperBallA) {
+					paperBallsA.free((PaperBallA) garbage);
+				}	
+
+				if (garbage instanceof PaperBallB) {
+					paperBallsB.free((PaperBallB) garbage);
+				}
+
+				if (garbage instanceof PaperBallC) {
+					paperBallsC.free((PaperBallC) garbage);
+				}
+
+				if (garbage instanceof CoconutStraw) {
+					coconutsStraw.free((CoconutStraw) garbage);
+				}
+
+				if (garbage instanceof CoconutNoStraw) {
+					coconutsNoStraw.free((CoconutNoStraw) garbage);
+				}
+
+				if (garbage instanceof BottleBrown) {
+					bottlesBrown.free((BottleBrown) garbage);
+				}
+
+				if (garbage instanceof BottleGreen) {
+					bottlesGreen.free((BottleGreen) garbage);
+				}
+
+				if (garbage instanceof BottlePurple) {
+					bottlesPurple.free((BottlePurple) garbage);
+				}
+
+				if (garbage instanceof CanGreen) {
+					cansGreen.free((CanGreen) garbage);
+				}
+
+				if (garbage instanceof CanRed) {
+					cansRed.free((CanRed) garbage);
+				}
+
+				if (garbage instanceof CanPurple) {
+					cansPurple.free((CanPurple) garbage);
+				}
+
+				if (garbage instanceof Fishbone) {
+					fishbones.free((Fishbone) garbage);
+				}
+
+				collision = false;
+				break;
 			}
 		}
 	}
@@ -1174,14 +1294,14 @@ public class World {
 
 					case GOING_LEFT:
 						if (((specialItem.position.y >= spot.position.y + spot.bounds.height/2) && (specialItem.position.x < spot.position.x + spot.bounds.width/2)) ||
-							((specialItem.position.y < spot.position.y + spot.bounds.height/2) && (specialItem.position.x >= spot.position.x + spot.bounds.width/2))) {
+								((specialItem.position.y < spot.position.y + spot.bounds.height/2) && (specialItem.position.x >= spot.position.x + spot.bounds.width/2))) {
 							collision = true;
 						}
 
 						break;
 					case GOING_RIGHT:
 						if (((specialItem.position.y >= spot.position.y + spot.bounds.height/2) && (specialItem.position.x >= spot.position.x + spot.bounds.width/2)) ||
-							((specialItem.position.y < spot.position.y + spot.bounds.height/2) && (specialItem.position.x < spot.position.x + spot.bounds.width/2))) {
+								((specialItem.position.y < spot.position.y + spot.bounds.height/2) && (specialItem.position.x < spot.position.x + spot.bounds.width/2))) {
 							collision = true;
 						}
 
@@ -1201,12 +1321,35 @@ public class World {
 
 						if (specialItem instanceof CookieBox) {
 							Assets.playSound(Assets.hitCookieBoxSound);
-							
+
 							if (spot.numberLives < Spot.SPOT_NUMBER_LIVES) {
 								spot.numberLives++;
 							}
 
 							cookieBoxes.free((CookieBox) specialItem);
+						}
+
+						if (specialItem instanceof CarBattery) {
+							Assets.playSound(Assets.hitCarBatterySound);
+
+							carBatteries.free((CarBattery) specialItem);
+
+							// Creating tornado
+							if (!tornadoRunning) {
+								Tornado tornado = tornadoes.obtain();
+								tornado.position.x = spot.position.x + (Spot.SPOT_WIDTH - Tornado.TORNADO_WIDTH)/2;
+								tornado.position.y = spot.position.y + 2*Spot.SPOT_HEIGHT/3;
+								tornado.velocity.x = spot.velocity.x;
+								tornado.velocity.y = spot.velocity.y;
+
+								spot.tornado = tornado;
+								specialItems.add(tornado);
+
+								tornadoRunning = true;
+							}
+
+							tornadoRunningTimeSpent = 0;
+							if (Settings.soundEnabled) Assets.tornadoMusic.play();
 						}	
 
 						collision = false;
@@ -1236,28 +1379,30 @@ public class World {
 
 		Settings.save();
 	}
-	
+
 	private void bark(float deltaTime) {
 		timeSpentSinceLastBark += deltaTime;		
-		
+
 		if ((state == WorldState.RUNNING) && (timeSpentSinceLastBark > SPOT_BARK_MIN_INTERVAL) && (random.nextFloat() > 0.9996f)) {
 			timeSpentSinceLastBark= 0;
-			
+
 			Assets.playSound(Assets.barkSound);
 		}
 	}
-	
+
 	private void setObjectsVelocity(float velocity) {
 		for (Obstacle obstacle : obstacles) {
 			obstacle.velocity.y = -velocity;
 		}
-		
+
 		for (Garbage garbage : garbages) {
 			garbage.velocity.y = -velocity;
 		}
-		
+
 		for (SpecialItem specialItem : specialItems) {
-			specialItem.velocity.y = -velocity;
+			if (!(specialItem instanceof Tornado)) {
+				specialItem.velocity.y = -velocity;
+			}
 		}
 	}
 }

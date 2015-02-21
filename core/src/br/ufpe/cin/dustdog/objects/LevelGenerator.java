@@ -169,8 +169,16 @@ public class LevelGenerator {
 				object = LevelGeneratorObject.GARBAGE_COCONUT_NO_STRAW;
 			}
 		}
-		else if (randomNumber < 0.6f) {
+		else if (randomNumber < 0.595f) {
 			object = LevelGeneratorObject.GARBAGE_FISHBONE;
+		}
+		else if (randomNumber < 1f) {
+			if (!world.tornadoRunning) {
+				object = LevelGeneratorObject.SPECIAL_ITEMS_CAR_BATTERY;
+			}
+			else {
+				object = LevelGeneratorObject.GARBAGE_FISHBONE;
+			}
 		}
 		else if (randomNumber < 0.67f) {
 			object = LevelGeneratorObject.GARBAGE_CAN_GREEN;

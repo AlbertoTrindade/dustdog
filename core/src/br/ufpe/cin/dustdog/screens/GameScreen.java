@@ -3,6 +3,7 @@ package br.ufpe.cin.dustdog.screens;
 import br.ufpe.cin.dustdog.Assets;
 import br.ufpe.cin.dustdog.Dustdog;
 import br.ufpe.cin.dustdog.GameState;
+import br.ufpe.cin.dustdog.Settings;
 import br.ufpe.cin.dustdog.objects.spot.DirectionGestureDetector;
 import br.ufpe.cin.dustdog.objects.spot.SwipeDirection;
 import br.ufpe.cin.dustdog.world.World;
@@ -196,6 +197,10 @@ public class GameScreen extends ScreenAdapter {
 				pauseButtonActive = false;
 				Assets.playSound(Assets.clickSound);
 				gameState = GameState.PAUSED;
+				
+				// pause game musics (tornado and starfish)
+				if ((Settings.soundEnabled) && (world.tornadoRunning)) Assets.tornadoMusic.pause();
+				
 				return;
 			}
 		}
@@ -208,6 +213,10 @@ public class GameScreen extends ScreenAdapter {
 			Assets.playSound(Assets.clickSound);
 
 			gameState = GameState.PAUSED;
+			
+			// pause game musics (tornado and starfish)
+			if ((Settings.soundEnabled) && (world.tornadoRunning)) Assets.tornadoMusic.pause();
+			
 			return;
 		}
 
@@ -292,6 +301,10 @@ public class GameScreen extends ScreenAdapter {
 			backPressedPaused = false;
 
 			gameState = GameState.RUNNING;
+			
+			// resume game musics (tornado and starfish)
+			if ((Settings.soundEnabled) && (world.tornadoRunning)) Assets.tornadoMusic.play();
+						
 			return;
 		}
 
@@ -299,6 +312,10 @@ public class GameScreen extends ScreenAdapter {
 			resumeButtonActive = false;
 			Assets.playSound(Assets.clickSound);
 			gameState = GameState.RUNNING;
+			
+			// resume game musics (tornado and starfish)
+			if ((Settings.soundEnabled) && (world.tornadoRunning)) Assets.tornadoMusic.play();
+			
 			return;
 		}
 
@@ -458,6 +475,9 @@ public class GameScreen extends ScreenAdapter {
 	@Override
 	public void pause() {
 		if (gameState == GameState.RUNNING) {
+			// pause game musics (tornado and starfish)
+			if ((Settings.soundEnabled) && (world.tornadoRunning)) Assets.tornadoMusic.pause();
+			
 			gameState = GameState.PAUSED;
 		}
 	}

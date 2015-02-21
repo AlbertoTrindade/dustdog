@@ -13,7 +13,9 @@ public class SpecialItem extends DynamicGameObject implements Poolable {
 	}
 
 	public void update(float deltaTime) {
+		position.x += velocity.x * deltaTime;
 		position.y += velocity.y * deltaTime;
+		bounds.x = position.x;
 		bounds.y = position.y;
 	}
 

@@ -23,8 +23,10 @@ import br.ufpe.cin.dustdog.objects.obstacles.StoneB;
 import br.ufpe.cin.dustdog.objects.obstacles.StoneC;
 import br.ufpe.cin.dustdog.objects.obstacles.StoneD;
 import br.ufpe.cin.dustdog.objects.obstacles.Tree;
+import br.ufpe.cin.dustdog.objects.specialItems.CarBattery;
 import br.ufpe.cin.dustdog.objects.specialItems.CookieBox;
 import br.ufpe.cin.dustdog.objects.specialItems.SpecialItem;
+import br.ufpe.cin.dustdog.objects.specialItems.Tornado;
 import br.ufpe.cin.dustdog.objects.spot.Spot;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -196,6 +198,17 @@ public class WorldRenderer {
 		for (SpecialItem specialItem : world.specialItems) {
 			if (specialItem instanceof CookieBox) {
 				batch.draw(Assets.specialItemCookieBox, specialItem.position.x, specialItem.position.y, CookieBox.COOKIE_BOX_WIDTH, CookieBox.COOKIE_BOX_HEIGHT);
+			}
+			
+			if (specialItem instanceof CarBattery) {
+				batch.draw(Assets.specialItemCarBattery, specialItem.position.x, specialItem.position.y, CarBattery.CAR_BATTERY_WIDTH, CarBattery.CAR_BATTERY_HEIGHT);
+			}
+		}
+		
+		for (SpecialItem specialItem : world.specialItems) {
+			if (specialItem instanceof Tornado) {
+				TextureRegion keyFrame = Assets.specialItemTornado.getKeyFrame(world.spot.tornado.stateTime, true);
+				batch.draw(keyFrame, specialItem.position.x, specialItem.position.y, Tornado.TORNADO_WIDTH, Tornado.TORNADO_HEIGHT);
 			}
 		}
 	}

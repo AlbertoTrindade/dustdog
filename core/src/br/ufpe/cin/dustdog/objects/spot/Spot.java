@@ -3,6 +3,7 @@ package br.ufpe.cin.dustdog.objects.spot;
 import br.ufpe.cin.dustdog.Assets;
 import br.ufpe.cin.dustdog.objects.DynamicGameObject;
 import br.ufpe.cin.dustdog.objects.LaneState;
+import br.ufpe.cin.dustdog.objects.specialItems.Tornado;
 
 public class Spot extends DynamicGameObject {
 
@@ -29,6 +30,8 @@ public class Spot extends DynamicGameObject {
 	public boolean visible;
 	
 	public int numberLives;
+	
+	public Tornado tornado;
 	
 	public boolean hasCachedCommand;
 	public SwipeDirection cachedCommand;
