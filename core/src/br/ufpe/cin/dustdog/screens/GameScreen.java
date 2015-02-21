@@ -16,6 +16,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
@@ -197,11 +198,11 @@ public class GameScreen extends ScreenAdapter {
 				pauseButtonActive = false;
 				Assets.playSound(Assets.clickSound);
 				gameState = GameState.PAUSED;
-				
+
 				// pause game musics (tornado and starfish)
 				if ((Settings.soundEnabled) && (world.tornadoRunning)) Assets.tornadoMusic.pause();
 				if ((Settings.soundEnabled) && (world.starfishRunning)) Assets.starfishMusic.pause();
-				
+
 				return;
 			}
 		}
@@ -214,11 +215,11 @@ public class GameScreen extends ScreenAdapter {
 			Assets.playSound(Assets.clickSound);
 
 			gameState = GameState.PAUSED;
-			
+
 			// pause game musics (tornado and starfish)
 			if ((Settings.soundEnabled) && (world.tornadoRunning)) Assets.tornadoMusic.pause();
 			if ((Settings.soundEnabled) && (world.starfishRunning)) Assets.starfishMusic.pause();
-			
+
 			return;
 		}
 
@@ -303,11 +304,11 @@ public class GameScreen extends ScreenAdapter {
 			backPressedPaused = false;
 
 			gameState = GameState.RUNNING;
-			
+
 			// resume game musics (tornado and starfish)
 			if ((Settings.soundEnabled) && (world.tornadoRunning)) Assets.tornadoMusic.play();
 			if ((Settings.soundEnabled) && (world.starfishRunning)) Assets.starfishMusic.play();
-						
+
 			return;
 		}
 
@@ -315,11 +316,11 @@ public class GameScreen extends ScreenAdapter {
 			resumeButtonActive = false;
 			Assets.playSound(Assets.clickSound);
 			gameState = GameState.RUNNING;
-			
+
 			// resume game musics (tornado and starfish)
 			if ((Settings.soundEnabled) && (world.tornadoRunning)) Assets.tornadoMusic.play();
 			if ((Settings.soundEnabled) && (world.starfishRunning)) Assets.starfishMusic.play();
-			
+
 			return;
 		}
 
@@ -424,6 +425,47 @@ public class GameScreen extends ScreenAdapter {
 
 		game.batcher.draw(Assets.gameScreenBonesBox, 547, 855);
 		Assets.font48.draw(game.batcher, Integer.toString(world.spot.numberLives), 585, 910);
+
+		// if tornado is running, draw time bar
+		if (world.tornadoRunning) {
+			float timeByBar = World.TORNADO_DURATION/6;
+			float remainingTime = World.TORNADO_DURATION - world.tornadoRunningTimeSpent;
+			int numberBars = (int) Math.ceil(remainingTime/timeByBar);
+
+			game.batcher.draw(Assets.gameScreenCarBatteryLoadingBar, 2, 855);
+
+			for (int i = 0; i < numberBars; i++) {
+				game.batcher.draw(getTimeBar(numberBars), 95 + (i*25) , 872);
+			}
+		}
+
+		// if starfish is running, draw time bar
+		if (world.starfishRunning) {
+			float timeByBar = World.STARFISH_DURATION/6;
+			float remainingTime = World.STARFISH_DURATION - world.spotCollisionTimeSpent;
+			int numberBars = (int) Math.ceil(remainingTime/timeByBar);
+
+			game.batcher.draw(Assets.gameScreenStarfishLoadingBar, 2, 855);
+
+			for (int i = 0; i < numberBars; i++) {
+				game.batcher.draw(getTimeBar(numberBars), 95 + (i*25) , 871);
+			}
+		}
+	}
+
+	private TextureRegion getTimeBar(int numberBars) {
+		if (numberBars < 2) {
+			return Assets.gameScreenRedBar;
+		}
+		else if (numberBars < 3) {
+			return Assets.gameScreenOrangeBar;
+		}
+		else if (numberBars < 5) {
+			return Assets.gameScreenYellowBar;
+		}
+		else {
+			return Assets.gameScreenBlueBar;
+		}
 	}
 
 	private void presentPaused() {
@@ -482,7 +524,7 @@ public class GameScreen extends ScreenAdapter {
 			// pause game musics (tornado and starfish)
 			if ((Settings.soundEnabled) && (world.tornadoRunning)) Assets.tornadoMusic.pause();
 			if ((Settings.soundEnabled) && (world.starfishRunning)) Assets.starfishMusic.pause();
-			
+
 			gameState = GameState.PAUSED;
 		}
 	}

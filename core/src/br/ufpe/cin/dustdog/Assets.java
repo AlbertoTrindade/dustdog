@@ -66,7 +66,13 @@ public class Assets {
 	public static TextureRegion gameScreenGameOverScoreBoxActive;
 	public static TextureRegion gameScreenHighscoreBox;
 	public static TextureRegion gameScreenHighscoreBoxActive;
-
+	public static TextureRegion gameScreenCarBatteryLoadingBar;
+	public static TextureRegion gameScreenStarfishLoadingBar;
+	public static TextureRegion gameScreenBlueBar;
+	public static TextureRegion gameScreenYellowBar;
+	public static TextureRegion gameScreenOrangeBar;
+	public static TextureRegion gameScreenRedBar;
+	
 	public static TextureRegion spotForwardA;
 	public static TextureRegion spotForwardB;
 	public static TextureRegion spotForwardC;
@@ -193,6 +199,12 @@ public class Assets {
 		gameScreenGameOverScoreBoxActive = screenItemsAtlas.findRegion("box_final_score_active");
 		gameScreenHighscoreBox = screenItemsAtlas.findRegion("box_new_highscore");
 		gameScreenHighscoreBoxActive = screenItemsAtlas.findRegion("box_new_highscore_active");
+		gameScreenCarBatteryLoadingBar = screenItemsAtlas.findRegion("loading_bar_battery");
+		gameScreenStarfishLoadingBar = screenItemsAtlas.findRegion("loading_bar_star");
+		gameScreenBlueBar = screenItemsAtlas.findRegion("blue_bar");
+		gameScreenYellowBar = screenItemsAtlas.findRegion("yellow_bar");
+		gameScreenOrangeBar = screenItemsAtlas.findRegion("orange_bar");
+		gameScreenRedBar = screenItemsAtlas.findRegion("red_bar");
 
 		spotForwardA = gameItemsAtlas.findRegion("spot_forward_a");
 		spotForwardB = gameItemsAtlas.findRegion("spot_forward_b");
@@ -257,7 +269,7 @@ public class Assets {
 
 		music = Gdx.audio.newMusic(Gdx.files.internal("sounds/soundtrack_loop.mp3"));
 		music.setLooping(true);
-		music.setVolume(0.3f);
+		music.setVolume(0.2f);
 		
 		if (Settings.musicEnabled) music.play();
 		

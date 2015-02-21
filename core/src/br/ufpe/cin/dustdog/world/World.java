@@ -80,7 +80,6 @@ public class World {
 	public float tornadoRunningTimeSpent;
 	
 	public boolean starfishRunning;
-	public float starfishRunningTimeSpent;
 
 	public Random random;
 	public float timeSpentSinceLastBark;
@@ -582,8 +581,22 @@ public class World {
 
 			if (specialItem instanceof CookieBox) {
 				specialItemHeight = CookieBox.COOKIE_BOX_HEIGHT;
-				
-				// Checking if Cookie Box is in tornado area
+			}
+
+			if (specialItem instanceof CarBattery) {
+				specialItemHeight = CarBattery.CAR_BATTERY_HEIGHT;
+			}
+			
+			if (specialItem instanceof Starfish) {
+				specialItemHeight = Starfish.STARFISH_HEIGHT;
+			}
+
+			if (specialItem instanceof Tornado) {
+				specialItem.position.x = spot.position.x + (Spot.SPOT_WIDTH - Tornado.TORNADO_WIDTH)/2;
+				specialItem.position.y = spot.position.y + 2*Spot.SPOT_HEIGHT/3;
+			}
+			else {
+				// Checking if special item (which is not tornado itself) is in tornado area
 				if (tornadoRunning) {
 					// cookie box is front of spot
 					if ((specialItem.laneState == spot.laneState) && 
@@ -626,19 +639,6 @@ public class World {
 						break;
 					}
 				}
-			}
-
-			if (specialItem instanceof CarBattery) {
-				specialItemHeight = CarBattery.CAR_BATTERY_HEIGHT;
-			}
-			
-			if (specialItem instanceof Starfish) {
-				specialItemHeight = Starfish.STARFISH_HEIGHT;
-			}
-
-			if (specialItem instanceof Tornado) {
-				specialItem.position.x = spot.position.x + (Spot.SPOT_WIDTH - Tornado.TORNADO_WIDTH)/2;
-				specialItem.position.y = spot.position.y + 2*Spot.SPOT_HEIGHT/3;
 			}
 			
 			specialItem.update(deltaTime);
@@ -1443,7 +1443,6 @@ public class World {
 						
 						starfishRunning = true;
 						spotCollision = true; // set true to make spot to blink
-						starfishRunningTimeSpent = 0;
 						spotCollisionTimeSpent = 0;
 						
 						if (Settings.soundEnabled) Assets.starfishMusic.play();
