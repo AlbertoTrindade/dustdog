@@ -71,7 +71,6 @@ public class LevelGenerator {
 				if( rand < 0.25f){
 					// check if it is time to change scenario:
 					if (world.score - scoreLastScenarioChange > SCENARIO_DURATION_IN_SCORES) {
-						System.out.print("Previous current: " + current);
 						current -= 0.03;
 						current = Math.max(current, 0.02f); // to avoid to make it so easy
 						
