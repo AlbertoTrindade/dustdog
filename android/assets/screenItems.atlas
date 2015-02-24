@@ -227,6 +227,34 @@ btn_config_active
   orig: 95, 98
   offset: 0, 0
   index: -1
+btn_help
+  rotate: false
+  xy: 1572, 273
+  size: 95, 97
+  orig: 95, 97
+  offset: 0, 0
+  index: -1
+btn_help_active
+  rotate: false
+  xy: 1574, 718
+  size: 95, 97
+  orig: 95, 97
+  offset: 0, 0
+  index: -1
+btn_arrow_active
+  rotate: false
+  xy: 1671, 747
+  size: 85, 70
+  orig: 85, 70
+  offset: 0, 0
+  index: -1
+btn_arrow
+  rotate: false
+  xy: 1233, 14
+  size: 85, 69
+  orig: 85, 69
+  offset: 0, 0
+  index: -1
 chk_marked
   rotate: false
   xy: 1979, 821
@@ -241,6 +269,20 @@ chk_unmarked
   orig: 68, 64
   offset: 0, 0
   index: -1
+btn_close
+  rotate: false
+  xy: 1758, 745
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+btn_close_active
+  rotate: false
+  xy: 1320, 22
+  size: 69, 71
+  orig: 69, 71
+  offset: 0, 0
+  index: -1
 btn_pause
   rotate: false
   xy: 173, 3
@@ -250,7 +292,7 @@ btn_pause
   index: -1
 btn_pause_active
   rotate: false
-  xy: 1233, 19
+  xy: 1293, 376
   size: 63, 64
   orig: 63, 64
   offset: 0, 0
@@ -264,21 +306,21 @@ blue_bar
   index: -1
 orange_bar
   rotate: false
-  xy: 1293, 394
+  xy: 2020, 975
   size: 22, 46
   orig: 22, 46
   offset: 0, 0
   index: -1
 red_bar
   rotate: false
-  xy: 1572, 324
+  xy: 1992, 914
   size: 22, 46
   orig: 22, 46
   offset: 0, 0
   index: -1
 yellow_bar
   rotate: false
-  xy: 1574, 769
+  xy: 1391, 47
   size: 22, 46
   orig: 22, 46
   offset: 0, 0

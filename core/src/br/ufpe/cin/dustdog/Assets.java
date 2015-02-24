@@ -25,6 +25,21 @@ public class Assets {
 
 	public static Texture backgroundGameScreen;
 	public static TextureRegion backgroundRegionGameScreen;
+	
+	public static Texture backgroundHelpScreen1;
+	public static TextureRegion backgroundRegionHelpScreen1;
+	
+	public static Texture backgroundHelpScreen2;
+	public static TextureRegion backgroundRegionHelpScreen2;
+	
+	public static Texture backgroundHelpScreen3;
+	public static TextureRegion backgroundRegionHelpScreen3;
+	
+	public static Texture backgroundHelpScreen4;
+	public static TextureRegion backgroundRegionHelpScreen4;
+	
+	public static Texture backgroundHelpScreen5;
+	public static TextureRegion backgroundRegionHelpScreen5;
 
 	public static TextureAtlas screenItemsAtlas;
 	public static TextureAtlas gameItemsAtlas;
@@ -36,6 +51,8 @@ public class Assets {
 	public static TextureRegion mainScreenTapPlayActive;
 	public static TextureRegion mainScreenSettingsButton;
 	public static TextureRegion mainScreenSettingsButtonActive;
+	public static TextureRegion mainScreenHelpButton;
+	public static TextureRegion mainScreenHelpButtonActive;
 
 	public static TextureRegion settingsScreenSettingsBox;
 	public static TextureRegion settingsScreenMarkedBox;
@@ -48,6 +65,13 @@ public class Assets {
 	public static TextureRegion highscoresScreenHighscoresBox;
 	public static TextureRegion highscoresScreenBackButton;
 	public static TextureRegion highscoresScreenBackButtonActive;
+	
+	public static TextureRegion helpScreenBackArrow;
+	public static TextureRegion helpScreenBackArrowActive;
+	public static TextureRegion helpScreenNextArrow;
+	public static TextureRegion helpScreenNextArrowActive;
+	public static TextureRegion helpScreenCloseButton;
+	public static TextureRegion helpScreenCloseButtonActive;
 
 	public static TextureRegion gameScreenReady;
 	public static TextureRegion gameScreenPauseButton;
@@ -161,6 +185,21 @@ public class Assets {
 		backgroundGameScreen = loadTexture("backgroundGameScreen.png");
 		backgroundRegionGameScreen = new TextureRegion(backgroundGameScreen, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT*2);
 
+		backgroundHelpScreen1 = loadTexture("backgroundHelpScreen1.png");
+		backgroundRegionHelpScreen1 = new TextureRegion(backgroundHelpScreen1, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+		
+		backgroundHelpScreen2 = loadTexture("backgroundHelpScreen2.png");
+		backgroundRegionHelpScreen2 = new TextureRegion(backgroundHelpScreen2, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+		
+		backgroundHelpScreen3 = loadTexture("backgroundHelpScreen3.png");
+		backgroundRegionHelpScreen3 = new TextureRegion(backgroundHelpScreen3, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+		
+		backgroundHelpScreen4 = loadTexture("backgroundHelpScreen4.png");
+		backgroundRegionHelpScreen4 = new TextureRegion(backgroundHelpScreen4, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+		
+		backgroundHelpScreen5 = loadTexture("backgroundHelpScreen5.png");
+		backgroundRegionHelpScreen5 = new TextureRegion(backgroundHelpScreen5, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+		
 		screenItemsAtlas = loadTextureAtlas("screenItems.atlas");
 		gameItemsAtlas = loadTextureAtlas("gameItems.atlas");
 
@@ -171,6 +210,8 @@ public class Assets {
 		mainScreenTapPlayActive = screenItemsAtlas.findRegion("btn_tap_to_play_active");
 		mainScreenSettingsButton = screenItemsAtlas.findRegion("btn_config");
 		mainScreenSettingsButtonActive = screenItemsAtlas.findRegion("btn_config_active");
+		mainScreenHelpButton = screenItemsAtlas.findRegion("btn_help");
+		mainScreenHelpButtonActive = screenItemsAtlas.findRegion("btn_help_active");
 
 		settingsScreenSettingsBox = screenItemsAtlas.findRegion("box_config");
 		settingsScreenMarkedBox = screenItemsAtlas.findRegion("chk_marked");
@@ -183,6 +224,15 @@ public class Assets {
 		highscoresScreenHighscoresBox = screenItemsAtlas.findRegion("box_highscores");
 		highscoresScreenBackButton = screenItemsAtlas.findRegion("btn_back");
 		highscoresScreenBackButtonActive = screenItemsAtlas.findRegion("btn_back_active");
+		
+		helpScreenNextArrow = screenItemsAtlas.findRegion("btn_arrow");
+		helpScreenNextArrowActive = screenItemsAtlas.findRegion("btn_arrow_active");
+		helpScreenBackArrow = new TextureRegion(helpScreenNextArrow);
+		helpScreenBackArrow.flip(true, false);
+		helpScreenBackArrowActive = new TextureRegion(helpScreenNextArrowActive);
+		helpScreenBackArrowActive.flip(true, false);
+		helpScreenCloseButton = screenItemsAtlas.findRegion("btn_close");
+		helpScreenCloseButtonActive = screenItemsAtlas.findRegion("btn_close_active");
 
 		gameScreenReady = screenItemsAtlas.findRegion("txt_ready");
 		gameScreenPauseButton = screenItemsAtlas.findRegion("btn_pause");

@@ -17,10 +17,12 @@ public class MainScreen extends ScreenAdapter {
 	Dustdog game;
 	OrthographicCamera camera;
 	
+	Rectangle helpButtonBounds;
 	Rectangle settingsButtonBounds;
 	Rectangle bestScoreBounds;
 	
 	boolean tapPlayActive;
+	boolean helpButtonActive;
 	boolean settingsButtonActive;
 	boolean bestScoreActive;
 	
@@ -32,10 +34,12 @@ public class MainScreen extends ScreenAdapter {
 		camera = new OrthographicCamera(Assets.SCREEN_WIDTH, Assets.SCREEN_HEIGHT);
 		camera.position.set(Assets.SCREEN_WIDTH/2, Assets.SCREEN_HEIGHT/2, 0);
 		
+		helpButtonBounds = new Rectangle(460, 10, 95, 97);
 		settingsButtonBounds = new Rectangle(575, 10, 95, 98);
 		bestScoreBounds = new Rectangle(10, 225, 255, 140);
 		
 		tapPlayActive = false;
+		helpButtonActive = false;
 		settingsButtonActive = false;
 		bestScoreActive = false;
 		
@@ -46,7 +50,11 @@ public class MainScreen extends ScreenAdapter {
 		if (Gdx.input.isTouched()) {
 			camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 			
-			if (settingsButtonBounds.contains(touchPoint.x, touchPoint.y)) {
+			if (helpButtonBounds.contains(touchPoint.x, touchPoint.y)) {
+				helpButtonActive = true;
+				return;
+			}
+			else if (settingsButtonBounds.contains(touchPoint.x, touchPoint.y)) {
 				settingsButtonActive = true;
 				return;
 			}
@@ -55,6 +63,7 @@ public class MainScreen extends ScreenAdapter {
 				return;
 			}
 			else {
+				helpButtonActive = false;
 				settingsButtonActive = false;
 				bestScoreActive = false;
 			}
@@ -67,6 +76,13 @@ public class MainScreen extends ScreenAdapter {
 		
 		if (Gdx.input.isKeyPressed(Keys.BACK) || Gdx.input.isKeyPressed(Keys.ESCAPE)) {
 			Gdx.app.exit();
+		}
+		
+		if (helpButtonActive) {
+			helpButtonActive = false;
+			Assets.playSound(Assets.clickSound);
+			game.setScreen(new HelpScreen1(game));
+			return;
 		}
 		
 		if (settingsButtonActive) {
@@ -114,6 +130,7 @@ public class MainScreen extends ScreenAdapter {
 		Assets.font48.draw(game.batcher, bestScore, 10 + scoreX, 290);
 		
 		game.batcher.draw((tapPlayActive ? Assets.mainScreenTapPlayActive : Assets.mainScreenTapPlay), 10, 10);
+		game.batcher.draw((helpButtonActive ? Assets.mainScreenHelpButtonActive : Assets.mainScreenHelpButton), 460, 10);
 		game.batcher.draw((settingsButtonActive ? Assets.mainScreenSettingsButtonActive : Assets.mainScreenSettingsButton), 575, 10);
 		
 		game.batcher.end();
