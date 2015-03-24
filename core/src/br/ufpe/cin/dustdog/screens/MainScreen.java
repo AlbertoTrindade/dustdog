@@ -34,8 +34,8 @@ public class MainScreen extends ScreenAdapter {
 		camera = new OrthographicCamera(Assets.SCREEN_WIDTH, Assets.SCREEN_HEIGHT);
 		camera.position.set(Assets.SCREEN_WIDTH/2, Assets.SCREEN_HEIGHT/2, 0);
 		
-		helpButtonBounds = new Rectangle(460, 10, 95, 97);
-		settingsButtonBounds = new Rectangle(575, 10, 95, 98);
+		settingsButtonBounds = new Rectangle(460, 10, 95, 97);
+		helpButtonBounds = new Rectangle(575, 10, 95, 98);
 		bestScoreBounds = new Rectangle(10, 225, 255, 140);
 		
 		tapPlayActive = false;
@@ -130,8 +130,8 @@ public class MainScreen extends ScreenAdapter {
 		Assets.font48.draw(game.batcher, bestScore, 10 + scoreX, 290);
 		
 		game.batcher.draw((tapPlayActive ? Assets.mainScreenTapPlayActive : Assets.mainScreenTapPlay), 10, 10);
-		game.batcher.draw((helpButtonActive ? Assets.mainScreenHelpButtonActive : Assets.mainScreenHelpButton), 460, 10);
-		game.batcher.draw((settingsButtonActive ? Assets.mainScreenSettingsButtonActive : Assets.mainScreenSettingsButton), 575, 10);
+		game.batcher.draw((settingsButtonActive ? Assets.mainScreenSettingsButtonActive : Assets.mainScreenSettingsButton), 460, 10);
+		game.batcher.draw((helpButtonActive ? Assets.mainScreenHelpButtonActive : Assets.mainScreenHelpButton), 575, 10);
 		
 		game.batcher.end();
 	}
